@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "91495189802",
+    "firebase_url": "https://facultystudentinteractio-b303a.firebaseio.com",
+    "project_id": "facultystudentinteractio-b303a",
+    "storage_bucket": "facultystudentinteractio-b303a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91495189802:android:52b1ca2f3c1453c5",
+        "android_client_info": {
+          "package_name": "com.iitg.interaction.facultystudentinteractionportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91495189802-mg151hdtch8vc6h3rp1elj2jgnhkubb9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitg.interaction.facultystudentinteractionportal",
+            "certificate_hash": "81410122458057de327cb47cbfa3680ace47deda"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP5HEYJ1vg41Ubcfsig0wJ36aV4Q3bKBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91495189802-r85e2iu6nbu9dv1fs2n6rfstaqpq9ik3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
