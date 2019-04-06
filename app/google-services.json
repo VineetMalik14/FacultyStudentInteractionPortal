@@ -21,6 +21,14 @@
             "package_name": "com.iitg.interaction.facultystudentinteractionportal",
             "certificate_hash": "81410122458057de327cb47cbfa3680ace47deda"
           }
+        },
+        {
+          "client_id": "91495189802-ivio0ft6p8brptq4bopo3k5lbcb8rgq3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitg.interaction.facultystudentinteractionportal",
+            "certificate_hash": "739b0a57b1244b121d6573c531ac2f498fdff157"
+          }
         }
       ],
       "api_key": [
