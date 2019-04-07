@@ -1,5 +1,6 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -63,6 +64,14 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+
+    public void TableClick(View v) {
+        if(v.getId() == R.id.time_button){
+            Intent i = new Intent(MainActivity.this , TimeTable.class );
+            startActivity(i);
         }
     }
 
