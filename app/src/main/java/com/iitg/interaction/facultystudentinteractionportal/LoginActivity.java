@@ -25,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends AppCompatActivity {
@@ -36,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etpassword;
     FirebaseAuth firebaseAuth;
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
   //  OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
     @Override
@@ -84,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Enter your details!",Toast.LENGTH_LONG).show();
             return;
         }
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users/"+etusername.getText().toString().trim());
 
 
@@ -103,17 +106,23 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 String userpass = user.password;
-                if(userpass.equals(etpassword.getText().toString()))
-                {
-                    Toast.makeText(getApplicationContext(),"Welcome "+user.fullname,Toast.LENGTH_LONG).show();
-                    UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year);
+                try {
+                    if(userpass.equals(Sha1Custom.SHA1(etpassword.getText().toString())))
+                    {
+                        Toast.makeText(getApplicationContext(),"Welcome "+user.fullname,Toast.LENGTH_LONG).show();
+                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year);
 
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Wrong Password",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Wrong Password",Toast.LENGTH_LONG).show();
+                    }
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 System.out.println(user);
             }

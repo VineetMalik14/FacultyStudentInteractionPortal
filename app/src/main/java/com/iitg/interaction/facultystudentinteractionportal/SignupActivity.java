@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,10 +14,16 @@ import android.widget.Toast;
 
 
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SignupActivity extends AppCompatActivity {
@@ -48,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
         signupbtn = findViewById(R.id.btn_signup);
 
 
+
         List<String> list = new ArrayList<String>();
         list.add("Btech");
         list.add("Mtech");
@@ -63,16 +71,21 @@ public class SignupActivity extends AppCompatActivity {
         signupbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signupfunction();
+                try {
+                    signupfunction();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
-    void signupfunction()
-    {
-        NewUser newUser;
-        String username;
+    void signupfunction() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        final NewUser newUser;
+        final String username;
 
         String occup = occupation.getSelectedItem().toString();
 
@@ -85,11 +98,11 @@ public class SignupActivity extends AppCompatActivity {
 
         if(!email.getText().toString().endsWith("@iitg.ac.in"))
         {
-            Toast.makeText(getApplicationContext(),"Only IITG members",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Only IITG members, use IITG email",Toast.LENGTH_LONG).show();
             return;
         }
 
-        if(occup=="Professor")
+        if(occup.equals("Professor"))
         {
             usertype="Prof";
         }
@@ -99,8 +112,6 @@ public class SignupActivity extends AppCompatActivity {
         }
 
 
-
-        String rep = "";
         username= email.getText().toString().replace("@iitg.ac.in","");
 
         if(!password.getText().toString().equals(pass2.getText().toString()) )
@@ -110,12 +121,32 @@ public class SignupActivity extends AppCompatActivity {
         }
 
 
-        newUser = new NewUser(username,name.getText().toString(),usertype,rollnumber.getText().toString(),email.getText().toString(),occup,department.getText().toString(),year.getText().toString(),password.getText().toString());
+        newUser = new NewUser(username,name.getText().toString(),usertype,rollnumber.getText().toString(),email.getText().toString(),occup,department.getText().toString(),year.getText().toString(),Sha1Custom.SHA1(password.getText().toString()));
+        final ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()) {
+                    //create new user
 
-        dataref.child(username).setValue(newUser);
+                    dataref.child(username).setValue(newUser);
+                    Toast.makeText(getApplicationContext(),"Registered Successfully! Your Username is : '"+username+"'",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
+                    startActivity(intent);
 
-        Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
-        startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"User Already Exists!",Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("database error", databaseError.getMessage()); //Don't ignore errors!
+            }
+        };
+        dataref.child(username).addListenerForSingleValueEvent(eventListener);
 
 
     }
