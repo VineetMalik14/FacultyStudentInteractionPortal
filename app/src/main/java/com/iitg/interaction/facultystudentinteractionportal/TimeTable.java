@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,13 +32,12 @@ public class TimeTable extends Activity {
 
    // private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private int i = 0;
+
+
+    int i = 0;
+    ArrayList<String> fruits = new ArrayList<>();
 
     private ListView mv;
-    int oops = 0;
-
-    private ArrayList<String> fruits = new ArrayList<String>();
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,41 +47,34 @@ public class TimeTable extends Activity {
 
         DatabaseReference ref = us;
 
-
         mv = (ListView) findViewById(R.id.results);
 
-        final ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fruits );
+
+        final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fruits);
+
         mv.setAdapter(ad);
 
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String value = dataSnapshot.getValue(String.class);
+                fruits.add(value);
+                ad.notifyDataSetChanged();
+                i = fruits.size();
+            }
 
-                Toast.makeText(getApplicationContext(), Integer.toString(oops) ,Toast.LENGTH_SHORT).show();
-                long j = dataSnapshot.getChildrenCount();
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                for(long i = 1; i <= j; i++){
-                    Toast.makeText(getApplicationContext(),Integer.toString(1) ,Toast.LENGTH_SHORT).show();
-                    oops+=1;
-                    Log.d("DEBUG ",Integer.toString(oops));
-                    //String index =  "task" + i;
-                    //int oops = (int) i;
-                    /*StringBuilder s = new StringBuilder(100);
-                    s.append("task");
-                    s.append(oops);*/
-                    //String p = oops.toString();
-                    Toast.makeText(getApplicationContext(),"task" ,Toast.LENGTH_SHORT).show();
-                    String index = "task" +""+ Integer.toString(   oops );
-                   // Toast.makeText("task" +  Integer.toString(oops));
-                    //Toast.makeText(getApplicationContext(),"task2" ,Toast.LENGTH_SHORT).show();
-                   //' String nmn = s.toString();
-                    String value  = dataSnapshot.child(index).getValue(String.class);
-                    fruits.add(value);
-                    ad.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                }
+            }
 
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
             }
 
@@ -92,13 +86,56 @@ public class TimeTable extends Activity {
 
     }
 
+    private ArrayList<String> fruits2 = new ArrayList<>();
+
+    private ArrayAdapter<String> ad2;
+
     public void addclick(View v){
 
-        i++;
+
         EditText b = (EditText) findViewById(R.id.task);
 
         DatabaseReference mRef =  db.getReference().child("table");
         mRef.child("task" + i).setValue(b.getText().toString());
+
+        mv = (ListView) findViewById(R.id.results);
+        mv.setAdapter(null);
+        fruits2.clear();
+        ad2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fruits2);
+
+        mv.setAdapter(ad2);
+
+        mRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String v = "" + fruits.size();
+                Log.d("ramu", v);
+                String value = dataSnapshot.getValue(String.class);
+                fruits2.add(value);
+                ad2.notifyDataSetChanged();
+                i = fruits2.size();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
        // mDatabase.child("user1").setValue(b.text);
