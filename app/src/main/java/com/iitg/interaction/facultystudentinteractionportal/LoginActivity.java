@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(userpass.equals(Sha1Custom.SHA1(etpassword.getText().toString())))
                     {
                         Toast.makeText(getApplicationContext(),"Welcome "+user.fullname,Toast.LENGTH_LONG).show();
-                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year);
+                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses);
 
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);

@@ -26,7 +26,7 @@ public class UserInfo {
     private UserInfo() {
     }
 
-    public static void fillUserInfo(String username,String fullname, String usertype, String rollnumber, String email, String occupation, String department, String year) {
+    public static void fillUserInfo(String username,String fullname, String usertype, String rollnumber, String email, String occupation, String department, String year , ArrayList<String> courses) {
         UserInfo.logined = true;
         UserInfo.username = username;
         UserInfo.fullname = fullname;
@@ -36,6 +36,8 @@ public class UserInfo {
         UserInfo.occupation = occupation;
         UserInfo.department = department;
         UserInfo.year = year;
+
+        UserInfo.courses = courses ;
     }
 
 
