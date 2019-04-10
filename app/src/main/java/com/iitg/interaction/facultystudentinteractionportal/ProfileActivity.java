@@ -7,8 +7,15 @@ import android.os.Bundle;
 import android.text.StaticLayout;
 import android.util.Log;
 import android.view.View;
+
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
 import android.widget.ImageView;
+
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.URI;
 
@@ -21,7 +28,11 @@ public class ProfileActivity extends AppCompatActivity {
     TextView rollnumber;
     TextView year;
     TextView department;
+
+    ListView ll;
+
     ImageView profilepic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
             email.setText("Email: "+UserInfo.email);
             occupation.setText("Occupation: "+UserInfo.occupation);
             department.setText("Department: "+UserInfo.department);
+
             if(UserInfo.usertype.equals("Stud"))
             {
                 rollnumber.setText("Roll Number: "+UserInfo.rollnumber);
@@ -65,6 +77,25 @@ public class ProfileActivity extends AppCompatActivity {
                 year.setVisibility(View.INVISIBLE);
             }
         }
+          ll = (ListView) findViewById(R.id.lv_courses);
+        TextView emp = findViewById(R.id.tv_emptylist);
+        if(!(UserInfo.courses==null)) {
+
+            final ArrayAdapter<String> adpater = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,UserInfo.courses);
+            ll.setAdapter(adpater);
+        }
+
+        else
+            {
+                emp.setVisibility(View.VISIBLE);
+            }
+
+      ll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              /* open Cources Form */
+          }
+      });
 
     }
 }
