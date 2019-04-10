@@ -32,6 +32,7 @@ public class NewUser {
         this.department = department;
         this.year = year;
         this.password = password;
+        this.courses = new ArrayList<>();
     }
 
     public boolean isVerified() {

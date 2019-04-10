@@ -1,9 +1,12 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 public class UserInfo {
 
+    public static Uri profilepicurl;
     public static  boolean logined=false;
     public static  boolean verified;
     public static  String fullname;
