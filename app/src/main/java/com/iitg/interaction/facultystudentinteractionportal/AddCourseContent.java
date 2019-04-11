@@ -1,5 +1,6 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -50,11 +51,12 @@ public class AddCourseContent extends AppCompatActivity {
         MarksTextView = findViewById(R.id.editText5);
         CourseAddbutton = findViewById(R.id.button2);
 
-
+        // getting the courseID from CourseAdd activity
         CourseIDTextView.setText(getIntent().getStringExtra("CourseID"));
 
 
-
+        // adding data to firebase
+        //-----------------------
         CourseAddbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +69,18 @@ public class AddCourseContent extends AppCompatActivity {
             }
         }
         );
+        //-----------------------------------
+
+        // adding all the information in putExtra to show in course content page of prof where events and materials can also be added
+        //----------------------------------
+        Intent intent = new Intent(AddCourseContent.this, CourseMainPageProf.class);
+        intent.putExtra("CourseID",CourseIDTextView.getText().toString());
+        intent.putExtra("CourseTitle",CourseNameTextView.getText().toString());
+        intent.putExtra("CourseDescription",DescriptionTextView.getText().toString());
+        intent.putExtra("CourseSyllabus",SyllabusTextView.getText().toString());
+        intent.putExtra("CourseMarks",MarksTextView.getText().toString());
+        intent.putExtra("CourseKey",KeyTextView.getText().toString());
+        startActivity(intent);
 
 
 

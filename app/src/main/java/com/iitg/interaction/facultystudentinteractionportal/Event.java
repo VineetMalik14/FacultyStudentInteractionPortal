@@ -1,21 +1,27 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class Event {
 
     private Date DateOfCreation;
-    private Date DateOfEvent;
     private String Title;
     private String Description;
+    private Date DateOfEvent;
+    private Time TimeOfEvent;
+    private String Venue;
     private String Type;
 
-    public Event(Date dateOfCreation, Date dateOfEvent, String title, String description, String type) {
+
+    public Event(Date dateOfCreation, Date dateOfEvent, String title, String description, String type,String venue,Time time) {
         DateOfCreation = dateOfCreation;
         DateOfEvent = dateOfEvent;
         Title = title;
         Description = description;
         Type = type;
+        Venue = venue;
+        TimeOfEvent = time;
     }
 
     public Date getDateOfCreation() {
@@ -56,5 +62,21 @@ public class Event {
 
     public void setType(String type) {
         Type = type;
+    }
+
+    public String getVenue() {
+        return Venue;
+    }
+
+    public void setVenue(String venue) {
+        Venue = venue;
+    }
+
+    public Time getTimeOfEvent() {
+        return TimeOfEvent;
+    }
+
+    public void setTimeOfEvent(Time timeOfEvent) {
+        TimeOfEvent = timeOfEvent;
     }
 }

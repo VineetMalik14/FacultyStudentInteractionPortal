@@ -9,4 +9,10 @@
     <string name="title_activity_course_add">CourseAdd</string>
     <string name="title_activity_add_course_content">AddCourseContent</string>
     <string name="title_activity_course_main_page_prof">CourseMainPageProf</string>
+    <string-array name="EventTypes">
+        <item>Quiz</item>
+        <item>Extra Class</item>
+        <item>Seminar</item>
+        <item>Other</item>
+    </string-array>
 </resources>
