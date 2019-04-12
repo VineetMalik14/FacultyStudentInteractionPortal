@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+
+
+//TASKS
+//If date already exists, then don't overwrite it.
+
+
+
 
 public class TimeTable extends Activity implements DatePickerDialog.OnDateSetListener {
 
@@ -46,7 +55,7 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timetable);
 
-        DatabaseReference us = db.getReference().child("table");
+
 
         b = findViewById(R.id.choose);
         t = findViewById(R.id.text_date);
@@ -74,9 +83,17 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
     @Override
     public void onDateSet(DatePicker datepicker, int a, int b, int c) {
 
-        b = b+1;
 
-        t.setText(c + "/" + b + "/" + a);
+
+
+        b = b+1;
+        String ddd = c + "-" + b + "-" + a;
+        t.setText(ddd);
+        String x = "CS201";
+        DatabaseReference us = db.getReference().child("Calendar");
+        Day current = new Day(x,x,x,x,x,x,x,x,x,x,x,x,x);
+        us.child(ddd).setValue(current);
+
 
         
     }
