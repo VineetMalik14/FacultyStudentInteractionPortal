@@ -1,6 +1,7 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,21 +25,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class TimeTable extends Activity {
+public class TimeTable extends Activity implements DatePickerDialog.OnDateSetListener {
 
 
-   // private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    // private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
 
+    Button b;
+    TextView t;
 
-    int i = 0;
-    ArrayList<String> fruits = new ArrayList<>();
+    int day, month, year;
 
-    private ListView mv;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,104 +48,36 @@ public class TimeTable extends Activity {
 
         DatabaseReference us = db.getReference().child("table");
 
-        DatabaseReference ref = us;
+        b = findViewById(R.id.choose);
+        t = findViewById(R.id.text_date);
 
-        mv = (ListView) findViewById(R.id.results);
 
-
-        final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fruits);
-
-        mv.setAdapter(ad);
-
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String value = dataSnapshot.getValue(String.class);
-                fruits.add(value);
-                ad.notifyDataSetChanged();
-                i = fruits.size();
-            }
+        b.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onClick(View view) {
+                Calendar c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dpg = new DatePickerDialog(TimeTable.this, TimeTable.this, year, month, day);
+                dpg.show();
 
             }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
         });
+
 
     }
 
-    private ArrayList<String> fruits2 = new ArrayList<>();
+    @Override
+    public void onDateSet(DatePicker datepicker, int a, int b, int c) {
 
-    private ArrayAdapter<String> ad2;
+        b = b+1;
 
-    public void addclick(View v){
-
-
-        EditText b = (EditText) findViewById(R.id.task);
-
-        DatabaseReference mRef =  db.getReference().child("table");
-        mRef.child("task" + i).setValue(b.getText().toString());
-
-        mv = (ListView) findViewById(R.id.results);
-        mv.setAdapter(null);
-        fruits2.clear();
-        ad2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fruits2);
-
-        mv.setAdapter(ad2);
-
-        mRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String v = "" + fruits.size();
-                Log.d("ramu", v);
-                String value = dataSnapshot.getValue(String.class);
-                fruits2.add(value);
-                ad2.notifyDataSetChanged();
-                i = fruits2.size();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-       // mDatabase.child("user1").setValue(b.text);
-        Button b1 = findViewById(R.id.addbutton);
-        b1.setBackgroundColor(Color.parseColor("red"));
-
-
-
+        t.setText(c + "/" + b + "/" + a);
     }
 }
+
+
