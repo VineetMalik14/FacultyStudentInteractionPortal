@@ -63,24 +63,26 @@ public class AddCourseContent extends AppCompatActivity {
                 databaseReference = FirebaseDatabase.getInstance().getReference();
                 Courses courses = new Courses(CourseIDTextView.getText().toString(),KeyTextView.getText().toString(),
                         DescriptionTextView.getText().toString(), Calendar.getInstance().getTime(),
-                        CourseNameTextView.getText().toString(),MarksTextView.getText().toString(),"ABCD",SyllabusTextView.getText().toString());
+                        CourseNameTextView.getText().toString(),MarksTextView.getText().toString(),"ABCD",SyllabusTextView.getText().toString(),null);
 
                 databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue(courses);
+
+                // adding all the information in putExtra to show in course content page of prof where events and materials can also be added
+                //----------------------------------
+                Intent intent = new Intent(AddCourseContent.this, CourseMainPageProf.class);
+                intent.putExtra("CourseID",CourseIDTextView.getText().toString());
+                intent.putExtra("CourseTitle",CourseNameTextView.getText().toString());
+                intent.putExtra("CourseDescription",DescriptionTextView.getText().toString());
+                intent.putExtra("CourseSyllabus",SyllabusTextView.getText().toString());
+                intent.putExtra("CourseMarks",MarksTextView.getText().toString());
+                intent.putExtra("CourseKey",KeyTextView.getText().toString());
+                startActivity(intent);
             }
         }
         );
         //-----------------------------------
 
-        // adding all the information in putExtra to show in course content page of prof where events and materials can also be added
-        //----------------------------------
-        Intent intent = new Intent(AddCourseContent.this, CourseMainPageProf.class);
-        intent.putExtra("CourseID",CourseIDTextView.getText().toString());
-        intent.putExtra("CourseTitle",CourseNameTextView.getText().toString());
-        intent.putExtra("CourseDescription",DescriptionTextView.getText().toString());
-        intent.putExtra("CourseSyllabus",SyllabusTextView.getText().toString());
-        intent.putExtra("CourseMarks",MarksTextView.getText().toString());
-        intent.putExtra("CourseKey",KeyTextView.getText().toString());
-        startActivity(intent);
+
 
 
 

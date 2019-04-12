@@ -8,13 +8,18 @@ public class Event {
     private Date DateOfCreation;
     private String Title;
     private String Description;
-    private Date DateOfEvent;
-    private Time TimeOfEvent;
+    private String DateOfEvent;
+    private String TimeOfEvent;
     private String Venue;
     private String Type;
 
 
-    public Event(Date dateOfCreation, Date dateOfEvent, String title, String description, String type,String venue,Time time) {
+    public Event()
+    {
+
+    }
+
+    public Event(Date dateOfCreation, String dateOfEvent, String title, String description, String type,String venue,String time) {
         DateOfCreation = dateOfCreation;
         DateOfEvent = dateOfEvent;
         Title = title;
@@ -32,11 +37,11 @@ public class Event {
         DateOfCreation = dateOfCreation;
     }
 
-    public Date getDateOfEvent() {
+    public String getDateOfEvent() {
         return DateOfEvent;
     }
 
-    public void setDateOfEvent(Date dateOfEvent) {
+    public void setDateOfEvent(String dateOfEvent) {
         DateOfEvent = dateOfEvent;
     }
 
@@ -72,11 +77,11 @@ public class Event {
         Venue = venue;
     }
 
-    public Time getTimeOfEvent() {
+    public String getTimeOfEvent() {
         return TimeOfEvent;
     }
 
-    public void setTimeOfEvent(Time timeOfEvent) {
+    public void setTimeOfEvent(String timeOfEvent) {
         TimeOfEvent = timeOfEvent;
     }
 }

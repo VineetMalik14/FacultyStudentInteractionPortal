@@ -33,7 +33,7 @@ public class Courses {
         this.threads = threads;
     }
 
-    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus) {
+    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events) {
         CourseID = courseID;
         CourseKey = courseKey;
         Description = description;
@@ -42,6 +42,7 @@ public class Courses {
         MarksDistribution = marksDistribution;
         Professor = professor;
         Syllabus = syllabus;
+//        this.events = new ArrayList<>();
     }
 
     public String getCourseID() {

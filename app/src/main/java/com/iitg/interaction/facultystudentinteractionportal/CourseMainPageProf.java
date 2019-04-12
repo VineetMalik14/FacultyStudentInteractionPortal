@@ -28,29 +28,38 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CourseMainPageProf extends AppCompatActivity {
 
     public String filepath;
     public Uri selectedfile;
-
+    public ArrayList<Event> events = new ArrayList<Event>();
 
     TextView editTextName;
     TextView FileName;
     Button buttonSelectFile;
     Button buttonAddClass;
-
+    private DatabaseReference databaseReference;
     public int flag=0;
+    public String TitleMaterial;
 
 
 
@@ -67,6 +76,42 @@ public class CourseMainPageProf extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child("CS101").child("Events");
+
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    Event event = messageSnapshot.getValue(Event.class);
+                    events.add(event);
+                    Log.v("Title", event.getTitle());
+                }
+                Log.v("Size", String.valueOf(events.size()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+//        databaseReference.addValueEventListener(new  ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+//                    Event event = messageSnapshot.getValue(Event.class);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) { }
+//        });
+
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -168,21 +213,38 @@ public class CourseMainPageProf extends AppCompatActivity {
         });
         //-------------------------------------------------
 
-        // getting all the fields from alert box
-        //-------------------------------------------------
-        EditText EditTitle = dialogView.findViewById(R.id.TitleEvent);
-        EditText EditDescription = dialogView.findViewById(R.id.DescriptionEvent);
-        EditText Editvenue = dialogView.findViewById(R.id.VenueEvent);
-        Spinner SpinnerType = dialogView.findViewById(R.id.TypeEvent);
 
-        String Title = EditTitle.getText().toString();
-        String Description = EditDescription.getText().toString();
-        String Date = date_of_event.getText().toString();
-        String Time = time_of_event.getText().toString();
-        String Venue = Editvenue.getText().toString();
-        String Type = SpinnerType.getSelectedItem().toString();
+        Button addEventBtn = dialogView.findViewById(R.id.AddEventButton);
+
+
         //-------------------------------------------------
 
+        addEventBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // getting all the fields from alert box
+                //-------------------------------------------------
+                EditText EditTitle = dialogView.findViewById(R.id.TitleEvent);
+                EditText EditDescription = dialogView.findViewById(R.id.DescriptionEvent);
+                EditText Editvenue = dialogView.findViewById(R.id.VenueEvent);
+                Spinner SpinnerType = dialogView.findViewById(R.id.TypeEvent);
+
+                final String Title = EditTitle.getText().toString();
+                final String Description = EditDescription.getText().toString();
+                final String DateEvent = date_of_event.getText().toString();
+                final String TimeEvent = time_of_event.getText().toString();
+                final String VenueEvent = Editvenue.getText().toString();
+                final String TypeEvent = SpinnerType.getSelectedItem().toString();
+
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                Event event = new Event(Calendar.getInstance().getTime(),DateEvent,Title,Description,TypeEvent,VenueEvent,TimeEvent);
+                Toast.makeText(CourseMainPageProf.this,event.getTitle(),Toast.LENGTH_LONG).show();
+                String key=databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
+                databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").child(key).setValue(event);
+
+
+            }
+        });
 
 
     }
@@ -208,6 +270,7 @@ public class CourseMainPageProf extends AppCompatActivity {
         buttonSelectFile = dialogView.findViewById(R.id.buttonSelectFile);
         buttonAddClass = dialogView.findViewById(R.id.buttonAddClass);
 
+        TitleMaterial = editTextName.getText().toString();
 
         buttonSelectFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,7 +364,7 @@ public class CourseMainPageProf extends AppCompatActivity {
 
     public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask)
     {
-        final String[] url = new String[1];
+//        final String[] url = new String[1];
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -317,9 +380,17 @@ public class CourseMainPageProf extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    url[0] = downloadUri.toString();
+//                    url[0] = downloadUri.toString();
                     Toast.makeText(CourseMainPageProf.this,"Download Url:"+downloadUri.toString(),Toast.LENGTH_LONG).show();
                     Log.v(TAG,"Download Url:"+downloadUri.toString());
+                    //----------------
+                    // taking values from title and file url to be stored in firebase
+                    if(TitleMaterial==""){Toast.makeText(CourseMainPageProf.this,"Please fill the title of class",Toast.LENGTH_SHORT).show();}
+                    else {
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                    }
+
                 } else {
                     // Handle failures
                     // ...
@@ -328,7 +399,7 @@ public class CourseMainPageProf extends AppCompatActivity {
         });
 
 
-        StorageReference httpsReference = storage.getReferenceFromUrl(url[0]);
+//        StorageReference httpsReference = storage.getReferenceFromUrl(url[0]);
     }
 }
 
