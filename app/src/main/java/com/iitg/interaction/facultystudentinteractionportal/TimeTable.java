@@ -77,6 +77,8 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
         b = b+1;
 
         t.setText(c + "/" + b + "/" + a);
+
+        
     }
 }
 
