@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MessageActivity extends AppCompatActivity {
@@ -44,6 +45,10 @@ public class MessageActivity extends AppCompatActivity {
         final GenericTypeIndicator<ArrayList<Messages>> t = new GenericTypeIndicator<ArrayList<Messages>>() {};
 
 
+
+
+
+
         dataref.child(UserInfo.username).child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -54,8 +59,11 @@ public class MessageActivity extends AppCompatActivity {
                 Log.d("debug","mlist got updated! ");
                 try
                 {
-                    MessageListAdaptor messageListAdaptor = new MessageListAdaptor(MessageActivity.this,R.layout.layout_messagecard,mlist);
-                    lv.setAdapter(messageListAdaptor);
+                    if( mlist!=null && !mlist.isEmpty())
+                    {
+                        MessageListAdaptor messageListAdaptor = new MessageListAdaptor(MessageActivity.this,R.layout.layout_messagecard,mlist);
+                        lv.setAdapter(messageListAdaptor);
+                    }
                 }
                 catch (NullPointerException e)
                 {

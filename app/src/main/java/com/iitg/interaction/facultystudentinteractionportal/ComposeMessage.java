@@ -35,13 +35,40 @@ public class ComposeMessage extends AppCompatActivity {
         subject = findViewById(R.id.et_subject);
         body = findViewById(R.id.et_msgbody);
         sendbtn = findViewById(R.id.fab_sendmsg);
-
         sendbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessageFunc();
             }
         });
+
+        Intent intent = getIntent();
+        try
+        {
+            String replysender = intent.getStringExtra("sender");
+            String replysubject = intent.getStringExtra("subject");
+            if(replysender!=null)
+            {
+                receiver.setText(replysender);
+            }
+            if(replysubject!=null)
+            {
+                if(replysender.startsWith("Re: "))
+                {
+                    subject.setText(replysender);
+                }else
+                {
+                    subject.setText("Re: "+ replysubject);
+                }
+            }
+        }
+        catch (NullPointerException e)
+        {
+
+        }
+
+
+
 
     }
 
@@ -84,12 +111,12 @@ public class ComposeMessage extends AppCompatActivity {
                     {
                         mlist = new ArrayList<>();
                     }
-                    mlist.add(newmsg);
+                    mlist.add(0,newmsg);
                     if(UserInfo.messages==null)
                     {
                         UserInfo.messages = new ArrayList<>();
                     }
-                    UserInfo.messages.add(newmsg);
+                    UserInfo.messages.add(0,newmsg);
                     databaseReference.child(receiver.getText().toString()).child("messages").setValue(mlist);
                     databaseReference.child(UserInfo.username).child("messages").setValue(UserInfo.messages);
                     Toast.makeText(getApplicationContext(),"Message sent successfully!",Toast.LENGTH_LONG).show();
