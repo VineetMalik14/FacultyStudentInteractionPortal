@@ -21,6 +21,20 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:layout_editor_absoluteX="0dp" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="408dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="340dp"
+        android:inputType="textUri"
+        android:text="@string/testurl"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <!--app:popupTheme="@style/ActionBarPopupThemeOverlay"-->
         <!--app:theme="@style/ActionBarThemeOverlay"-->
         <!--tools:layout_editor_absoluteX="0dp" />-->

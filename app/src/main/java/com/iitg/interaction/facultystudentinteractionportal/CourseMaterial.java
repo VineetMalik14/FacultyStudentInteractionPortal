@@ -1,9 +1,12 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import java.util.Date;
+
 public class CourseMaterial {
     private String Title;
     private String URL;
     private String FileName;
+    private java.util.Date Date;
 
     public String getTitle() {
         return Title;
@@ -29,9 +32,18 @@ public class CourseMaterial {
         FileName = fileName;
     }
 
-    public CourseMaterial(String title, String URL, String fileName) {
+    public java.util.Date getDate() {
+        return Date;
+    }
+
+    public void setDate(java.util.Date date) {
+        Date = date;
+    }
+
+    public CourseMaterial(String title, String URL, String fileName, Date date) {
         Title = title;
         this.URL = URL;
         FileName = fileName;
+        Date = date;
     }
 }

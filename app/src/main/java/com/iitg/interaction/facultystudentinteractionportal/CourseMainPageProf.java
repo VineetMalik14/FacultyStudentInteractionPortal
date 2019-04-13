@@ -1,9 +1,16 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +45,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -46,6 +62,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 public class CourseMainPageProf extends AppCompatActivity {
 
@@ -60,7 +78,9 @@ public class CourseMainPageProf extends AppCompatActivity {
     private DatabaseReference databaseReference;
     public int flag=0;
     public String TitleMaterial;
-
+    public View dialogViewFile;
+    private ProgressDialog pDialog;
+    public static final int progress_bar_type = 0;
 
 
     public static final String TAG="CourseMainPageProf";
@@ -78,6 +98,9 @@ public class CourseMainPageProf extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        //getting events as an arraylist
+        // also returns zero size if events does not exist in database
+        //------------------------------------------------------------------------------------
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child("CS101").child("Events");
 
 
@@ -97,19 +120,19 @@ public class CourseMainPageProf extends AppCompatActivity {
 
             }
         });
+        //------------------------------------------------------------------------------------
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-//        databaseReference.addValueEventListener(new  ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-//                    Event event = messageSnapshot.getValue(Event.class);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) { }
-//        });
+        final TextView urlText = findViewById(R.id.textView4);
+        urlText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new DownloadFileFromURL().execute(urlText.getText().toString());
+                downloadFiles(CourseMainPageProf.this,"ABC.pdf",DIRECTORY_DOWNLOADS,urlText.getText().toString());
+            }
+        });
 
 
     }
@@ -257,18 +280,18 @@ public class CourseMainPageProf extends AppCompatActivity {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.add_file_dialog_box, null);
-        dialogBuilder.setView(dialogView);
+        dialogViewFile = inflater.inflate(R.layout.add_file_dialog_box, null);
+        dialogBuilder.setView(dialogViewFile);
 //        getFile();
 
         dialogBuilder.setTitle("Doraemon");
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-        editTextName = dialogView.findViewById(R.id.editTextName);
-        FileName = dialogView.findViewById(R.id.FileName);
-        buttonSelectFile = dialogView.findViewById(R.id.buttonSelectFile);
-        buttonAddClass = dialogView.findViewById(R.id.buttonAddClass);
+        editTextName = dialogViewFile.findViewById(R.id.editTextName);
+        FileName = dialogViewFile.findViewById(R.id.FileName);
+        buttonSelectFile = dialogViewFile.findViewById(R.id.buttonSelectFile);
+        buttonAddClass = dialogViewFile.findViewById(R.id.buttonAddClass);
 
         TitleMaterial = editTextName.getText().toString();
 
@@ -387,11 +410,19 @@ public class CourseMainPageProf extends AppCompatActivity {
                     // taking values from title and file url to be stored in firebase
                     if(TitleMaterial==""){Toast.makeText(CourseMainPageProf.this,"Please fill the title of class",Toast.LENGTH_SHORT).show();}
                     else {
-                            databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                        EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
+                        TextView FileName = dialogViewFile.findViewById(R.id.FileName);
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
+                                ,downloadUri.toString(), FileName.getText().toString(),Calendar.getInstance().getTime());
+                        String key=databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
+                        databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
 
                     }
 
                 } else {
+                    Toast.makeText(CourseMainPageProf.this,"File could not be successfully uploaded",Toast.LENGTH_SHORT).show();
                     // Handle failures
                     // ...
                 }
@@ -401,7 +432,146 @@ public class CourseMainPageProf extends AppCompatActivity {
 
 //        StorageReference httpsReference = storage.getReferenceFromUrl(url[0]);
     }
+//    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+//        public void DownloadFileFromURL() {
+//
+//            try {
+//                URL u = new URL("http://www.qwikisoft.com/demo/ashade/20001.kml");
+//                InputStream is = u.openStream();
+//
+//                DataInputStream dis = new DataInputStream(is);
+//
+//                byte[] buffer = new byte[1024];
+//                int length;
+//
+//                FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" + "data/test.kml"));
+//                while ((length = dis.read(buffer)) > 0) {
+//                    fos.write(buffer, 0, length);
+//                }
+//
+//            } catch (MalformedURLException mue) {
+//                Log.e("SYNC getUpdate", "malformed url error", mue);
+//            } catch (IOException ioe) {
+//                Log.e("SYNC getUpdate", "io error", ioe);
+//            } catch (SecurityException se) {
+//                Log.e("SYNC getUpdate", "security error", se);
+//            }
+//        }
+//    }
+
+//    @Override
+//    protected Dialog onCreateDialog(int id) {
+//        switch (id) {
+//            case progress_bar_type: // we set this to 0
+//                pDialog = new ProgressDialog(this);
+//                pDialog.setMessage("Downloading file. Please wait...");
+//                pDialog.setIndeterminate(false);
+//                pDialog.setMax(100);
+//                pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//                pDialog.setCancelable(true);
+//                pDialog.show();
+//                return pDialog;
+//            default:
+//                return null;
+//        }
+//    }
+//
+//    /**
+//     * Background Async Task to download file
+//     * */
+//    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+//
+//        /**
+//         * Before starting background thread Show Progress Bar Dialog
+//         * */
+
+//
+//        /**
+//         * Downloading file in background thread
+//         * */
+//        @Override
+//        protected String doInBackground(String... f_url) {
+//            int count;
+//            try {
+//                URL url = new URL(f_url[0]);
+//                URLConnection conection = url.openConnection();
+//                conection.connect();
+//
+//                // this will be useful so that you can show a tipical 0-100%
+//                // progress bar
+//                int lenghtOfFile = conection.getContentLength();
+//
+//                // download the file
+//                InputStream input = new BufferedInputStream(url.openStream(),
+//                        8192);
+//
+//                // Output stream
+//                OutputStream output = new FileOutputStream(Environment
+//                        .getExternalStorageDirectory().toString());
+//
+//                byte data[] = new byte[1024];
+//
+//                long total = 0;
+//
+//                while ((count = input.read(data)) != -1) {
+//                    total += count;
+//                    // publishing the progress....
+//                    // After this onProgressUpdate will be called
+//                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+//
+//                    // writing data to file
+//                    output.write(data, 0, count);
+//                }
+//
+//                // flushing output
+//                output.flush();
+//
+//                // closing streams
+//                output.close();
+//                input.close();
+//
+//            } catch (Exception e) {
+//                Log.e("Error: ", e.getMessage());
+//            }
+//
+//            return null;
+//        }
+//
+//        /**
+//         * Updating progress bar
+//         * */
+//        protected void onProgressUpdate(String... progress) {
+//            // setting progress percentage
+//            pDialog.setProgress(Integer.parseInt(progress[0]));
+//        }
+////
+////        /**
+////         * After completing background task Dismiss the progress dialog
+////         * **/
+//        @Override
+//        protected void onPostExecute(String file_url) {
+//            // dismiss the dialog after the file was downloaded
+//            dismissDialog(progress_bar_type);
+////
+//        }
+//
+//    }
+    public void downloadFiles(Context context, String Filename,String FileDestination, String url)
+    {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(context, FileDestination, Filename);
+        downloadManager.enqueue(request);
+
+//
+    }
 }
+
+
+
+
 
 //TODO 1. show all the information from course add page to course main page of prof
 //TODO 2. add file along with its title in firebase database then retrieve and show downloadable url in file format in main page
@@ -409,3 +579,5 @@ public class CourseMainPageProf extends AppCompatActivity {
 //TODO 4. while showing all the information first check if this course already exists if yes then retrieve information from there
 //TODO    because you can here from main page also of prof.
 //TODO 5. give update options here on this activity
+//TODO 6. if cannot get download url then delete the file from firebase storage
+//TODO 7. add progress bar in file download
