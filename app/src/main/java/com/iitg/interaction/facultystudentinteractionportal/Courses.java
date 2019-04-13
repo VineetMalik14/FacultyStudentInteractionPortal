@@ -18,6 +18,9 @@ public class Courses {
     private String TimeSlots;
     private ArrayList<Thread> threads;
 
+    public Courses() {
+    }
+
     public Courses(String courseID, String courseKey, String description, Date dateOfCreation, ArrayList<Event> events, String fullname, String marksDistribution, String professor, String studentList, String syllabus, String timeSlots, ArrayList<Thread> threads) {
         CourseID = courseID;
         CourseKey = courseKey;

@@ -93,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
       ll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
           @Override
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              /* open Cources Form */
+              Toast.makeText(getApplicationContext(),"rakesh1",Toast.LENGTH_SHORT);
           }
       });
 

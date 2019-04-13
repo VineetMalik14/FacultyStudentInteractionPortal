@@ -228,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
                     user=dataSnapshot.getValue(NewUser.class);
                     Toast.makeText(getApplicationContext(),"Logined !",Toast.LENGTH_LONG).show();
                     UserInfo.profilepicurl=loginuser.getPhotoUrl();
-                    UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year);
+                    UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year,user.courses);
                     Object username = authResult.getAdditionalUserInfo().getProfile().get("jobTitle");
                     Map<String,Object> addinfo = authResult.getAdditionalUserInfo().getProfile();
 //                    String add_depart=addinfo.get("department").toString();

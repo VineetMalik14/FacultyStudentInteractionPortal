@@ -51,6 +51,8 @@ public class Replies {
     }
 
 
+    public Replies() {
+    }
 
     public Replies(Date dateOfCreation, Date lastOfmodified, String replyContent, String username, String usertype) {
         DateOfCreation = dateOfCreation;
