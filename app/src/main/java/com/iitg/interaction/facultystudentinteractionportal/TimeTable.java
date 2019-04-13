@@ -3,6 +3,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,17 +25,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 
 
+
 //TASKS
-//If date already exists, then don't overwrite it.
+//Sort the entries
+
 
 
 
@@ -47,8 +52,15 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
 
     Button b;
     TextView t;
+    ListView r;
+    ArrayList<String> al = new ArrayList<String>();
 
     int day, month, year;
+    int day_week;
+    String dayOfWeek;
+    String sub_day;
+    String value;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +81,9 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
                 year = c.get(Calendar.YEAR);
                 month = c.get(Calendar.MONTH);
                 day = c.get(Calendar.DAY_OF_MONTH);
+                day_week = c.get(Calendar.DAY_OF_WEEK);
 
-                DatePickerDialog dpg = new DatePickerDialog(TimeTable.this, TimeTable.this, year, month, day);
+                DatePickerDialog dpg = new DatePickerDialog(TimeTable.this, TimeTable.this, year, month, day_week);
                 dpg.show();
 
             }
@@ -84,16 +97,98 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
     public void onDateSet(DatePicker datepicker, int a, int b, int c) {
 
 
-
-
         b = b+1;
-        String ddd = c + "-" + b + "-" + a;
-        t.setText(ddd);
-        String x = "CS201";
-        DatabaseReference us = db.getReference().child("Calendar");
-        Day current = new Day(x,x,x,x,x,x,x,x,x,x,x,x,x);
-        us.child(ddd).setValue(current);
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEEE");
+        Date date = new Date(a, b-1, c-1);
+        dayOfWeek = simpledateformat.format(date);
+        sub_day = dayOfWeek.substring(0,3);
+        String ddd = c + "-" + b + "-" + a + dayOfWeek;
+        t.setText(dayOfWeek);
+        r = (ListView) findViewById(R.id.result);
+        final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
+        r.setAdapter(ad);
 
+
+
+
+        //String x = "CS201";
+        //Day current = new Day(x,x,x,x,x,x,x,x,x,x,x,x,x);
+       // us.child(ddd).setValue(current);
+
+        DatabaseReference us = db.getReference().child("users").child("barney").child("courses");
+        us.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                value = dataSnapshot.getValue(String.class);
+                DatabaseReference in = db.getReference().child("Courses").child(value).child("TimeSlots");
+                /*String prev =t.getText().toString();
+                t.setText(prev + "\n" + value);*/
+                in.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String op = dataSnapshot.getValue(String.class);
+                        if(op != null){
+                            /*String prev =t.getText().toString();
+                            t.setText(prev + "\n" + op);*/
+                            String[] split =  op.split(",");
+                            int i = 0;
+                            for(i = 1; i< split.length; i++){
+                                String check = split[i].substring(0,3);
+                                if(check.equals(sub_day)){
+                                    /*String prev =t.getText().toString();
+                                    t.setText(prev + "\n" + value + " " + split[i] );*/
+
+                                    String[] split2 =  split[i].split("-");
+
+                                    int begin = Integer.parseInt(split2[1]);
+                                    int dur = Integer.parseInt(split2[2]);
+                                    int j = 0;
+                                    for(j = 0; j< dur; j++){
+                                        int temp = begin + j;
+                                        String ans = "" + temp + " " + value;
+                                        al.add(ans);
+
+
+                                    }
+                                    ad.notifyDataSetChanged();
+
+                                }
+                            }
+
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         
     }

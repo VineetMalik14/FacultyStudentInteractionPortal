@@ -17,10 +17,19 @@
 
     <TextView
         android:id="@+id/text_date"
-        android:layout_width="136dp"
-        android:layout_height="42dp"
+        android:layout_width="105dp"
+        android:layout_height="51dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="80dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/result"
+        android:layout_width="356dp"
+        android:layout_height="572dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="140dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
