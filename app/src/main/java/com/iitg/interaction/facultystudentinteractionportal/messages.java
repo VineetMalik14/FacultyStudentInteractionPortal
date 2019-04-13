@@ -6,7 +6,7 @@ public class messages {
     String user;
     String date;
 
-    public messages(String id, String text, String user, String date) {
+    public messages(String id,String text, String user, String date) {
         this.id = id;
         this.text = text;
         this.user = user;

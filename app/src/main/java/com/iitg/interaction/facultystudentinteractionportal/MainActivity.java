@@ -1,6 +1,9 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,15 +20,21 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.io.Console;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView displayname;
     TextView displayemail;
+
 
     private DatabaseReference databaseReference;
 
@@ -34,16 +43,20 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        Log.d("debug","server value "+ Calendar.getInstance().getTime());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this,MessageActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -56,8 +69,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
 
 
@@ -112,13 +125,23 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nave_logout) {
 
+            SharedPreferences preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putBoolean("logined",false);
+            editor.commit();
             UserInfo.logout();
             Intent intent = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
+            this.finish();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_message) {
+
+            Intent intent = new Intent(MainActivity.this,MessageActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_outlook) {
 
         }
 

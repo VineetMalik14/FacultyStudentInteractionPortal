@@ -258,7 +258,7 @@ public class SignupActivity extends AppCompatActivity {
                     Intent intent;
                     if(outlookuser)
                     {
-                        UserInfo.fillUserInfo(newUser.username,newUser.fullname,newUser.usertype,newUser.rollnumber,newUser.email,newUser.occupation,newUser.department,newUser.year);
+                        UserInfo.fillUserInfo(newUser.username,newUser.fullname,newUser.usertype,newUser.rollnumber,newUser.email,newUser.occupation,newUser.department,newUser.year,newUser.courses,newUser.messages);
 
                         intent= new Intent(SignupActivity.this,MainActivity.class);
                         outlookuser=false;

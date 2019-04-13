@@ -1,6 +1,7 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.UriMatcher;
@@ -45,11 +46,13 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static android.content.ContentValues.TAG;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity<scopes> extends AppCompatActivity {
 
     Button btn_login;
     Button btn_signup;
@@ -57,13 +60,73 @@ public class LoginActivity extends AppCompatActivity {
     EditText etusername;
     EditText etpassword;
     FirebaseAuth firebaseAuth;
+
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public SharedPreferences preferences;
 
   //  OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        List<String> scopes =
+                new ArrayList<String>() {
+                    {
+                        add("mail.read");
+                        add("mail.send");
+                        add("mail.ReadWrite");
+                        add("User.ReadBasic.All");
+                        // add("User.Read.All");
+                        // add("calendars.read");
+                    }
+                };
+        provider.setScopes(scopes);
+
+
+
+        try{
+            if(preferences.getBoolean("logined",false))
+            {
+                Log.d("debug","Already logined as "+ FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
+               DatabaseReference dataref = database.getReference();
+                dataref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        NewUser user=dataSnapshot.child("users").child(preferences.getString("username",null)).getValue(NewUser.class);
+                        if(user == null)
+                        {
+                            Log.d("debug","ERROR Already logged in but user is null ");
+                            return;
+                        }
+
+                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses,user.messages);
+                        Log.d("debug","Already logined, FILLED USER INFO" );
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+                this.finish();
+
+
+            }
+        }
+        catch (NullPointerException e)
+        {
+
+        }
+
+
+
         setContentView(R.layout.login_screen);
         btn_login = findViewById(R.id.btn_login);
         btn_signup = findViewById(R.id.btn_signup);
@@ -72,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         etusername=findViewById(R.id.et_username);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        SharedPreferences a = getSharedPreferences("name",0);
+
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseReference ref = database.getReference("users/"+etusername.getText().toString().trim());
 
         // Attach a listener to read the data at our posts reference
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -130,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(userpass.equals(Sha1Custom.SHA1(etpassword.getText().toString())))
                     {
                         Toast.makeText(getApplicationContext(),"Welcome "+user.fullname,Toast.LENGTH_LONG).show();
-                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses);
+                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses,user.messages);
 
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
@@ -159,7 +222,6 @@ public class LoginActivity extends AppCompatActivity {
     void getvaluesfromoutlook(final FirebaseUser loginuser, final AuthResult authResult)
     {
 
-
         Log.d("checkinside","I AM IN THE GET VALUES FUNCTION !!");
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
@@ -168,6 +230,7 @@ public class LoginActivity extends AppCompatActivity {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
 
                 Log.d("checkinside","INSIDE OVERRIDE FUNCTION !!!!!"+dataSnapshot.hasChild(musername));
                 NewUser user = dataSnapshot.getValue(NewUser.class);
@@ -202,11 +265,21 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         Log.d("debug",e.toString());
                     }
+
+                    UserInfo.profilepicurl = authResult.getUser().getPhotoUrl();
                     Map<String,Object> uu=authResult.getAdditionalUserInfo().getProfile();
+
                     for (String s : authResult.getAdditionalUserInfo().getProfile().keySet())
                     {
                         Log.d("printing ",s);
                         Log.d("printing",uu.get(s).toString());
+                    }
+                    Log.d("printing","department " + uu.get("department"));
+                    authResult.getAdditionalUserInfo().getProfile().entrySet();
+                    for (Map.Entry<String,Object> s : authResult.getAdditionalUserInfo().getProfile().entrySet()) {
+
+                        Log.d("printing",s.getKey() + s.getValue());
+
                     }
 
                     UserInfo.profilepicurl=Uri.parse(uu.get("@odata.context").toString());
@@ -228,7 +301,7 @@ public class LoginActivity extends AppCompatActivity {
                     user=dataSnapshot.getValue(NewUser.class);
                     Toast.makeText(getApplicationContext(),"Logined !",Toast.LENGTH_LONG).show();
                     UserInfo.profilepicurl=loginuser.getPhotoUrl();
-                    UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year);
+                    UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year,user.courses,user.messages);
                     Object username = authResult.getAdditionalUserInfo().getProfile().get("jobTitle");
                     Map<String,Object> addinfo = authResult.getAdditionalUserInfo().getProfile();
 //                    String add_depart=addinfo.get("department").toString();
@@ -246,9 +319,21 @@ public class LoginActivity extends AppCompatActivity {
                     authResult.getAdditionalUserInfo().getProfile();
                //     Object companyname = addinfo.get("country");
                    Log.d("printing","username " + metadat.toString() );
+
+
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
+
                 }
+
+
+                // SAVING USERNAME OF USER INSIDE APP TO REMEMBER LATER
+                preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("logined",true);
+                editor.putString("username",UserInfo.username);
+                editor.commit();
+                //-------------------------------------------------------
 
 
             }
@@ -259,6 +344,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         dataref.addListenerForSingleValueEvent(eventListener);
+
+
+        this.finish();
 
 
 
@@ -276,6 +364,11 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
                                     Toast.makeText(getApplicationContext(),"Login success it was pending!!",Toast.LENGTH_LONG).show();
+
+                                    FirebaseUser loginuser;
+                                    loginuser =authResult.getUser();
+                                    getvaluesfromoutlook(loginuser,authResult);
+
                                     // User is signed in.
                                     // IdP data available in
                                     // authResult.getAdditionalUserInfo().getProfile().
@@ -303,13 +396,13 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
 
+
                                     // User is signed in.
                                     // IdP data available in
                                     // authResult.getAdditionalUserInfo().getProfile().
                                     // The OAuth access token can also be retrieved:
                                     // authResult.getCredential().getAccessToken().
                                     FirebaseUser loginuser;
-
                                     loginuser =authResult.getUser();
 
                                     //--------------------------------------------------------

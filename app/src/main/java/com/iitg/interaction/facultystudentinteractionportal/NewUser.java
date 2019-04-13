@@ -15,6 +15,7 @@ public class NewUser {
     public  String department;
     public  String year;
     public  String password;
+    public  ArrayList<Messages> messages;
     public ArrayList<String> courses;
 
     public NewUser()
@@ -33,6 +34,7 @@ public class NewUser {
         this.year = year;
         this.password = password;
         this.courses = new ArrayList<>();
+        this.messages = new ArrayList<>();
     }
 
     public boolean isVerified() {
