@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -42,9 +43,11 @@ public class DiscussionThreads extends AppCompatActivity {
     View dialogView;
 
     String course = "CS101";
-    ArrayList<String> ids;
-    ArrayList<Thread> threads;
-
+    List<String> ids;
+    List<Thread> threads;
+    String username = "Annanaya";
+    String usertype = "Student";
+    ThreadAdapter adapter;
 
     @Override
 
@@ -52,6 +55,78 @@ public class DiscussionThreads extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_threads);
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(course).child("threads");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                threads = new ArrayList<Thread>();
+                ids = new ArrayList<String>();
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    ids.add(messageSnapshot.getKey());
+                    Thread thread = messageSnapshot.getValue(Thread.class);
+                    threads.add(thread);
+                    //  Log.v("Title", event.getTitle());
+                }
+                Collections.reverse(threads);
+                adapter = new ThreadAdapter(DiscussionThreads.this, threads);
+
+                ListView listView = (ListView) findViewById(R.id.lv_thread);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // now we have  all the value that will be needed for
+                        Thread item = adapter.getItem(position);
+                        String key = ids.get(position);
+                        // now send the key with the intent you are showing
+                        Intent intent = new Intent(getBaseContext(), ThreadReplies.class);
+                        intent.putExtra("KEY", key);
+                        intent.putExtra("COURSE", course);
+                        intent.putExtra("TITLE", item.getTitle());
+                        intent.putExtra("CONTENT", item.getThreadContent());
+                        intent.putExtra("USER", item.getUsername());
+                        intent.putExtra("TIME", DateFormat.format("dd-MM-yyyy (HH:mm:ss)", item.getLastModified()) );
+
+                        startActivity(intent);
+
+
+
+
+                        // now we have the item in the
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         FloatingActionButton newthread =  findViewById(R.id.new_thread);
 
         newthread.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +157,7 @@ public class DiscussionThreads extends AppCompatActivity {
                         if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
                             Toast.makeText(DiscussionThreads.this, "Please enter correct Title and Content", Toast.LENGTH_SHORT).show();
                         } else {
-                            Thread newthread = new Thread(false, UserInfo.username, UserInfo.usertype, content.getText().toString(), title.getText().toString(), c, c, repliesArrayList);
+                            Thread newthread = new Thread(false, username, usertype, content.getText().toString(), title.getText().toString(), c, c, repliesArrayList);
                             databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
@@ -108,50 +183,6 @@ public class DiscussionThreads extends AppCompatActivity {
 //        {
 //
 //        }
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(course).child("threads");
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                threads = new ArrayList<Thread>();
-                ids = new ArrayList<String>();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    ids.add(messageSnapshot.getKey());
-                    Thread thread = messageSnapshot.getValue(Thread.class);
-                    threads.add(thread);
-                  //  Log.v("Title", event.getTitle());
-                }
-
-                final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-
-                ListView listView = (ListView) findViewById(R.id.lv_thread);
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // now we have  all the value that will be needed for
-                        Thread item = adapter.getItem(position);
-                        String key = ids.get(position);
-                        // now send the key with the intent you are showing
-                        Intent intent = new Intent(getBaseContext(), ThreadReplies.class);
-                        intent.putExtra("KEY", key);
-                        intent.putExtra("COURSE", course);
-                        startActivity(intent);
-
-
-
-
-                        // now we have the item in the
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
 
@@ -186,7 +217,7 @@ public class DiscussionThreads extends AppCompatActivity {
 
 
     public class ThreadAdapter extends ArrayAdapter<Thread> {
-        public ThreadAdapter(Context context, ArrayList<Thread> threads) {
+        public ThreadAdapter(Context context, List<Thread> threads) {
             super(context, 0, threads);
         }
 
