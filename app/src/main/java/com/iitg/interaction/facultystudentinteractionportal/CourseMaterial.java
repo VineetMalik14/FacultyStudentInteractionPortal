@@ -46,4 +46,8 @@ public class CourseMaterial {
         FileName = fileName;
         Date = date;
     }
+    public CourseMaterial()
+    {
+
+    }
 }

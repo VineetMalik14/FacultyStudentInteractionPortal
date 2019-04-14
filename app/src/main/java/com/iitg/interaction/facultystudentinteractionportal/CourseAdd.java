@@ -50,11 +50,12 @@ public class CourseAdd extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        Button button = findViewById(R.id.button);
+        final Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                button.setEnabled(false);
                 flag=0;
                 EditText courseID = findViewById(R.id.CourseID);
                 course_id = courseID.getText().toString();
@@ -71,7 +72,7 @@ public class CourseAdd extends AppCompatActivity {
                             if (flag == 0) {
                                 Log.d(TAG, course_id);
                                 Toast.makeText(CourseAdd.this, "This course ID already exists. Please enter new ID.", Toast.LENGTH_SHORT).show();
-
+                                button.setEnabled(true);
                             }
                         }
                         else
@@ -84,8 +85,10 @@ public class CourseAdd extends AppCompatActivity {
                             Log.d(TAG,course_id);
                             Intent intent = new Intent(CourseAdd.this, AddCourseContent.class);
                             intent.putExtra("CourseID",course_id);
+                            finish();
                             startActivity(intent);
                             flag = 1;
+
 
                         }
 

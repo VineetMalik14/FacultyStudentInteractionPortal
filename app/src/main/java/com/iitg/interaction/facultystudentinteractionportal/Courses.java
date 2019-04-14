@@ -33,9 +33,10 @@ public class Courses {
         TimeSlots = timeSlots;
         this.threads = threads;
         this.CourseMaterial = courseMaterial;
+
     }
 
-    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events) {
+    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events,String timeSlots) {
         CourseID = courseID;
         CourseKey = courseKey;
         Description = description;
@@ -44,6 +45,7 @@ public class Courses {
         MarksDistribution = marksDistribution;
         Professor = professor;
         Syllabus = syllabus;
+        TimeSlots = timeSlots;
 //        this.events = new ArrayList<>();
     }
 
