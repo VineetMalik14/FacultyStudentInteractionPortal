@@ -77,6 +77,7 @@ public class DiscussionThreads extends AppCompatActivity {
                     //  Log.v("Title", event.getTitle());
                 }
                 Collections.reverse(threads);
+                Collections.reverse(ids);
                 adapter = new ThreadAdapter(DiscussionThreads.this, threads);
 
                 ListView listView = (ListView) findViewById(R.id.lv_thread);
