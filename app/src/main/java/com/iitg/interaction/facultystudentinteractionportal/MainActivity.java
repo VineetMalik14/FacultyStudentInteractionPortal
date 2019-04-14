@@ -120,8 +120,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_gallery) {
+            Intent intent = new Intent(MainActivity.this,PollsActivity.class);
+            startActivity(intent);
+
+
 
         } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(MainActivity.this,CreatePollActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nave_logout) {
 

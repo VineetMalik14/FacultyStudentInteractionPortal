@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".CreatePollActivity"></activity>
+        <activity android:name=".PollLayoutActivity" />
+        <activity android:name=".messageboxActivity" />
+
+
         <activity android:name=".ThreadReplies"></activity>
         <activity android:name=".DiscussionThreads">
             <!--<intent-filter>-->
@@ -59,7 +64,8 @@
         </activity>
         <activity
 
-        <activity android:name=".messageboxActivity"></activity>
+        //<activity android:name=".messageboxActivity"></activity>
+
         <activity android:name=".ComposeMessage" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".PollsActivity" />

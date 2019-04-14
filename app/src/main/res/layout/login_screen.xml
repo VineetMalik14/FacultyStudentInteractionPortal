@@ -18,7 +18,7 @@
         android:layout_marginBottom="107dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="Password" />
+        android:text="barney" />
 
     <Button
         android:id="@+id/btn_login"
@@ -102,5 +102,5 @@
         android:layout_marginBottom="21dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Username" />
+        android:text="barney" />
 </RelativeLayout>

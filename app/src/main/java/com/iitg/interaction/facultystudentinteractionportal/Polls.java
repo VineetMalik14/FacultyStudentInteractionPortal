@@ -1,27 +1,35 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.graphics.Path;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Polls {
     public String question;
-    public ArrayList<String> options;
-    public Integer[] optionvotes;
+//    public ArrayList<String> options;
+//    public Integer[] optionvotes;
+    public ArrayList<Options> options;
+    public ArrayList<String> users;
     public Integer totalvotes=0;
     public boolean isactive = true;
 
+    public Polls()
+    {
+
+    }
 
     public Polls(String question, @NonNull ArrayList<String> options) {
         this.question = question;
-        this.options = options;
+        this.options = new ArrayList<>();
+        this.users = new ArrayList<>();
+        for(String s : options)
+        {
+            this.options.add(new Options(s));
+        }
         this.isactive = true;
         this.totalvotes = 0;
-        this.optionvotes = new Integer[options.size()];
-        for(int i = 0 ;i<options.size() ;i++)
-        {
-            optionvotes[i]=0;
-        }
 
 
     }
@@ -31,20 +39,53 @@ public class Polls {
         isactive=false;
     }
 
-    public void addvote(Integer index)
+    public void addvote(Integer index,String username)
     {
-        optionvotes[index]++;
+        if(this.users==null)
+        {
+            this.users = new ArrayList<>();
+        }
+        if(this.users.contains(username))
+        {
+           // return;
+        }
+        options.get(index).votes++;
+        this.users.add(username);
         totalvotes++;
+        for(Options op: this.options)
+        {
+            op.totalvotes=totalvotes;
+        }
+
     }
 
     public Integer calculateTotalVotes()
     {
         Integer sum = 0;
-        for (Integer vote : optionvotes) {
-            sum+=vote;
+        for (Options op : options) {
+            sum+=op.votes;
         }
         totalvotes=sum;
         return  sum;
     }
+
+}
+
+class Options {
+    String optiontext;
+    int votes=0;
+    int totalvotes;
+
+    public Options()
+    {
+
+    }
+
+    Options(String optiontext)
+    {
+        this.optiontext = optiontext;
+        this.votes = 0;
+    }
+
 
 }
