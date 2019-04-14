@@ -1,10 +1,18 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-public class UserInfo {
+
+public class UserInfo extends AppCompatActivity {
+
 
     public static Uri profilepicurl;
     public static  boolean logined=false;
@@ -17,6 +25,9 @@ public class UserInfo {
     public static  String occupation;
     public static  String department;
     public static  String year;
+
+    public static ArrayList<Messages> messages;
+
     public static ArrayList<String> courses;
 
 
@@ -29,7 +40,10 @@ public class UserInfo {
     private UserInfo() {
     }
 
-    public static void fillUserInfo(String username,String fullname, String usertype, String rollnumber, String email, String occupation, String department, String year , ArrayList<String> courses) {
+    public static void fillUserInfo(String username,String fullname, String usertype, String rollnumber, String email, String occupation, String department, String year , ArrayList<String> courses,ArrayList<Messages> messages) {
+
+
+
         UserInfo.logined = true;
         UserInfo.username = username;
         UserInfo.fullname = fullname;
@@ -40,12 +54,17 @@ public class UserInfo {
         UserInfo.department = department;
         UserInfo.year = year;
 
+        UserInfo.messages = messages;
+
         UserInfo.courses = courses ;
     }
 
 
     public static void logout()
     {
+
+        FirebaseAuth.getInstance().signOut();
+
         logined=false;
         verified=false;
         fullname=null;
