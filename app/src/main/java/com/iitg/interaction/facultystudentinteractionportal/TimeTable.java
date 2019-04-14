@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ import java.util.Objects;
 
 
 //TASKS
-//Sort the entries
+//Good Testing
 
 
 
@@ -102,8 +103,8 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
         Date date = new Date(a, b-1, c-1);
         dayOfWeek = simpledateformat.format(date);
         sub_day = dayOfWeek.substring(0,3);
-        String ddd = c + "-" + b + "-" + a + dayOfWeek;
-        t.setText(dayOfWeek);
+        String ddd = c + "-" + b + "-" + a ;
+        t.setText(ddd);
         r = (ListView) findViewById(R.id.result);
         final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
         r.setAdapter(ad);
@@ -150,6 +151,7 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
 
 
                                     }
+                                    Collections.sort(al);
                                     ad.notifyDataSetChanged();
 
                                 }
