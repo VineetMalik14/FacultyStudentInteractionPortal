@@ -70,18 +70,21 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         android:isScrollContainer="true"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/Contentthread"
         android:layout_width="match_parent"
-        android:layout_height="71dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/Titlethread"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="0dp"
+        android:textSize="18dp"
         android:text="TextView" />
 
 

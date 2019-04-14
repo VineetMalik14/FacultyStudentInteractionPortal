@@ -53,6 +53,12 @@ public class DiscussionThreads extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
 
+
+        setTitle("Discussion Forum CS204" );
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_threads);
 
@@ -89,6 +95,7 @@ public class DiscussionThreads extends AppCompatActivity {
                         intent.putExtra("CONTENT", item.getThreadContent());
                         intent.putExtra("USER", item.getUsername());
                         intent.putExtra("TIME", DateFormat.format("dd-MM-yyyy (HH:mm:ss)", item.getLastModified()) );
+                        
 
                         startActivity(intent);
 
@@ -139,6 +146,7 @@ public class DiscussionThreads extends AppCompatActivity {
                 dialogBuilder.setView(dialogView);
 
                 final AlertDialog b = dialogBuilder.create();
+                b.setTitle("Add New Thread");
                 b.show();
 
                 Button addthread =  dialogView.findViewById(R.id.buttonAddThread);
@@ -159,6 +167,7 @@ public class DiscussionThreads extends AppCompatActivity {
                         } else {
                             Thread newthread = new Thread(false, username, usertype, content.getText().toString(), title.getText().toString(), c, c, repliesArrayList);
                             databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
 
                             String id = databaseReference.child("Courses").child(course).child("threads").push().getKey();
@@ -227,17 +236,18 @@ public class DiscussionThreads extends AppCompatActivity {
             Thread user = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_thread, parent, false);
             }
             // Lookup view for data population
             TextView messagetext = (TextView) convertView.findViewById(R.id.message_text);
             TextView messageuser = (TextView) convertView.findViewById(R.id.message_user);
             TextView messageTime = (TextView) convertView.findViewById(R.id.message_time);
+            TextView messagetitle = (TextView) convertView.findViewById(R.id.message_title);
             // Populate the data into the template view using the data object
             messagetext.setText(user.getThreadContent());
             messageuser.setText(user.getUsername());
-
             messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", user.getDateOfCreation()));
+            messagetitle.setText(user.getTitle());
             // Return the completed view to render on screen
             return convertView;
         }

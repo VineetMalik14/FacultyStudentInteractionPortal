@@ -43,6 +43,9 @@ public class ThreadReplies extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        setTitle("Chats" );
         setContentView(R.layout.activity_thread_replies);
 
 
@@ -52,7 +55,6 @@ public class ThreadReplies extends AppCompatActivity {
         String content = getIntent().getExtras().getString("CONTENT");
         String user = getIntent().getExtras().getString("USER");  // person who create the thread
         String time = getIntent().getExtras().getString("TIME");
-
 
 
 
@@ -146,7 +148,6 @@ public class ThreadReplies extends AppCompatActivity {
                 Collections.reverse(replies);
 
 
-
                 final ThreadReplies.ReplyAdapter adapter = new ThreadReplies.ReplyAdapter(ThreadReplies.this, replies);
 
                 ListView listView = (ListView) findViewById(R.id.lv_Replies);
@@ -189,9 +190,12 @@ public class ThreadReplies extends AppCompatActivity {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
             }
             // Lookup view for data population
-            TextView messagetext = (TextView) convertView.findViewById(R.id.message_text);
-            TextView messageuser = (TextView) convertView.findViewById(R.id.message_user);
-            TextView messageTime = (TextView) convertView.findViewById(R.id.message_time);
+            TextView messagetext = (TextView) convertView.findViewById(R.id.reply_text);
+            TextView messageuser = (TextView) convertView.findViewById(R.id.reply_user);
+            TextView messageTime = (TextView) convertView.findViewById(R.id.reply_time);
+
+
+
             // Populate the data into the template view using the data object
             messagetext.setText(user.getReplyContent());
             messageuser.setText(user.getUsername());
