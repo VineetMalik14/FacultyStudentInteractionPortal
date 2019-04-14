@@ -25,8 +25,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="9dp"
-        android:text="25%"
-        android:textSize="18sp" />
+        android:text="25.5%"
+        android:textSize="14sp" />
 
     <ProgressBar
         android:id="@+id/pb_option"
