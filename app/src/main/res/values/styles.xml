@@ -1,11 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:textColorHint">@color/white</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,5 +17,16 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="HeaderBar">
+        <item name="android:background">#0EF0D7</item>
+    </style>
+    <style name="EditTextHint" parent="TextAppearance.AppCompat">
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <!--<item name="colorControlNormal">@color/BackgroundtWhiteColor</item>-->
+        <!--<item name="colorControlActivated">@color/your color</item>-->
+        <!--<item name="colorControlHighlight">@color/BackgroundtWhiteColor</item>-->
+    </style>
+
 
 </resources>

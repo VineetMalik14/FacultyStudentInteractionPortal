@@ -50,6 +50,10 @@ public class Replies {
         Usertype = usertype;
     }
 
+    public Replies(){
+
+    }
+
 
 
     public Replies(Date dateOfCreation, Date lastOfmodified, String replyContent, String username, String usertype) {

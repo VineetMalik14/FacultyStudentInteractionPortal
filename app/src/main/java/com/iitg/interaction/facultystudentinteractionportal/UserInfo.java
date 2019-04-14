@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class UserInfo extends AppCompatActivity {
 
+
     public static Uri profilepicurl;
     public static  boolean logined=false;
     public static  boolean verified;
@@ -24,7 +25,9 @@ public class UserInfo extends AppCompatActivity {
     public static  String occupation;
     public static  String department;
     public static  String year;
+
     public static ArrayList<Messages> messages;
+
     public static ArrayList<String> courses;
 
 
@@ -40,6 +43,7 @@ public class UserInfo extends AppCompatActivity {
     public static void fillUserInfo(String username,String fullname, String usertype, String rollnumber, String email, String occupation, String department, String year , ArrayList<String> courses,ArrayList<Messages> messages) {
 
 
+
         UserInfo.logined = true;
         UserInfo.username = username;
         UserInfo.fullname = fullname;
@@ -49,14 +53,18 @@ public class UserInfo extends AppCompatActivity {
         UserInfo.occupation = occupation;
         UserInfo.department = department;
         UserInfo.year = year;
+
         UserInfo.messages = messages;
+
         UserInfo.courses = courses ;
     }
 
 
     public static void logout()
     {
+
         FirebaseAuth.getInstance().signOut();
+
         logined=false;
         verified=false;
         fullname=null;
