@@ -2,6 +2,8 @@ package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.app.DatePickerDialog;
 import android.app.DownloadManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -28,6 +30,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -81,11 +84,14 @@ public class CourseMainPageProf extends AppCompatActivity {
     public static final int progress_bar_type = 0;
     public int count=0;
     public AlertDialog mate;
-
+    public  Notification notification;
     public static final String TAG="CourseMainPageProf";
+    private ProgressBar progressBar;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     UploadTask uploadTask;
     StorageReference mountainsRef;
+
+
 
 
     @Override
@@ -598,11 +604,29 @@ public class CourseMainPageProf extends AppCompatActivity {
 
             FileName.setText(filepath);
 
-
-
+            // notification for upload progress
+            //---------------------------------------
+//            final Integer notificationID = 100;
+//
+//            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            //Set notification information:
+//            final Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
+//            notificationBuilder.setOngoing(true)
+//                    .setContentTitle("Notification Content Title")
+//                    .setContentText("Notification Content Text")
+//                    .setSmallIcon(android.R.drawable.stat_sys_upload)
+//                    .setProgress(100, 0, false);
+//
+//            //Send the notification:
+//             notification = notificationBuilder.build();
+//            notificationManager.notify(notificationID, notification);
+            //-------------------------------------------------------------
             buttonAddClass.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    buttonAddClass.setEnabled(false);
+
                     final StorageReference storageRef = storage.getReference();
 
                     // add course id in front of file path
@@ -610,11 +634,22 @@ public class CourseMainPageProf extends AppCompatActivity {
                     uploadTask = mountainsRef.putFile(selectedfile);
 
                     // Observe state change events such as progress, pause, and resume
+//                    final ProgressBar finalProgressBar = progressBar;
+//                    progressBar = findViewById(R.id.progressBar);
                     uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
+//                            progressBar.setProgress((int) progress);
+//                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
+                            //Update notification information:
+//                            notificationBuilder.setProgress(100, (int) progress, false);
+//
+//                            //Send the notification:
+//                            notification = notificationBuilder.build();
+//                            notificationManager.notify(notificationID, notification);
+
+
                             System.out.println("Upload is " + progress + "% done");
                         }
                     }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
@@ -629,12 +664,14 @@ public class CourseMainPageProf extends AppCompatActivity {
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
+                            buttonAddClass.setEnabled(true);
                             Toast.makeText(CourseMainPageProf.this,"File could not be uploaded",Toast.LENGTH_SHORT).show();
                             // Handle unsuccessful uploads
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                             // ...
                             Toast.makeText(CourseMainPageProf.this,"File uploaded successfully.",Toast.LENGTH_SHORT).show();
