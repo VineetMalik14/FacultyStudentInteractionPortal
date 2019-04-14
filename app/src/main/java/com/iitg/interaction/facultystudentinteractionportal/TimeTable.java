@@ -106,8 +106,11 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
         String ddd = c + "-" + b + "-" + a ;
         t.setText(ddd);
         r = (ListView) findViewById(R.id.result);
+        al.clear();
+
         final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
         r.setAdapter(ad);
+        ad.notifyDataSetChanged();
 
 
 
