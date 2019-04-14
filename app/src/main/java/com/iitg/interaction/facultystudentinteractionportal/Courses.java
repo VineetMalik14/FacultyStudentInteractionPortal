@@ -17,8 +17,9 @@ public class Courses {
     private String Syllabus;
     private String TimeSlots;
     private ArrayList<Thread> threads;
+    private ArrayList<CourseMaterial> CourseMaterial;
 
-    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, ArrayList<Event> events, String fullname, String marksDistribution, String professor, String studentList, String syllabus, String timeSlots, ArrayList<Thread> threads) {
+    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, ArrayList<Event> events, String fullname, String marksDistribution, String professor, String studentList, String syllabus, String timeSlots, ArrayList<Thread> threads,ArrayList<CourseMaterial> courseMaterial) {
         CourseID = courseID;
         CourseKey = courseKey;
         Description = description;
@@ -31,6 +32,21 @@ public class Courses {
         Syllabus = syllabus;
         TimeSlots = timeSlots;
         this.threads = threads;
+        this.CourseMaterial = courseMaterial;
+
+    }
+
+    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events,String timeSlots) {
+        CourseID = courseID;
+        CourseKey = courseKey;
+        Description = description;
+        DateOfCreation = dateOfCreation;
+        Fullname = fullname;
+        MarksDistribution = marksDistribution;
+        Professor = professor;
+        Syllabus = syllabus;
+        TimeSlots = timeSlots;
+//        this.events = new ArrayList<>();
     }
 
     public String getCourseID() {
@@ -127,5 +143,13 @@ public class Courses {
 
     public void setThreads(ArrayList<Thread> threads) {
         this.threads = threads;
+    }
+
+    public ArrayList<com.iitg.interaction.facultystudentinteractionportal.CourseMaterial> getCourseMaterial() {
+        return CourseMaterial;
+    }
+
+    public void setCourseMaterial(ArrayList<com.iitg.interaction.facultystudentinteractionportal.CourseMaterial> courseMaterial) {
+        CourseMaterial = courseMaterial;
     }
 }

@@ -6,4 +6,46 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_course_add">CourseAdd</string>
+    <string name="title_activity_add_course_content">AddCourseContent</string>
+    <string name="title_activity_course_main_page_prof">CourseMainPageProf</string>
+    <string name="testurl"><![CDATA[https://firebasestorage.googleapis.com/v0/b/facultystudentinteractio-b303a.appspot.com/o/primary%3A16midsem.pdf?alt=media&token=9cbec696-6511-4206-b212-d5eedc93e1e7]]></string>
+    <string-array name="EventTypes">
+        <item>Quiz</item>
+        <item>Extra Class</item>
+        <item>Seminar</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="NumberOfSlots">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+
+    </string-array>
+    <string-array name="Weekdays">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+    <string-array name="StartTime">
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+    </string-array>
+    <string-array name="Duration">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>
