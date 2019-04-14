@@ -36,6 +36,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.google.firebase:firebase-storage:16.1.0'
 
+    // third party
+    //implementation 'com.firebaseui:firebase-ui:4.3.2'
+    //implementation 'com.firebaseui:firebase-ui:0.6.2'
+
 
 }
 

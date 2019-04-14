@@ -63,6 +63,14 @@
           }
         },
         {
+          "client_id": "91495189802-s53tce9q6tn8rsb48eojqslct4f94sv4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitg.interaction.facultystudentinteractionportal",
+            "certificate_hash": "605c8668705f3ab21c829e7e873b1030ebb0f6ab"
+          }
+        },
+        {
           "client_id": "91495189802-r85e2iu6nbu9dv1fs2n6rfstaqpq9ik3.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -13,6 +13,9 @@ public class Thread {
     private Date DateOfCreation;
     private Date LastModified;
     private ArrayList<Replies> repliesArrayList;
+    public Thread(){
+
+    }
 
 
     public Thread(boolean isThreadClosed, String username, String usertype, String threadContent, String title, Date dateOfCreation, Date lastModified, ArrayList<Replies> repliesArrayList) {
