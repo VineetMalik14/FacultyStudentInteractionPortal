@@ -119,17 +119,17 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(MainActivity.this,PollsActivity.class);
+        } else if (id == R.id.courses) {
+            Intent intent = new Intent(MainActivity.this,CourseStudentList.class);
             startActivity(intent);
 
 
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_FAQ) {
             Intent intent = new Intent(MainActivity.this,CreatePollActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nave_logout) {
+        } else if (id == R.id.nav_FAQ) {
 
             SharedPreferences preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();

@@ -48,6 +48,9 @@ public class Courses {
         TimeSlots = timeSlots;
 //        this.events = new ArrayList<>();
     }
+    public Courses(){
+
+    }
 
     public String getCourseID() {
         return CourseID;

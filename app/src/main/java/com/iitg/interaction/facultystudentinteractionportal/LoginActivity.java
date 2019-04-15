@@ -87,7 +87,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
 
 
         try{
-            if(preferences.getBoolean("logined",false))
+            if(preferences.getBoolean("logined",false) && preferences.getString("username",null)!=null)
             {
                 Log.d("debug","Already logined as "+ FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 

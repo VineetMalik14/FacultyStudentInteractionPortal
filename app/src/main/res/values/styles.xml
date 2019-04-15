@@ -17,9 +17,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="HeaderBar">
         <item name="android:background">#0EF0D7</item>
     </style>
+
     <style name="EditTextHint" parent="TextAppearance.AppCompat">
         <item name="colorAccent">@android:color/white</item>
         <item name="android:textColorHint">@color/white</item>

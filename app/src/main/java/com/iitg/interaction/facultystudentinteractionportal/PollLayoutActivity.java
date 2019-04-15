@@ -24,14 +24,16 @@ import java.util.ArrayList;
 public class PollLayoutActivity extends AppCompatActivity {
     ListView lv;
     TextView question;
-    String currentcourseid="CS101";
+    String currentcourseid;
     int index;
     static Polls clickedpoll;
-    DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("Courses").child(currentcourseid).child("Polls");
+    DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("Courses");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layoutpoll);
+
+        currentcourseid = CourseMainPageStudent.courseID;
         lv = findViewById(R.id.lv_optionlist);
         question = findViewById(R.id.tv_questionheading);
 
@@ -88,12 +90,16 @@ public class PollLayoutActivity extends AppCompatActivity {
 
         final GenericTypeIndicator<ArrayList<Polls>> t = new GenericTypeIndicator<ArrayList<Polls>>() {};
 
-        dataref.addValueEventListener(new ValueEventListener() {
+        dataref.child(currentcourseid).child("Polls").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Polls> pollslist = dataSnapshot.getValue(t);
-                pollslist.set(index,clickedpoll);
-                dataref.setValue(pollslist);
+
+                if(pollslist!=null)
+                {
+                    pollslist.set(index,clickedpoll);
+                    dataref.child(currentcourseid).child("Polls").setValue(pollslist);
+                }
             }
 
             @Override

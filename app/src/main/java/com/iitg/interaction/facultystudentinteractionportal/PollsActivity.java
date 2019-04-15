@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,22 +29,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class PollsActivity extends AppCompatActivity {
+public class PollsActivity extends Fragment  {
     ListView lv;
-    String currentcourse="CS101";
+    Button addbtn;
+    String currentcourse;
 
     ArrayList<Polls> polls;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(currentcourse);
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_polls);
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses");
 
-        lv = findViewById(R.id.lv_pollsmainlist);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_polls, container, false);
+        currentcourse = CourseMainPageStudent.courseID;
+        return rootView;
+
+
+    }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        lv = getView().findViewById(R.id.lv_pollsmainlist);
+        addbtn = getView().findViewById(R.id.btn_addpoll);
+        addbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),CreatePollActivity.class);
+                startActivity(intent);
+            }
+        });
         final GenericTypeIndicator<ArrayList<Polls>> t = new GenericTypeIndicator<ArrayList<Polls>>() {};
 
 
-        databaseReference.child("Polls").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(currentcourse).child("Polls").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Polls> pollslist = dataSnapshot.getValue(t);
@@ -55,7 +73,7 @@ public class PollsActivity extends AppCompatActivity {
                         questionlist.add(p.question);
                     }
 
-                    final ArrayAdapter<String> adpater = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,questionlist);
+                    final ArrayAdapter<String> adpater = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,questionlist);
                     lv.setAdapter(adpater);
                 }
             }
@@ -73,7 +91,7 @@ public class PollsActivity extends AppCompatActivity {
                 Polls requiredpoll =  polls.get(position);
 
                 PollLayoutActivity.clickedpoll=requiredpoll;
-                Intent intent = new Intent(getApplicationContext(),PollLayoutActivity.class);
+                Intent intent = new Intent(getContext(),PollLayoutActivity.class);
                 intent.putExtra("index",position);
                 startActivity(intent);
             }
