@@ -10,6 +10,10 @@
         android:id="@+id/AddMaterial"
         android:title="Add Material"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/AddProject"
+        android:title="Add Project"
+        app:showAsAction="never" />
 
 
 </menu>

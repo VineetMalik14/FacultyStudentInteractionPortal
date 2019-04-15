@@ -69,7 +69,9 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class CourseMainPageProf extends AppCompatActivity {
 
     public String filepath;
+    public String filepath2;
     public Uri selectedfile;
+    public Uri selectedfile2;
     public ArrayList<Event> events = new ArrayList<Event>();
     public ArrayList<CourseMaterial> materials = new ArrayList<CourseMaterial>();
     TextView editTextName;
@@ -78,6 +80,7 @@ public class CourseMainPageProf extends AppCompatActivity {
     Button buttonAddClass;
     private DatabaseReference databaseReference;
     public int flag=0;
+    int flag2 = 0;
     public String TitleMaterial;
     public View dialogViewFile;
     private ProgressDialog pDialog;
@@ -90,6 +93,19 @@ public class CourseMainPageProf extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     UploadTask uploadTask;
     StorageReference mountainsRef;
+    AlertDialog b;
+
+    TextView FileNameProject;
+    EditText title;
+    EditText description;
+    Button buttonSelectFileProject;
+    Button buttonProjectAdd;
+    View dialogView;
+    EditText date_of_event;
+
+
+
+
 
 
 
@@ -149,7 +165,7 @@ public class CourseMainPageProf extends AppCompatActivity {
             }
         });
         //------------------------------------------------------------------------------------
-
+//   View dialogView
         //getting course materials as an arraylist
         // also returns zero size if events does not exist in database
         //------------------------------------------------------------------------------------
@@ -387,7 +403,6 @@ public class CourseMainPageProf extends AppCompatActivity {
 
 
     }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_course_main_page_prof, menu);
@@ -406,6 +421,9 @@ public class CourseMainPageProf extends AppCompatActivity {
             case R.id.NewEvent:
                 ShowAddEventDialogBox();
                 return true;
+            case R.id.AddProject:
+                ShowAddProjectDialogBox();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -413,6 +431,561 @@ public class CourseMainPageProf extends AppCompatActivity {
 
     // add event dialog box
     //-------------------------------------
+
+    private void ShowAddProjectDialogBox(){
+        flag2 = 0;
+        selectedfile = null;
+
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        dialogView = inflater.inflate(R.layout.add_project_dialog_box, null);
+        dialogBuilder.setView(dialogView);
+
+        b = dialogBuilder.create();
+        b.show();
+
+
+        description = dialogView.findViewById(R.id.descriptionofproject);
+        FileNameProject = dialogView.findViewById(R.id.FIleNameProject);
+        buttonSelectFileProject = dialogView.findViewById(R.id.buttonSelectFileProject);
+        buttonProjectAdd = dialogView.findViewById(R.id.buttonProjectAdd);
+
+        title = dialogView.findViewById(R.id.titleofproject);
+        date_of_event = dialogView.findViewById(R.id.Deadline);
+
+
+
+
+
+
+        final Calendar myCalendar = Calendar.getInstance();
+
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                myCalendar.set(Calendar.HOUR,hour);
+//                myCalendar.set(Calendar.MINUTE,minutes);
+                String myFormat = "dd/MM/yyyy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                date_of_event.setText(sdf.format(myCalendar.getTime()));
+            }
+
+
+        };
+
+        date_of_event.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(CourseMainPageProf.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//                new DatePickerDialog(CourseMainPageProf.this,myCalendar.get(Calendar.DAY_OF_WEEK));
+            }
+        });
+
+
+
+        buttonSelectFileProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filepath2 = "";
+                flag2 = 1;
+                FileNameProject.setText("");
+                getFile2();
+            }
+        });
+
+
+
+        if(flag2 == 0){
+            buttonProjectAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(CourseMainPageProf.this, "First select a file", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+    // adding files to database
+    //-----------------------------------------------------------------
+    public void ShowUploadFileDialogBox() {
+        flag = 0;
+        selectedfile = null;
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        dialogViewFile = inflater.inflate(R.layout.add_file_dialog_box, null);
+        dialogBuilder.setView(dialogViewFile);
+//        getFile();
+
+        dialogBuilder.setTitle("Doraemon");
+        mate = dialogBuilder.create();
+        mate.show();
+
+        editTextName = dialogViewFile.findViewById(R.id.editTextName);
+        FileName = dialogViewFile.findViewById(R.id.FileName);
+        buttonSelectFile = dialogViewFile.findViewById(R.id.buttonSelectFile);
+        buttonAddClass = dialogViewFile.findViewById(R.id.buttonAddClass);
+
+        TitleMaterial = editTextName.getText().toString();
+
+        buttonSelectFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=1;
+                filepath = "";
+                FileName.setText("");
+                getFile();
+//                b.dismiss();
+
+            }
+        });
+
+        if (flag == 0) {
+            buttonAddClass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(CourseMainPageProf.this, "First Select File", Toast.LENGTH_LONG).show();
+//                    uploadFile();
+//                    b.dismiss();
+                }
+            });
+
+        }
+    }
+
+
+    public void getFile2()
+    {
+        Intent intent = new Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT);
+//        intent.putExtra("Filename",);
+
+        startActivityForResult(Intent.createChooser(intent, "Select a file"), 321);
+
+
+    }
+
+
+
+
+
+
+    public void getFile()
+    {
+        Intent intent = new Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT);
+//        intent.putExtra("Filename",);
+
+        startActivityForResult(Intent.createChooser(intent, "Select a file"), 123);
+
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data ) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 123 && resultCode == RESULT_OK) {
+            selectedfile = data.getData(); //The uri with the location of the file
+            filepath = selectedfile.getPath().toString();
+           // Toast.makeText(this,filepath,Toast.LENGTH_LONG).show();
+            if (filepath.equals("")){
+                flag =0;
+            }
+
+            Toast.makeText(CourseMainPageProf.this,filepath,Toast.LENGTH_LONG).show();
+
+            FileName.setText(filepath);
+
+            // notification for upload progress
+            //---------------------------------------
+//            final Integer notificationID = 100;
+//
+//            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            //Set notification information:
+//            final Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
+//            notificationBuilder.setOngoing(true)
+//                    .setContentTitle("Notification Content Title")
+//                    .setContentText("Notification Content Text")
+//                    .setSmallIcon(android.R.drawable.stat_sys_upload)
+//                    .setProgress(100, 0, false);
+//
+//            //Send the notification:
+//             notification = notificationBuilder.build();
+//            notificationManager.notify(notificationID, notification);
+            //-------------------------------------------------------------
+            buttonAddClass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buttonAddClass.setEnabled(false);
+
+                    final StorageReference storageRef = storage.getReference();
+
+                    // add course id in front of file path
+                    mountainsRef = storageRef.child(selectedfile.getLastPathSegment());
+                    uploadTask = mountainsRef.putFile(selectedfile);
+
+                    // Observe state change events such as progress, pause, and resume
+//                    final ProgressBar finalProgressBar = progressBar;
+//                    progressBar = findViewById(R.id.progressBar);
+                    uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+//                            progressBar.setProgress((int) progress);
+//                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
+                            //Update notification information:
+//                            notificationBuilder.setProgress(100, (int) progress, false);
+//
+//                            //Send the notification:
+//                            notification = notificationBuilder.build();
+//                            notificationManager.notify(notificationID, notification);
+
+
+                            System.out.println("Upload is " + progress + "% done");
+                        }
+                    }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                            System.out.println("Upload is paused");
+                        }
+                    });
+
+
+                    // failure and success listeners
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            buttonAddClass.setEnabled(true);
+                            Toast.makeText(CourseMainPageProf.this,"File could not be uploaded",Toast.LENGTH_SHORT).show();
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                            Toast.makeText(CourseMainPageProf.this,"File uploaded successfully.",Toast.LENGTH_SHORT).show();
+
+
+                            //------------------------
+                            // getting download url for file
+                            getDownloadUrl(mountainsRef,uploadTask,0);
+
+                        }
+                    });
+                }
+            });
+
+        }
+
+        if(requestCode == 321 && resultCode == RESULT_OK){
+
+
+            selectedfile2 = data.getData(); //The uri with the location of the file
+            filepath2 = selectedfile2.getPath().toString();
+            // Toast.makeText(this,filepath,Toast.LENGTH_LONG).show();
+            if (filepath2.equals("")){
+                flag2 =0;
+                return;
+            }
+
+            Toast.makeText(CourseMainPageProf.this,filepath2,Toast.LENGTH_LONG).show();
+
+            FileNameProject.setText(filepath2);
+
+            // notification for upload progress
+            //---------------------------------------
+//            final Integer notificationID = 100;
+//
+//            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            //Set notification information:
+//            final Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
+//            notificationBuilder.setOngoing(true)
+//                    .setContentTitle("Notification Content Title")
+//                    .setContentText("Notification Content Text")
+//                    .setSmallIcon(android.R.drawable.stat_sys_upload)
+//                    .setProgress(100, 0, false);
+//
+//            //Send the notification:
+//             notification = notificationBuilder.build();
+//            notificationManager.notify(notificationID, notification);
+            //-------------------------------------------------------------
+            buttonProjectAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buttonProjectAdd.setEnabled(false);
+
+                    final StorageReference storageRef = storage.getReference();
+
+                    // add course id in front of file path
+                    mountainsRef = storageRef.child(selectedfile2.getLastPathSegment());
+                    uploadTask = mountainsRef.putFile(selectedfile2);
+
+                    // Observe state change events such as progress, pause, and resume
+//                    final ProgressBar finalProgressBar = progressBar;
+//                    progressBar = findViewById(R.id.progressBar);
+                    uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+//                            progressBar.setProgress((int) progress);
+//                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
+                            //Update notification information:
+//                            notificationBuilder.setProgress(100, (int) progress, false);
+//
+//                            //Send the notification:
+//                            notification = notificationBuilder.build();
+//                            notificationManager.notify(notificationID, notification);
+
+
+                            System.out.println("Upload is " + progress + "% done");
+                        }
+                    }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                            System.out.println("Upload is paused");
+                        }
+                    });
+
+
+                    // failure and success listeners
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            buttonProjectAdd.setEnabled(true);
+                            Toast.makeText(CourseMainPageProf.this,"File could not be uploaded",Toast.LENGTH_SHORT).show();
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                            Toast.makeText(CourseMainPageProf.this,"File uploaded successfully.",Toast.LENGTH_SHORT).show();
+
+
+                            //------------------------
+                            // getting download url for file
+                            getDownloadUrl(mountainsRef,uploadTask,1);
+
+                        }
+                    });
+                }
+            });
+
+
+
+        }
+
+
+
+
+    }
+
+    public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask, int code) {
+//        final String[] url = new String[1];
+
+        if (code == 0){
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return mountainsRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+//                    url[0] = downloadUri.toString();
+//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
+//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
+                        //----------------
+                        // taking values from title and file url to be stored in firebase
+                        if (TitleMaterial == "") {
+                            Toast.makeText(CourseMainPageProf.this, "Please fill the title of class", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
+                            TextView FileName = dialogViewFile.findViewById(R.id.FileName);
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                            CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
+                                    , downloadUri.toString(), FileName.getText().toString(), Calendar.getInstance().getTime());
+                            String key = databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
+                            databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
+                            mate.dismiss();
+
+                        }
+
+                    } else {
+                        Toast.makeText(CourseMainPageProf.this, "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
+
+        }
+
+        if (code == 1){
+
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return mountainsRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+//                    url[0] = downloadUri.toString();
+//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
+//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
+                        //----------------
+                        // taking values from title and file url to be stored in firebase
+                        if(title.getText().toString().equals("")||description.getText().toString().equals("")||date_of_event.getText().toString().equals("")){
+                            Toast.makeText(CourseMainPageProf.this, "Please Fill All The Fields", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            TextView FileName = dialogView.findViewById(R.id.FIleNameProject);
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                            CourseProject project = new CourseProject(title.getText().toString(), downloadUri.toString(), FileName.getText().toString(), date_of_event.getText().toString(), description.getText().toString());
+                            String key = databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("CourseProject").push().getKey();
+                            databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("CourseProject").child(key).setValue(project);
+                            b.dismiss();
+
+                        }
+
+                    } else {
+                        Toast.makeText(CourseMainPageProf.this, "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
+
+
+
+
+
+        }
+
+
+
+    }
+    public void downloadFiles(Context context, String Filename,String FileDestination, String url)
+    {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(context, FileDestination, Filename);
+        downloadManager.enqueue(request);
+
+//
+    }
+
+    class CustomAdapter extends ArrayAdapter<CourseMaterial> {
+
+        public CustomAdapter(Context context, ArrayList<CourseMaterial> threads) {
+            super(context, 0, threads);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = getLayoutInflater().inflate(R.layout.course_list_main_page_prof,null);
+            TextView TitleView = convertView.findViewById(R.id.textView19);
+            TextView fileText = convertView.findViewById(R.id.textView20);
+            TextView dateText = convertView.findViewById(R.id.textView21);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.course_list_main_page_prof, parent, false);
+            }
+            TitleView.setText(materials.get(position).getTitle());
+            fileText.setText(materials.get(position).getFileName());
+            dateText.setText(materials.get(position).getDate().toString());
+            return convertView;
+        }
+    }
+
+    class CustomAdapter1 extends ArrayAdapter<Event> {
+
+        public CustomAdapter1(Context context, ArrayList<Event> threads) {
+            super(context, 0, threads);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = getLayoutInflater().inflate(R.layout.course_list_events_prof,null);
+            TextView TitleView = convertView.findViewById(R.id.textView19);
+            TextView datecreationText = convertView.findViewById(R.id.textView10);
+            TextView TypeText = convertView.findViewById(R.id.textView22);
+            TextView DescriptionText = convertView.findViewById(R.id.textView20);
+            TextView VenueText = convertView.findViewById(R.id.textView21);
+            TextView DateeventText = convertView.findViewById(R.id.textView23);
+            TextView TimeText = convertView.findViewById(R.id.textView24);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.course_list_events_prof, parent, false);
+            }
+            TitleView.setText(events.get(position).getTitle());
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = events.get(position).getDateOfCreation();
+            try {
+                Date todayWithZeroTime = formatter.parse(formatter.format(date));
+                datecreationText.setText("Created on " +  todayWithZeroTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            TypeText.setText("Type:" +  events.get(position).getType());
+            DescriptionText.setText("Description:\n" + events.get(position).getDescription());
+            VenueText.setText("Venue: "+events.get(position).getVenue());
+            DateeventText.setText("Date: " + events.get(position).getDateOfEvent());
+            TimeText.setText("Time: " + events.get(position).getTimeOfEvent());
+            return convertView;
+        }
+    }
+
+
+
     private void ShowAddEventDialogBox() {
 
         // showing the alert box
@@ -528,285 +1101,10 @@ public class CourseMainPageProf extends AppCompatActivity {
 
     }
 
-    // adding files to database
-    //-----------------------------------------------------------------
-    public void ShowUploadFileDialogBox() {
-        flag = 0;
-        selectedfile = null;
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        dialogViewFile = inflater.inflate(R.layout.add_file_dialog_box, null);
-        dialogBuilder.setView(dialogViewFile);
-//        getFile();
-
-        dialogBuilder.setTitle("Doraemon");
-        mate = dialogBuilder.create();
-        mate.show();
-
-        editTextName = dialogViewFile.findViewById(R.id.editTextName);
-        FileName = dialogViewFile.findViewById(R.id.FileName);
-        buttonSelectFile = dialogViewFile.findViewById(R.id.buttonSelectFile);
-        buttonAddClass = dialogViewFile.findViewById(R.id.buttonAddClass);
-
-        TitleMaterial = editTextName.getText().toString();
-
-        buttonSelectFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flag=1;
-                filepath = "";
-                FileName.setText("");
-                getFile();
-//                b.dismiss();
-
-            }
-        });
-
-        if (flag == 0) {
-            buttonAddClass.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(CourseMainPageProf.this, "First Select File", Toast.LENGTH_LONG).show();
-//                    uploadFile();
-//                    b.dismiss();
-                }
-            });
-
-        }
-    }
 
 
 
-    public void getFile()
-    {
-        Intent intent = new Intent()
-                .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT);
-//        intent.putExtra("Filename",);
 
-        startActivityForResult(Intent.createChooser(intent, "Select a file"), 123);
-
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data ) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 123 && resultCode == RESULT_OK) {
-            selectedfile = data.getData(); //The uri with the location of the file
-            filepath = selectedfile.getPath().toString();
-           // Toast.makeText(this,filepath,Toast.LENGTH_LONG).show();
-            if (filepath.equals("")){
-                flag =0;
-            }
-
-            Toast.makeText(CourseMainPageProf.this,filepath,Toast.LENGTH_LONG).show();
-
-            FileName.setText(filepath);
-
-            // notification for upload progress
-            //---------------------------------------
-//            final Integer notificationID = 100;
-//
-//            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//            //Set notification information:
-//            final Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
-//            notificationBuilder.setOngoing(true)
-//                    .setContentTitle("Notification Content Title")
-//                    .setContentText("Notification Content Text")
-//                    .setSmallIcon(android.R.drawable.stat_sys_upload)
-//                    .setProgress(100, 0, false);
-//
-//            //Send the notification:
-//             notification = notificationBuilder.build();
-//            notificationManager.notify(notificationID, notification);
-            //-------------------------------------------------------------
-            buttonAddClass.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    buttonAddClass.setEnabled(false);
-
-                    final StorageReference storageRef = storage.getReference();
-
-                    // add course id in front of file path
-                    mountainsRef = storageRef.child(selectedfile.getLastPathSegment());
-                    uploadTask = mountainsRef.putFile(selectedfile);
-
-                    // Observe state change events such as progress, pause, and resume
-//                    final ProgressBar finalProgressBar = progressBar;
-//                    progressBar = findViewById(R.id.progressBar);
-                    uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//                            progressBar.setProgress((int) progress);
-//                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
-                            //Update notification information:
-//                            notificationBuilder.setProgress(100, (int) progress, false);
-//
-//                            //Send the notification:
-//                            notification = notificationBuilder.build();
-//                            notificationManager.notify(notificationID, notification);
-
-
-                            System.out.println("Upload is " + progress + "% done");
-                        }
-                    }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                            System.out.println("Upload is paused");
-                        }
-                    });
-
-
-                    // failure and success listeners
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            buttonAddClass.setEnabled(true);
-                            Toast.makeText(CourseMainPageProf.this,"File could not be uploaded",Toast.LENGTH_SHORT).show();
-                            // Handle unsuccessful uploads
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            // ...
-                            Toast.makeText(CourseMainPageProf.this,"File uploaded successfully.",Toast.LENGTH_SHORT).show();
-
-
-                            //------------------------
-                            // getting download url for file
-                            getDownloadUrl(mountainsRef,uploadTask);
-
-                        }
-                    });
-                }
-            });
-
-        }
-
-    }
-
-    public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask) {
-//        final String[] url = new String[1];
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
-
-                // Continue with the task to get the download URL
-                return mountainsRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-//                    url[0] = downloadUri.toString();
-//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
-//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
-                    //----------------
-                    // taking values from title and file url to be stored in firebase
-                    if (TitleMaterial == "") {
-                        Toast.makeText(CourseMainPageProf.this, "Please fill the title of class", Toast.LENGTH_SHORT).show();
-                    } else {
-
-                        EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
-                        TextView FileName = dialogViewFile.findViewById(R.id.FileName);
-                        databaseReference = FirebaseDatabase.getInstance().getReference();
-                        CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
-                                , downloadUri.toString(), FileName.getText().toString(), Calendar.getInstance().getTime());
-                        String key = databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
-                        databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
-                        mate.dismiss();
-
-                    }
-
-                } else {
-                    Toast.makeText(CourseMainPageProf.this, "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
-                    // Handle failures
-                    // ...
-                }
-            }
-        });
-
-
-    }
-    public void downloadFiles(Context context, String Filename,String FileDestination, String url)
-    {
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context, FileDestination, Filename);
-        downloadManager.enqueue(request);
-
-//
-    }
-
-    class CustomAdapter extends ArrayAdapter<CourseMaterial> {
-
-        public CustomAdapter(Context context, ArrayList<CourseMaterial> threads) {
-            super(context, 0, threads);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.course_list_main_page_prof,null);
-            TextView TitleView = convertView.findViewById(R.id.textView19);
-            TextView fileText = convertView.findViewById(R.id.textView20);
-            TextView dateText = convertView.findViewById(R.id.textView21);
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.course_list_main_page_prof, parent, false);
-            }
-            TitleView.setText(materials.get(position).getTitle());
-            fileText.setText(materials.get(position).getFileName());
-            dateText.setText(materials.get(position).getDate().toString());
-            return convertView;
-        }
-    }
-
-    class CustomAdapter1 extends ArrayAdapter<Event> {
-
-        public CustomAdapter1(Context context, ArrayList<Event> threads) {
-            super(context, 0, threads);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.course_list_events_prof,null);
-            TextView TitleView = convertView.findViewById(R.id.textView19);
-            TextView datecreationText = convertView.findViewById(R.id.textView10);
-            TextView TypeText = convertView.findViewById(R.id.textView22);
-            TextView DescriptionText = convertView.findViewById(R.id.textView20);
-            TextView VenueText = convertView.findViewById(R.id.textView21);
-            TextView DateeventText = convertView.findViewById(R.id.textView23);
-            TextView TimeText = convertView.findViewById(R.id.textView24);
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.course_list_events_prof, parent, false);
-            }
-            TitleView.setText(events.get(position).getTitle());
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = events.get(position).getDateOfCreation();
-            try {
-                Date todayWithZeroTime = formatter.parse(formatter.format(date));
-                datecreationText.setText("Created on " +  todayWithZeroTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            TypeText.setText("Type:" +  events.get(position).getType());
-            DescriptionText.setText("Description:\n" + events.get(position).getDescription());
-            VenueText.setText("Venue: "+events.get(position).getVenue());
-            DateeventText.setText("Date: " + events.get(position).getDateOfEvent());
-            TimeText.setText("Time: " + events.get(position).getTimeOfEvent());
-            return convertView;
-        }
-    }
 
 }
 
