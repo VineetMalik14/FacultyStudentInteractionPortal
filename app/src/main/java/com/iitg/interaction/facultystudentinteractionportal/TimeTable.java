@@ -60,6 +60,7 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
     int day, month, year;
     int day_week;
     String dayOfWeek;
+    String currentuser = "barney";
     String sub_day;
     String value;
 
@@ -120,7 +121,7 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
         //Day current = new Day(x,x,x,x,x,x,x,x,x,x,x,x,x);
        // us.child(ddd).setValue(current);
 
-        DatabaseReference us = db.getReference().child("users").child("barney").child("courses");
+        DatabaseReference us = db.getReference().child("users").child(currentuser).child("courses");
         us.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

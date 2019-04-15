@@ -28,6 +28,7 @@ public class Result extends AppCompatActivity implements EnrollDialog.EnrollDial
     TextView name;
     TextView desc;
     private String originalkey;
+    String currentuser = "barney";
     private ArrayList<String> al;
     int check = 0;
     private String gotkey;
@@ -122,7 +123,7 @@ public class Result extends AppCompatActivity implements EnrollDialog.EnrollDial
 
 
                     //;
-                    DatabaseReference am = db.getReference().child("users").child("barney");
+                    DatabaseReference am = db.getReference().child("users").child(currentuser);
                     //al.clear();
                     //al.add(name.getText().toString());
                     /*final GenericTypeIndicator<ArrayList<String>> t = new  GenericTypeIndicator<ArrayList<String>>(){};
@@ -156,7 +157,7 @@ public class Result extends AppCompatActivity implements EnrollDialog.EnrollDial
                             if(temp == 0){
                                 temp = 1;
                                 //name.setText(name.getText().toString() + " - " + count);
-                                DatabaseReference jkl = db.getReference().child("users").child("barney").child("courses");
+                                DatabaseReference jkl = db.getReference().child("users").child(currentuser).child("courses");
                                 jkl.child(Long.toString(count)).setValue(name.getText().toString());
                             }
 
@@ -201,7 +202,7 @@ public class Result extends AppCompatActivity implements EnrollDialog.EnrollDial
         });
         //name.setText(originalkey);
         /*if(originalkey.equals(key)){
-            DatabaseReference am = db.getReference().child("barney").child("courses");
+            DatabaseReference am = db.getReference().child(currentuser).child("courses");
             am.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
