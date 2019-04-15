@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +48,7 @@ public class CourseStudentList extends AppCompatActivity {
                 courseinfos.clear();
                 for(DataSnapshot course : dataSnapshot.getChildren())
                 {
-                    if(UserInfo.courses.contains(course.getKey()))
+                    if(UserInfo.courses!=null && UserInfo.courses.contains(course.getKey()))
                     {
                         Courseinfo newcourseinfo = new Courseinfo(course.child("courseID").getValue().toString(),course.child("fullname").getValue().toString(),course.child("professor").getValue().toString());
                         courseinfos.add(newcourseinfo);
@@ -99,6 +100,12 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
 
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
+        final String[] CourseTitle = new String[1];
+        final String[] CourseDescription = new String[1];
+        final String[] CourseSyllabus = new String[1];
+        final String[] CourseMarks = new String[1];
+        final String[] CourseTimeSlots = new String[1];
+//        final String[] CourseDateOfCreation = new String[1];
 
         final String courseid = getItem(position).courseid;
         String fullname = getItem(position).fullname;
@@ -116,8 +123,38 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
             @Override
             public void onClick(View v) {
                 CourseMainPageStudent.courseID = courseid;
-                Intent intent = new Intent(getContext(), CourseMainPageStudent.class);
-                mContext.startActivity(intent);
+
+
+                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Courses").child(courseid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Intent intent = new Intent(getContext(), CourseMainPageStudent.class);
+                        CourseTitle[0] = dataSnapshot.child("fullname").getValue().toString();
+                        CourseDescription[0] = dataSnapshot.child("description").getValue().toString();
+                         CourseSyllabus[0] = dataSnapshot.child("syllabus").getValue().toString();
+                         CourseMarks[0] = dataSnapshot.child("marksDistribution").getValue().toString();
+                         CourseTimeSlots[0] = dataSnapshot.child("timeSlots").getValue().toString();
+//                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date CourseDateOfCreation =dataSnapshot.child("dateOfCreation").getValue(Date.class);
+//                        formatter.format(CourseDateOfCreation);
+                        intent.putExtra("CourseID",courseid);
+                        intent.putExtra("CourseTitle",CourseTitle[0]);
+                        intent.putExtra("CourseDescription",CourseDescription[0]);
+                        intent.putExtra("CourseSyllabus",CourseSyllabus[0]);
+                        intent.putExtra("CourseMarks",CourseMarks[0]);
+                        intent.putExtra("CourseTimeSlots",CourseTimeSlots[0]);
+                        intent.putExtra("CourseDateOfCreation",CourseDateOfCreation.toString());
+                        Log.d("ds","   edjk" + CourseDateOfCreation);
+                        mContext.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
             }
         });

@@ -1,78 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--android:padding="@dimen/activity_horizontal_margin">-->
+
+<android.support.v7.widget.CardView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin">
-
-
-    <EditText
-        android:id="@+id/TitleEvent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:editable="true"
-        android:hint="Title"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical"
-        android:textAlignment="center" />
-
-    <EditText
-        android:id="@+id/DescriptionEvent"
-        android:layout_width="match_parent"
-        android:layout_height="122dp"
-        android:editable="true"
-        android:ems="10"
-        android:hint="Description"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical" />
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    app:contentPadding="10dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <EditText
-            android:id="@+id/DateEvent"
-            android:layout_width="181dp"
+            android:id="@+id/TitleEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="true"
+            android:hint="Title"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/DescriptionEvent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="true"
             android:ems="10"
-            android:focusable="false"
-            android:hint="Date Of Event"
-            android:inputType="date" />
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <EditText
+                android:id="@+id/DateEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:editable="true"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Date Of Event"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/TimeEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="50"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Time"
+                android:inputType="time" />
+        </LinearLayout>
 
         <EditText
-            android:id="@+id/TimeEvent"
-            android:layout_width="wrap_content"
+            android:id="@+id/VenueEvent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:editable="true"
             android:ems="10"
-            android:focusable="false"
-            android:hint="Time"
-            android:inputType="time" />
+            android:hint="Venue"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
+
+        <Spinner
+            android:id="@+id/TypeEvent"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:entries="@array/EventTypes" />
+
+        <Button
+            android:id="@+id/AddEventButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:fontFamily="sans-serif-black"
+            android:text="Submit"
+            android:textColor="#344955"
+            android:textStyle="normal|bold" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/VenueEvent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:editable="true"
-        android:ems="10"
-        android:hint="Venue"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical" />
 
-    <Spinner
-        android:id="@+id/TypeEvent"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:entries="@array/EventTypes" />
-
-    <Button
-        android:id="@+id/AddEventButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit" />
+</android.support.v7.widget.CardView>
 
 
-</LinearLayout>

@@ -139,8 +139,17 @@ public class CourseMainPageStudent extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 0:
-                    CourseInformationFragmentStudent courseInformationFragmentStudent = new CourseInformationFragmentStudent();
-                    return courseInformationFragmentStudent;
+                    if(UserInfo.usertype.equals("Stud"))
+                    {
+                        CourseInformationFragmentStudent courseInformationFragmentStudent = new CourseInformationFragmentStudent();
+                        return courseInformationFragmentStudent;
+                    }
+                    else
+                    {
+                        CourseMainPageProf courseInformationFragmentStudent = new CourseMainPageProf();
+                        return courseInformationFragmentStudent;
+                    }
+
                 case 1:
                     CourseDiscussionFragmentStudent courseDiscussionFragmentStudent = new CourseDiscussionFragmentStudent();
                     return  courseDiscussionFragmentStudent;

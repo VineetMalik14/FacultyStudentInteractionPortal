@@ -7,28 +7,51 @@
     android:layout_alignParentStart="true"
 
     android:layout_alignParentTop="true"
+
     android:orientation="vertical"
     android:scrollbars="vertical">
 
     <TextView
         android:id="@+id/textView19"
         android:layout_width="match_parent"
-        android:layout_height="35sp"
+        android:layout_height="wrap_content"
         android:hint="Title"
-        android:textSize="18sp" />
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:hint="filenamne"
-        android:textSize="14sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_file_copy_24px" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+
+
+            android:hint="filename"
+            android:padding="5dp"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/textView21"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:hint="date"
         android:inputType="date"
+        android:padding="5dp"
         android:textSize="14sp" />
 </LinearLayout>

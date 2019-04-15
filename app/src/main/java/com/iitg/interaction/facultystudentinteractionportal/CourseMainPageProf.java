@@ -8,9 +8,13 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
@@ -64,9 +68,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.app.Activity.RESULT_OK;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
-public class CourseMainPageProf extends AppCompatActivity {
+public class CourseMainPageProf extends Fragment {
 
     public String filepath;
     public Uri selectedfile;
@@ -95,37 +100,43 @@ public class CourseMainPageProf extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_main_page_prof);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_course_main_page_prof, container, false);
+        setHasOptionsMenu(true);
+        return rootView;
+    }
 
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+
+//        Toolbar toolbar = getView().findViewById(R.id.my_toolbar);
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         // filling the values in the content page
 
-//        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getIntent().getStringExtra("CourseID"));
-        TextView textView = findViewById(R.id.textView4);
-        textView.setText(getIntent().getStringExtra("CourseID"));
-        TextView textView1 = findViewById(R.id.textView7);
-        textView1.setText(getIntent().getStringExtra("CourseTitle"));
-        EditText textView2 = findViewById(R.id.editText6);
-        textView2.setText(getIntent().getStringExtra("CourseDescription"));
-        EditText textView3 = findViewById(R.id.editText7);
-        textView3.setText(getIntent().getStringExtra("CourseSyllabus"));
-        EditText textView4 = findViewById(R.id.editText8);
-        textView4.setText(getIntent().getStringExtra("CourseMarks"));
-        TextView textView5 = findViewById(R.id.textView15);
-        textView5.setText(getIntent().getStringExtra("CourseTimeSlots"));
-        TextView textView6 = findViewById(R.id.textView8);
-        textView6.setText(getIntent().getStringExtra("CourseDateOfCreation"));
+//        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID"));
+        TextView textView = getView().findViewById(R.id.textView4);
+        textView.setText(getActivity().getIntent().getStringExtra("CourseID"));
+        TextView textView1 = getView().findViewById(R.id.textView7);
+        textView1.setText(getActivity().getIntent().getStringExtra("CourseTitle"));
+        EditText textView2 = getView().findViewById(R.id.editText6);
+        textView2.setText(getActivity().getIntent().getStringExtra("CourseDescription"));
+        EditText textView3 = getView().findViewById(R.id.editText7);
+        textView3.setText(getActivity().getIntent().getStringExtra("CourseSyllabus"));
+        EditText textView4 = getView().findViewById(R.id.editText8);
+        textView4.setText(getActivity().getIntent().getStringExtra("CourseMarks"));
+        TextView textView5 = getView().findViewById(R.id.textView15);
+        textView5.setText(getActivity().getIntent().getStringExtra("CourseTimeSlots"));
+        TextView textView6 = getView().findViewById(R.id.textView8);
+        textView6.setText(getActivity().getIntent().getStringExtra("CourseDateOfCreation"));
 
 
 
         //getting events as an arraylist
         // also returns zero size if events does not exist in database
         //------------------------------------------------------------------------------------
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -137,8 +148,8 @@ public class CourseMainPageProf extends AppCompatActivity {
                 }
                 Collections.reverse(events);
                 Log.v("Size", String.valueOf(events.size()));
-                ListView listView1 = findViewById(R.id.EventsList);
-                final CustomAdapter1 customAdapter1 = new CustomAdapter1(CourseMainPageProf.this,events);
+                ListView listView1 = getView().findViewById(R.id.EventsList);
+                final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
 ////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
                 listView1.setAdapter(customAdapter1);
             }
@@ -153,7 +164,7 @@ public class CourseMainPageProf extends AppCompatActivity {
         //getting course materials as an arraylist
         // also returns zero size if events does not exist in database
         //------------------------------------------------------------------------------------
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getIntent().getStringExtra("CourseID")).child("Course Material");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Course Material");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -165,8 +176,8 @@ public class CourseMainPageProf extends AppCompatActivity {
 
                 }
                 Collections.reverse(materials);
-                ListView listView = findViewById(R.id.course_material);
-                final CustomAdapter customAdapter = new CustomAdapter(CourseMainPageProf.this,materials);
+                ListView listView = getView().findViewById(R.id.course_material);
+                final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
                 listView.setAdapter(customAdapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -175,7 +186,7 @@ public class CourseMainPageProf extends AppCompatActivity {
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
                         CourseMaterial item = customAdapter.getItem(position);
-                        downloadFiles(CourseMainPageProf.this,item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
+                        downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
                         // now send the key with the intent you are showing
                     }
                 });
@@ -196,77 +207,77 @@ public class CourseMainPageProf extends AppCompatActivity {
 //        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 //        StrictMode.setThreadPolicy(policy);
 
-//        final TextView urlText = findViewById(R.id.textView4);
+//        final TextView urlText = getView().findViewById(R.id.textView4);
 //        urlText.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 ////                new DownloadFileFromURL().execute(urlText.getText().toString());
-//                downloadFiles(CourseMainPageProf.this,"ABC.pdf",DIRECTORY_DOWNLOADS,urlText.getText().toString());
+//                downloadFiles(getActivity(),"ABC.pdf",DIRECTORY_DOWNLOADS,urlText.getText().toString());
 //            }
 //        });
-        findViewById(R.id.textView11).setVisibility(View.GONE);
-        findViewById(R.id.editText6).setVisibility(View.GONE);
-        findViewById(R.id.textView12).setVisibility(View.GONE);
-        findViewById(R.id.textView9).setVisibility(View.GONE);
-        findViewById(R.id.textView8).setVisibility(View.GONE);
-        findViewById(R.id.editText7).setVisibility(View.GONE);
-        findViewById(R.id.textView13).setVisibility(View.GONE);
-        findViewById(R.id.editText8).setVisibility(View.GONE);
-        findViewById(R.id.textView14).setVisibility(View.GONE);
-        findViewById(R.id.textView15).setVisibility(View.GONE);
-        findViewById(R.id.textView16).setVisibility(View.VISIBLE);
-        findViewById(R.id.textView17).setVisibility(View.VISIBLE);
-        findViewById(R.id.textView18).setVisibility(View.GONE);
-        findViewById(R.id.textView25).setVisibility(View.GONE);
-        findViewById(R.id.course_material).setVisibility(View.VISIBLE);
-        findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
-        findViewById(R.id.button7).setVisibility(View.GONE);
-        findViewById(R.id.button5).setVisibility(View.GONE);
-        findViewById(R.id.button6).setVisibility(View.GONE);
-        findViewById(R.id.button8).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView11).setVisibility(View.GONE);
+        getView().findViewById(R.id.editText6).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView12).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView9).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView8).setVisibility(View.GONE);
+        getView().findViewById(R.id.editText7).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView13).setVisibility(View.GONE);
+        getView().findViewById(R.id.editText8).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView14).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView15).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.textView18).setVisibility(View.GONE);
+        getView().findViewById(R.id.textView25).setVisibility(View.GONE);
+        getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.button7).setVisibility(View.GONE);
+        getView().findViewById(R.id.button5).setVisibility(View.GONE);
+        getView().findViewById(R.id.button6).setVisibility(View.GONE);
+        getView().findViewById(R.id.button8).setVisibility(View.GONE);
         count++;
 
-        Button button = findViewById(R.id.hiddenbtn);
+        Button button = getView().findViewById(R.id.hiddenbtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(count%2==0){
-                    findViewById(R.id.textView11).setVisibility(View.GONE);
-                    findViewById(R.id.editText6).setVisibility(View.GONE);
-                    findViewById(R.id.textView9).setVisibility(View.GONE);
-                    findViewById(R.id.textView8).setVisibility(View.GONE);
-                    findViewById(R.id.textView12).setVisibility(View.GONE);
-                    findViewById(R.id.editText7).setVisibility(View.GONE);
-                    findViewById(R.id.textView13).setVisibility(View.GONE);
-                    findViewById(R.id.editText8).setVisibility(View.GONE);
-                    findViewById(R.id.textView14).setVisibility(View.GONE);
-                    findViewById(R.id.textView18).setVisibility(View.GONE);
-                    findViewById(R.id.textView25).setVisibility(View.GONE);
-                    findViewById(R.id.textView15).setVisibility(View.GONE);
-                    findViewById(R.id.textView16).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView17).setVisibility(View.VISIBLE);
-                    findViewById(R.id.course_material).setVisibility(View.VISIBLE);
-                    findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
-                    findViewById(R.id.button7).setVisibility(View.GONE);
-                    findViewById(R.id.button5).setVisibility(View.GONE);
-                    findViewById(R.id.button6).setVisibility(View.GONE);
-                    findViewById(R.id.button8).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView11).setVisibility(View.GONE);
+                    getView().findViewById(R.id.editText6).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView9).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView8).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView12).setVisibility(View.GONE);
+                    getView().findViewById(R.id.editText7).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView13).setVisibility(View.GONE);
+                    getView().findViewById(R.id.editText8).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView14).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView18).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView25).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView15).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.button7).setVisibility(View.GONE);
+                    getView().findViewById(R.id.button5).setVisibility(View.GONE);
+                    getView().findViewById(R.id.button6).setVisibility(View.GONE);
+                    getView().findViewById(R.id.button8).setVisibility(View.GONE);
                     count++;
 
                 }
                 else {
-                    findViewById(R.id.textView11).setVisibility(View.VISIBLE);
-                    findViewById(R.id.editText6).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView9).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView8).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView12).setVisibility(View.VISIBLE);
-                    findViewById(R.id.editText7).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView13).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView18).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView25).setVisibility(View.VISIBLE);
-                    findViewById(R.id.editText8).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView14).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textView15).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView11).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.editText6).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView9).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView8).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView12).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.editText7).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView13).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView18).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView25).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.editText8).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView14).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView15).setVisibility(View.VISIBLE);
                     count++;
                 }
             }
@@ -275,109 +286,109 @@ public class CourseMainPageProf extends AppCompatActivity {
         // make text boxes editable on long press
         //---------------------------------------------------------------------------------
         //making edit texts 6,7,8 non editable
-        findViewById(R.id.editText8).setFocusable(false);
-        findViewById(R.id.editText7).setFocusable(false);
-        findViewById(R.id.editText6).setFocusable(false);
-        findViewById(R.id.textView25).setFocusable(false);
-//        findViewById(R.id.editText8).setClickable(false);
-//        findViewById(R.id.editText7).setClickable(false);
-//        findViewById(R.id.editText6).setClickable(false);
+        getView().findViewById(R.id.editText8).setFocusable(false);
+        getView().findViewById(R.id.editText7).setFocusable(false);
+        getView().findViewById(R.id.editText6).setFocusable(false);
+        getView().findViewById(R.id.textView25).setFocusable(false);
+//        getView().findViewById(R.id.editText8).setClickable(false);
+//        getView().findViewById(R.id.editText7).setClickable(false);
+//        getView().findViewById(R.id.editText6).setClickable(false);
 
-        findViewById(R.id.editText6).setOnLongClickListener(new View.OnLongClickListener() {
+        getView().findViewById(R.id.editText6).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ScrollView scrollView= findViewById(R.id.scrollView2);
+                ScrollView scrollView= getView().findViewById(R.id.scrollView2);
                 scrollView.requestDisallowInterceptTouchEvent(true);
-                findViewById(R.id.editText6).setFocusable(false);
-//                findViewById(R.id.editText6).setClickable(true);
-//                findViewById(R.id.editText6).setEnabled(true);
-                findViewById(R.id.editText6).setFocusableInTouchMode(true);
-                findViewById(R.id.button5).setVisibility(View.VISIBLE);
-                findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
+                getView().findViewById(R.id.editText6).setFocusable(false);
+//                getView().findViewById(R.id.editText6).setClickable(true);
+//                getView().findViewById(R.id.editText6).setEnabled(true);
+                getView().findViewById(R.id.editText6).setFocusableInTouchMode(true);
+                getView().findViewById(R.id.button5).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getIntent().getStringExtra("CourseID")).child("description");
-                        EditText editText = findViewById(R.id.editText6);
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("description");
+                        EditText editText = getView().findViewById(R.id.editText6);
                         databaseReference.setValue(editText.getText().toString());
-                        findViewById(R.id.editText6).setFocusable(false);
-//                        findViewById(R.id.editText6).setClickable(false);
-                        findViewById(R.id.button5).setVisibility(View.GONE);
-                        Toast.makeText(CourseMainPageProf.this,"Description has been successfully updated.",Toast.LENGTH_SHORT).show();
+                        getView().findViewById(R.id.editText6).setFocusable(false);
+//                        getView().findViewById(R.id.editText6).setClickable(false);
+                        getView().findViewById(R.id.button5).setVisibility(View.GONE);
+                        Toast.makeText(getActivity(),"Description has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 return true;
             }
         });
-        findViewById(R.id.editText7).setOnLongClickListener(new View.OnLongClickListener() {
+        getView().findViewById(R.id.editText7).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                findViewById(R.id.editText7).setFocusable(true);
-                findViewById(R.id.editText7).setFocusableInTouchMode(true);
-//                findViewById(R.id.editText7).setClickable(true);
-//                findViewById(R.id.editText7).setEnabled(true);
-                findViewById(R.id.button6).setVisibility(View.VISIBLE);
-                findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
+                getView().findViewById(R.id.editText7).setFocusable(true);
+                getView().findViewById(R.id.editText7).setFocusableInTouchMode(true);
+//                getView().findViewById(R.id.editText7).setClickable(true);
+//                getView().findViewById(R.id.editText7).setEnabled(true);
+                getView().findViewById(R.id.button6).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getIntent().getStringExtra("CourseID")).child("syllabus");
-                        EditText editText = findViewById(R.id.editText7);
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("syllabus");
+                        EditText editText = getView().findViewById(R.id.editText7);
                         databaseReference.setValue(editText.getText().toString());
-                        findViewById(R.id.editText7).setFocusable(false);
-//                        findViewById(R.id.editText7).setClickable(false);
-                        findViewById(R.id.button6).setVisibility(View.GONE);
-                        Toast.makeText(CourseMainPageProf.this,"Syllabus has been successfully updated.",Toast.LENGTH_SHORT).show();
+                        getView().findViewById(R.id.editText7).setFocusable(false);
+//                        getView().findViewById(R.id.editText7).setClickable(false);
+                        getView().findViewById(R.id.button6).setVisibility(View.GONE);
+                        Toast.makeText(getActivity(),"Syllabus has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 return true;
             }
         });
-        findViewById(R.id.editText8).setOnLongClickListener(new View.OnLongClickListener() {
+        getView().findViewById(R.id.editText8).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                findViewById(R.id.editText8).setFocusable(true);
-                findViewById(R.id.editText8).setFocusableInTouchMode(true);
-//                findViewById(R.id.editText8).setClickable(true);
-//                findViewById(R.id.editText8).setEnabled(true);
-//                findViewById(R.id.editText8).setFocusableInTouchMode(true);
-                findViewById(R.id.button7).setVisibility(View.VISIBLE);
-                findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
+                getView().findViewById(R.id.editText8).setFocusable(true);
+                getView().findViewById(R.id.editText8).setFocusableInTouchMode(true);
+//                getView().findViewById(R.id.editText8).setClickable(true);
+//                getView().findViewById(R.id.editText8).setEnabled(true);
+//                getView().findViewById(R.id.editText8).setFocusableInTouchMode(true);
+                getView().findViewById(R.id.button7).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getIntent().getStringExtra("CourseID")).child("marksDistribution");
-                        EditText editText = findViewById(R.id.editText8);
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("marksDistribution");
+                        EditText editText = getView().findViewById(R.id.editText8);
                         databaseReference.setValue(editText.getText().toString());
-                        findViewById(R.id.editText8).setFocusable(false);
-//                        findViewById(R.id.editText8).setClickable(false);
-                        findViewById(R.id.button7).setVisibility(View.GONE);
-                        Toast.makeText(CourseMainPageProf.this,"Marks Distribution has been successfully updated.",Toast.LENGTH_SHORT).show();
+                        getView().findViewById(R.id.editText8).setFocusable(false);
+//                        getView().findViewById(R.id.editText8).setClickable(false);
+                        getView().findViewById(R.id.button7).setVisibility(View.GONE);
+                        Toast.makeText(getActivity(),"Marks Distribution has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 return true;
             }
         });
-        findViewById(R.id.textView25).setOnLongClickListener(new View.OnLongClickListener() {
+        getView().findViewById(R.id.textView25).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ScrollView scrollView= findViewById(R.id.scrollView2);
+                ScrollView scrollView= getView().findViewById(R.id.scrollView2);
                 scrollView.requestDisallowInterceptTouchEvent(true);
-                findViewById(R.id.textView25).setFocusable(false);
-//                findViewById(R.id.editText6).setClickable(true);
-//                findViewById(R.id.editText6).setEnabled(true);
-                findViewById(R.id.textView25).setFocusableInTouchMode(true);
-                findViewById(R.id.button8).setVisibility(View.VISIBLE);
-                findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
+                getView().findViewById(R.id.textView25).setFocusable(false);
+//                getView().findViewById(R.id.editText6).setClickable(true);
+//                getView().findViewById(R.id.editText6).setEnabled(true);
+                getView().findViewById(R.id.textView25).setFocusableInTouchMode(true);
+                getView().findViewById(R.id.button8).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getIntent().getStringExtra("CourseID")).child("courseKey");
-                        EditText editText = findViewById(R.id.textView25);
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("courseKey");
+                        EditText editText = getView().findViewById(R.id.textView25);
                         databaseReference.setValue(editText.getText().toString());
-                        findViewById(R.id.textView25).setFocusable(false);
-//                        findViewById(R.id.editText6).setClickable(false);
-                        findViewById(R.id.button8).setVisibility(View.GONE);
-                        Toast.makeText(CourseMainPageProf.this,"Course Key has been successfully updated.",Toast.LENGTH_SHORT).show();
+                        getView().findViewById(R.id.textView25).setFocusable(false);
+//                        getView().findViewById(R.id.editText6).setClickable(false);
+                        getView().findViewById(R.id.button8).setVisibility(View.GONE);
+                        Toast.makeText(getActivity(),"Course Key has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -388,10 +399,16 @@ public class CourseMainPageProf extends AppCompatActivity {
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getActivity().getMenuInflater();
+//        inflater.inflate(R.menu.menu_course_main_page_prof, menu);
+//        return true;
+//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_course_main_page_prof, menu);
-        return true;
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     // on selecting any one of the options
@@ -417,12 +434,13 @@ public class CourseMainPageProf extends AppCompatActivity {
 
         // showing the alert box
         //-------------------
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_event_dialog_box, null);
         dialogBuilder.setView(dialogView);
 
         final AlertDialog b = dialogBuilder.create();
+        b.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         b.show();
 
         // -----------------------------
@@ -455,10 +473,10 @@ public class CourseMainPageProf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new DatePickerDialog(CourseMainPageProf.this, date, myCalendar
+                new DatePickerDialog(getActivity(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-//                new DatePickerDialog(CourseMainPageProf.this,myCalendar.get(Calendar.DAY_OF_WEEK));
+//                new DatePickerDialog(getActivity(),myCalendar.get(Calendar.DAY_OF_WEEK));
             }
         });
 
@@ -475,7 +493,7 @@ public class CourseMainPageProf extends AppCompatActivity {
                 int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
                 int minute = myCalendar.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(CourseMainPageProf.this, new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         time_of_event.setText( selectedHour + ":" + selectedMinute);
@@ -510,14 +528,14 @@ public class CourseMainPageProf extends AppCompatActivity {
                 final String TimeEvent = time_of_event.getText().toString();
                 final String VenueEvent = Editvenue.getText().toString();
                 final String TypeEvent = SpinnerType.getSelectedItem().toString();
-                if(Title.equals("") || Description.equals("") || DateEvent.equals("") || TimeEvent.equals("") || VenueEvent.equals("")){Toast.makeText(CourseMainPageProf.this,"Please fill all the fields",Toast.LENGTH_SHORT).show();}
+                if(Title.equals("") || Description.equals("") || DateEvent.equals("") || TimeEvent.equals("") || VenueEvent.equals("")){Toast.makeText(getActivity(),"Please fill all the fields",Toast.LENGTH_SHORT).show();}
                 else
                 {
                     databaseReference = FirebaseDatabase.getInstance().getReference();
                     Event event = new Event(Calendar.getInstance().getTime(),DateEvent,Title,Description,TypeEvent,VenueEvent,TimeEvent);
-//                Toast.makeText(CourseMainPageProf.this,event.getTitle(),Toast.LENGTH_LONG).show();
-                    String key=databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
-                    databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").child(key).setValue(event);
+//                Toast.makeText(getActivity(),event.getTitle(),Toast.LENGTH_LONG).show();
+                    String key=databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
+                    databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").child(key).setValue(event);
                     b.dismiss();
                 }
 
@@ -534,7 +552,7 @@ public class CourseMainPageProf extends AppCompatActivity {
         flag = 0;
         selectedfile = null;
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getLayoutInflater();
         dialogViewFile = inflater.inflate(R.layout.add_file_dialog_box, null);
         dialogBuilder.setView(dialogViewFile);
@@ -542,6 +560,7 @@ public class CourseMainPageProf extends AppCompatActivity {
 
         dialogBuilder.setTitle("Doraemon");
         mate = dialogBuilder.create();
+        mate.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mate.show();
 
         editTextName = dialogViewFile.findViewById(R.id.editTextName);
@@ -567,7 +586,7 @@ public class CourseMainPageProf extends AppCompatActivity {
             buttonAddClass.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(CourseMainPageProf.this, "First Select File", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "First Select File", Toast.LENGTH_LONG).show();
 //                    uploadFile();
 //                    b.dismiss();
                 }
@@ -590,7 +609,7 @@ public class CourseMainPageProf extends AppCompatActivity {
 
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data ) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 123 && resultCode == RESULT_OK) {
             selectedfile = data.getData(); //The uri with the location of the file
@@ -600,7 +619,7 @@ public class CourseMainPageProf extends AppCompatActivity {
                 flag =0;
             }
 
-            Toast.makeText(CourseMainPageProf.this,filepath,Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),filepath,Toast.LENGTH_LONG).show();
 
             FileName.setText(filepath);
 
@@ -635,13 +654,13 @@ public class CourseMainPageProf extends AppCompatActivity {
 
                     // Observe state change events such as progress, pause, and resume
 //                    final ProgressBar finalProgressBar = progressBar;
-//                    progressBar = findViewById(R.id.progressBar);
+//                    progressBar = getView().findViewById(R.id.progressBar);
                     uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 //                            progressBar.setProgress((int) progress);
-//                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getActivity(),"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
                             //Update notification information:
 //                            notificationBuilder.setProgress(100, (int) progress, false);
 //
@@ -665,7 +684,7 @@ public class CourseMainPageProf extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             buttonAddClass.setEnabled(true);
-                            Toast.makeText(CourseMainPageProf.this,"File could not be uploaded",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"File could not be uploaded",Toast.LENGTH_SHORT).show();
                             // Handle unsuccessful uploads
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -674,7 +693,7 @@ public class CourseMainPageProf extends AppCompatActivity {
 
                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                             // ...
-                            Toast.makeText(CourseMainPageProf.this,"File uploaded successfully.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
 
 
                             //------------------------
@@ -708,12 +727,12 @@ public class CourseMainPageProf extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
 //                    url[0] = downloadUri.toString();
-//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
 //                    Log.v(TAG, "Download Url:" + downloadUri.toString());
                     //----------------
                     // taking values from title and file url to be stored in firebase
                     if (TitleMaterial == "") {
-                        Toast.makeText(CourseMainPageProf.this, "Please fill the title of class", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please fill the title of class", Toast.LENGTH_SHORT).show();
                     } else {
 
                         EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
@@ -721,14 +740,14 @@ public class CourseMainPageProf extends AppCompatActivity {
                         databaseReference = FirebaseDatabase.getInstance().getReference();
                         CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
                                 , downloadUri.toString(), FileName.getText().toString(), Calendar.getInstance().getTime());
-                        String key = databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
-                        databaseReference.child("Courses").child(getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
+                        String key = databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
+                        databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
                         mate.dismiss();
 
                     }
 
                 } else {
-                    Toast.makeText(CourseMainPageProf.this, "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
                     // Handle failures
                     // ...
                 }
@@ -766,7 +785,7 @@ public class CourseMainPageProf extends AppCompatActivity {
             }
             TitleView.setText(materials.get(position).getTitle());
             fileText.setText(materials.get(position).getFileName());
-            dateText.setText(materials.get(position).getDate().toString());
+            dateText.setText("Date:" + materials.get(position).getDate().toString());
             return convertView;
         }
     }
@@ -815,6 +834,9 @@ public class CourseMainPageProf extends AppCompatActivity {
 
 
 //TODO 1. show all the information from course add page to course main page of prof
-//TODO 4. while showing all the information first check if this course already exists if yes then retrieve information from there
+//TODO 2. while showing all the information first check if this course already exists if yes then retrieve information from there
 //TODO    because you can here from main page also of prof.
-//TODO 8. make notification bar for upload file
+//TODO 3. make notification bar for upload file
+//TODO 4. parse time slots in course main page for students and prof
+//TODO 5. different course main pages for students and prof from Main Activity page
+//TODO 6. parse the filenames
