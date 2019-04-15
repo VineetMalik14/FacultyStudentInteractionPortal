@@ -20,7 +20,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_main" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -37,5 +39,14 @@
         android:layout_gravity="left|center"
         android:onClick="TableClick"
         android:text="Time Table" />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="SearchClick"
+        android:text="Search"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|center" />
 
 </android.support.design.widget.CoordinatorLayout>

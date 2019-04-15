@@ -9,22 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Search"></activity>
         <activity
-
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<action android:name="android.intent.action." />-->
+
+                <!-- <action android:name="android.intent.action.MAIN" /> -->
+                <!-- <action android:name="android.intent.action.VIEW" /> -->
+                <!-- <action android:name="android.intent.action." /> -->
 
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".TimeTable" />
-
     </application>
 
 </manifest>
