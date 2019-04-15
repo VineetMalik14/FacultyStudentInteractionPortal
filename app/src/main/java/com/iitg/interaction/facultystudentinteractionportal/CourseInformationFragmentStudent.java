@@ -285,7 +285,7 @@ public class CourseInformationFragmentStudent extends Fragment {
             }
             TitleView.setText(materials.get(position).getTitle());
             fileText.setText(materials.get(position).getFileName());
-            dateText.setText(materials.get(position).getDate().toString());
+            dateText.setText("Date:" + materials.get(position).getDate().toString());
             return convertView;
         }
     }

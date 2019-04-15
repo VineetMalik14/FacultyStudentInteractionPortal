@@ -1,3 +1,4 @@
+
 package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.content.Context;
@@ -105,10 +106,10 @@ public class ThreadReplies extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                       // ids = new ArrayList<String>();
+                        // ids = new ArrayList<String>();
                         for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                         //   ids.add(messageSnapshot.getKey());
-                         //   ids.add(messageSnapshot.getKey());
+                            //   ids.add(messageSnapshot.getKey());
+                            //   ids.add(messageSnapshot.getKey());
                             Replies reply = messageSnapshot.getValue(Replies.class);
                             replies2.add(reply);
                             //  Log.v("Title", event.getTitle());
@@ -145,10 +146,10 @@ public class ThreadReplies extends AppCompatActivity {
 
 
                 replies = new ArrayList<Replies>();
-           //     ids = new ArrayList<String>();
+                //     ids = new ArrayList<String>();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-         //           ids.add(messageSnapshot.getKey());
-         //           ids.add(messageSnapshot.getKey());
+                    //           ids.add(messageSnapshot.getKey());
+                    //           ids.add(messageSnapshot.getKey());
                     Replies reply = messageSnapshot.getValue(Replies.class);
                     replies.add(reply);
                     //  Log.v("Title", event.getTitle());

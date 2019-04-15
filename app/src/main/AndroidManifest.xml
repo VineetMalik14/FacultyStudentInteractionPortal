@@ -16,7 +16,9 @@
         <activity
             android:name=".CourseMainPageStudent"
             android:label="@string/title_activity_course_main_page_student"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".CourseStudentList" />
         <activity android:name=".CreatePollActivity" />
         <activity android:name=".PollLayoutActivity" />
@@ -40,17 +42,17 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity
-            android:name=".CourseMainPageProf"
-            android:theme="@style/AppTheme.NoActionBar">
+        <!--<activity-->
+            <!--android:name=".CourseMainPageProf"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!--&lt;!&ndash; <intent-filter> &ndash;&gt;-->
+            <!--&lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt;-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            <!--&lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt;-->
+            <!--&lt;!&ndash; </intent-filter> &ndash;&gt;-->
+        <!--</activity>-->
         <activity
             android:name=".AddCourseContent"
             android:label="@string/title_activity_add_course_content"
@@ -60,12 +62,12 @@
             android:label="@string/title_activity_course_add"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
 
         </activity> <!-- </application> -->
         <!-- <activity android:name=".messageboxActivity"> -->
@@ -73,7 +75,7 @@
         <!-- </activity> -->
         <activity android:name=".ComposeMessage" />
         <activity android:name=".MessageActivity" />
-        <activity android:name=".PollsActivity" />
+        <!--<activity android:name=".PollsActivity" />-->
         <activity android:name=".ProfileActivity" />
         <activity android:name=".SignupActivity" />
         <activity
@@ -117,6 +119,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
     </application>
 
 </manifest>

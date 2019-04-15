@@ -16,30 +16,16 @@
         android:layout_height="wrap_content">
 
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/my_toolbar"
-            style="@style/HeaderBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:elevation="4dp"
-            android:scrollbars="vertical"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            tools:layout_editor_absoluteX="0dp" />
-
-
         <TextView
             android:id="@+id/textView4"
             android:layout_width="120dp"
             android:layout_height="34dp"
             android:layout_marginStart="144dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="8dp"
             android:hint="Course id"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/my_toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView7"

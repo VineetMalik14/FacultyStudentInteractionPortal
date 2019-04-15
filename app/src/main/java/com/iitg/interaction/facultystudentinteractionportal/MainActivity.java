@@ -120,8 +120,16 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.courses) {
-            Intent intent = new Intent(MainActivity.this,CourseStudentList.class);
-            startActivity(intent);
+            if(UserInfo.usertype.equals("Stud"))
+            {
+                Intent intent = new Intent(MainActivity.this,CourseStudentList.class);
+                startActivity(intent);
+            }
+            else if(UserInfo.usertype.equals("Prof"))
+            {
+                Intent intent = new Intent(MainActivity.this,CourseStudentList.class);
+                startActivity(intent);
+            }
 
 
 
