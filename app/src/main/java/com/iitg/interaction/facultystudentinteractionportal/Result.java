@@ -27,6 +27,10 @@ public class Result extends AppCompatActivity implements EnrollDialog.EnrollDial
 
     TextView name;
     TextView desc;
+    TextView time;
+    TextView title;
+    TextView syl;
+    TextView prof;
     private String originalkey;
     String currentuser = "barney";
     private ArrayList<String> al;
@@ -52,6 +56,64 @@ public class Result extends AppCompatActivity implements EnrollDialog.EnrollDial
                 desc = findViewById(R.id.descripton);
                 desc.setText(value);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+
+            }
+        });
+        us = db.getReference().child("Courses").child(name.getText().toString()).child("fullname");
+        us.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                title = findViewById(R.id.title);
+                title.setText(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        us = db.getReference().child("Courses").child(name.getText().toString()).child("professor");
+        us.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                prof = findViewById(R.id.prof);
+                prof.setText(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        us = db.getReference().child("Courses").child(name.getText().toString()).child("syllabus");
+        us.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                syl = findViewById(R.id.syllabus);
+                syl.setText(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        us = db.getReference().child("Courses").child(name.getText().toString()).child("timeSlots");
+        us.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                time = findViewById(R.id.timeslots);
+                time.setText(value);
             }
 
             @Override

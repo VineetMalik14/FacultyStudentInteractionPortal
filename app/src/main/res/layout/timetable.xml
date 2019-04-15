@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="60dp"
-        android:text="Button"
+        android:text="Pick Date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,16 +19,15 @@
         android:id="@+id/text_date"
         android:layout_width="105dp"
         android:layout_height="51dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="104dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/result"
-        android:layout_width="356dp"
+        android:layout_width="wrap_content"
         android:layout_height="572dp"
-        android:layout_marginStart="36dp"
         android:layout_marginTop="140dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
