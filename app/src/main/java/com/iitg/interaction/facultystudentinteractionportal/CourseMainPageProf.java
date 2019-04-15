@@ -660,7 +660,7 @@ public class CourseMainPageProf extends Fragment {
 
 
                    // notificationManager = NotificationManagerCompat.from(CourseMainPageProf.this);
-                    notificationManager = (NotificationManager)(CourseMainPageProf.this.getSystemService(Context.NOTIFICATION_SERVICE));
+                    notificationManager = (NotificationManager)(getActivity().getSystemService(Context.NOTIFICATION_SERVICE));
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         NotificationChannel channel = new NotificationChannel(
@@ -673,7 +673,7 @@ public class CourseMainPageProf extends Fragment {
 
 
 
-                    builder = new NotificationCompat.Builder(CourseMainPageProf.this, "CHANNEL_ID");
+                    builder = new NotificationCompat.Builder(getActivity(), "CHANNEL_ID");
                     builder.setContentTitle("Upload")
                             .setContentText("Upload in progress")
                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
@@ -754,7 +754,7 @@ public class CourseMainPageProf extends Fragment {
                             builder.setContentText("Upload complete")
                                     .setProgress(0,0,false);
                             notificationManager.notify(0, builder.build());
-                            Toast.makeText(CourseMainPageProf.this,"File uploaded successfully.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(getActivity(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
 
 
@@ -902,6 +902,7 @@ public class CourseMainPageProf extends Fragment {
 //TODO 4. parse time slots in course main page for students and prof
 //TODO 5. different course main pages for students and prof from Main Activity page
 //TODO 6. parse the filenames
+//TODO 7. create polls which are visible only to students
 
 
 // TODO ANNANYA Modify Course Class to include Project of courses

@@ -72,10 +72,16 @@ public class CourseDiscussionFragmentStudent extends Fragment {
                 }
                 Collections.reverse(threads);
                 Collections.reverse(ids);
-                adapter = new ThreadAdapter(getActivity(), threads);
 
-                listView = (ListView) getView().findViewById(R.id.lv_thread);
-                listView.setAdapter(adapter);
+
+                if(getActivity() != null)
+                {
+                    adapter = new ThreadAdapter(getActivity(), threads);
+
+                    listView = (ListView) getView().findViewById(R.id.lv_thread);
+                    listView.setAdapter(adapter);
+
+                }
 
 
                 if(UserInfo.usertype.equals("Prof")){
@@ -219,9 +225,6 @@ public class CourseDiscussionFragmentStudent extends Fragment {
             return true;
         }
         if (menuItemIndex == 1){      // this is to make the thread closed
-
-
-
 
             databaseReference2.child("ThreadClosed").setValue(true);
             return true;
