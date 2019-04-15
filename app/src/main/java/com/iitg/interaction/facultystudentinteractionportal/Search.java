@@ -2,6 +2,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -32,7 +34,9 @@ public class Search extends AppCompatActivity {
 
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    public  static String name = "com.iitg.interaction.facultystudentinteractionportal.name";
     ArrayList<String> al = new ArrayList<String>();
+
     ListView r;
     TextView t;
     Activity truth = this;
@@ -48,6 +52,23 @@ public class Search extends AppCompatActivity {
         t = (TextView) findViewById(R.id.srch);
 
         r = (ListView) findViewById(R.id.table);
+
+        r.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = al.get(position);
+                //String prev= t.getText().toString();
+               //t.setText(prev + item );
+                Intent i = new Intent(Search.this , Result.class );
+                i.putExtra(name, item);
+
+
+
+                startActivity(i);
+
+
+            }
+        });
 
 
         /*go.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +88,7 @@ public class Search extends AppCompatActivity {
 
             r = (ListView) findViewById(R.id.table);
             al.clear();
+            al = new ArrayList<String>();
             final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
             r.setAdapter(ad);
             ad.notifyDataSetChanged();
@@ -77,22 +99,34 @@ public class Search extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     /**/
-                    String base = dataSnapshot.getValue().toString();
-                    String[] split =  base.split(",");
-                    int k = 0;
+
+                    for(DataSnapshot data : dataSnapshot.getChildren())
+                    {
+                        String dat =data.getKey();
+                        String prev = t.getText().toString();
+                        if(dat.toLowerCase().contains(prev.toLowerCase())){
+
+                            al.add(dat);
+                        }
+
+                    }
+                    /*String base = dataSnapshot.getValue().toString();
+                    String[] split =  base.split(",");*/
+                    /*int k = 0;
                     for(k = 0; k< split.length; k++){
                         if(split[k].contains("courseID")){
-                            String ans = split[k].substring(10, split[k].length());
+                            String ans = split[k].substring(10);
                             String prev = t.getText().toString();
                             if(ans.toLowerCase().contains(prev.toLowerCase())){
+
                                 al.add(ans);
                             }
-                            /*String prev = t.getText().toString();
-                            t.setText(prev + ans);*/
+                            *//*String prev = t.getText().toString();
+                            t.setText(prev + ans);*//*
 
 
                         }
-                    }
+                    }*/
 
                     hideKeyboard(truth);
 

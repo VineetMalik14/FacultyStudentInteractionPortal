@@ -56,6 +56,7 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
     ListView r;
     ArrayList<String> al = new ArrayList<String>();
 
+
     int day, month, year;
     int day_week;
     String dayOfWeek;
