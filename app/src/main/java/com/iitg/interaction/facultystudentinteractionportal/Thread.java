@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Thread {
 
-    private boolean IsThreadClosed;
+    private boolean ThreadClosed;
     private String Username;
     private String Usertype;
     private String ThreadContent;
@@ -17,24 +17,12 @@ public class Thread {
 
     }
 
-
-    public Thread(boolean isThreadClosed, String username, String usertype, String threadContent, String title, Date dateOfCreation, Date lastModified, ArrayList<Replies> repliesArrayList) {
-        IsThreadClosed = isThreadClosed;
-        Username = username;
-        Usertype = usertype;
-        ThreadContent = threadContent;
-        Title = title;
-        DateOfCreation = dateOfCreation;
-        LastModified = lastModified;
-        this.repliesArrayList = repliesArrayList;
-    }
-
     public boolean isThreadClosed() {
-        return IsThreadClosed;
+        return ThreadClosed;
     }
 
     public void setThreadClosed(boolean threadClosed) {
-        IsThreadClosed = threadClosed;
+        ThreadClosed = threadClosed;
     }
 
     public String getUsername() {
@@ -90,6 +78,17 @@ public class Thread {
     }
 
     public void setRepliesArrayList(ArrayList<Replies> repliesArrayList) {
+        this.repliesArrayList = repliesArrayList;
+    }
+
+    public Thread(boolean threadClosed, String username, String usertype, String threadContent, String title, Date dateOfCreation, Date lastModified, ArrayList<Replies> repliesArrayList) {
+        ThreadClosed = threadClosed;
+        Username = username;
+        Usertype = usertype;
+        ThreadContent = threadContent;
+        Title = title;
+        DateOfCreation = dateOfCreation;
+        LastModified = lastModified;
         this.repliesArrayList = repliesArrayList;
     }
 }

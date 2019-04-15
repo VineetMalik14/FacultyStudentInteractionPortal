@@ -818,3 +818,9 @@ public class CourseMainPageProf extends AppCompatActivity {
 //TODO 4. while showing all the information first check if this course already exists if yes then retrieve information from there
 //TODO    because you can here from main page also of prof.
 //TODO 8. make notification bar for upload file
+
+
+// TODO ANNANYA Modify Course Class to include Project of courses
+// TODO ANNANYA Add progress bar
+// TODO ANNANYA Merge the professor pages
+// TODO ANNANYA Modify discussion forum to include remove thread and read only thread
