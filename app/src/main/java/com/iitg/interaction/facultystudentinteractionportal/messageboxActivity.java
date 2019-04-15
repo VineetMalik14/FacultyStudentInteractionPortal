@@ -70,16 +70,18 @@ public class messageboxActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users");
-                ArrayList<Messages> msglist=UserInfo.messages;
+                //ArrayList<Messages> msglist=UserInfo.messages;
                 Log.d("debug","uniquid in clikclistener = "+uniqueid);
 
-                Log.d("debug","msglis "+msglist.size() + " "+uniqueid);
+                Log.d("debug","msglis "+UserInfo.messages.size() + " "+uniqueid);
                 if(uniqueid==-1)
                 {
                     Toast.makeText(getApplicationContext(),"Not able to delete!",Toast.LENGTH_LONG).show();
                     return;
                 }
-                msglist.remove(uniqueid);
+                //msglist.remove(uniqueid);
+                UserInfo.messages.remove(uniqueid);
+
 
 //                for(Messages a : msglist)
 //                {
@@ -88,10 +90,12 @@ public class messageboxActivity extends AppCompatActivity {
 //
 //                    break;
 //                }
-                dataref.child(UserInfo.username).child("messages").setValue(msglist);
+                dataref.child(UserInfo.username).child("messages").setValue(UserInfo.messages);
 
-                Intent intent1 = new Intent(getApplicationContext(),MessageActivity.class);
-                startActivity(intent1);
+                Toast.makeText(getApplicationContext(),"Message Deleted Successfully",Toast.LENGTH_LONG).show();
+
+//                Intent intent1 = new Intent(getApplicationContext(),MessageActivity.class);
+//                startActivity(intent1);
                 messageboxActivity.this.finish();
             }
         });

@@ -4,6 +4,7 @@ import android.graphics.Path;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Polls {
@@ -72,16 +73,16 @@ public class Polls {
 }
 
 class Options {
-    String optiontext;
-    int votes=0;
-    int totalvotes;
+    public String optiontext;
+    public int votes=0;
+    public int totalvotes;
 
     public Options()
     {
 
     }
 
-    Options(String optiontext)
+    public Options(String optiontext)
     {
         this.optiontext = optiontext;
         this.votes = 0;

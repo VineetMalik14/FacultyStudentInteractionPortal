@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        } else if (id == R.id.nav_FAQ) {
-            Intent intent = new Intent(MainActivity.this,CreatePollActivity.class);
+        } else if (id == R.id.nav_outlook) {
+            Intent intent = new Intent(MainActivity.this,PollsActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_FAQ) {
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences.Editor editor = preferences.edit();
 
             editor.putBoolean("logined",false);
-            editor.commit();
+            editor.apply();
             UserInfo.logout();
             Intent intent = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);

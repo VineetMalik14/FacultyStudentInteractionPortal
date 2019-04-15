@@ -98,7 +98,12 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                         NewUser user=dataSnapshot.child("users").child(preferences.getString("username",null)).getValue(NewUser.class);
                         if(user == null)
                         {
+
                             Log.d("debug","ERROR Already logged in but user is null ");
+                            preferences.edit().putBoolean("logined",false);
+                            Intent intent  = getIntent();
+                            startActivity(intent);
+                            LoginActivity.this.finish();
                             return;
                         }
 
@@ -197,6 +202,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
 
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
+                        LoginActivity.this.finish();
                     }
                     else
                     {

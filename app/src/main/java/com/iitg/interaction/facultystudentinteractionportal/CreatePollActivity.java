@@ -24,7 +24,9 @@ import java.util.ArrayList;
 public class CreatePollActivity extends AppCompatActivity {
 
     int numberOfLines = 0;
-    String currentcourse="CS101";
+    public ArrayList<Polls> pollslist;
+    public String currentcourse=CourseMainPageStudent.courseID;
+
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(currentcourse);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +111,7 @@ public class CreatePollActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Polls> pollslist;
+
                 pollslist = dataSnapshot.child("Polls").getValue(t);
                 if(pollslist==null)
                 {

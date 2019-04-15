@@ -45,9 +45,11 @@ public class CourseStudentList extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 courseinfos.clear();
+                Log.d("debug","childcount "+ dataSnapshot.getChildrenCount());
+                if(dataSnapshot.getChildrenCount()>0)
                 for(DataSnapshot course : dataSnapshot.getChildren())
                 {
-                    if(UserInfo.courses.contains(course.getKey()))
+                    if(UserInfo.courses!=null &&UserInfo.courses.contains(course.getKey()))
                     {
                         Courseinfo newcourseinfo = new Courseinfo(course.child("courseID").getValue().toString(),course.child("fullname").getValue().toString(),course.child("professor").getValue().toString());
                         courseinfos.add(newcourseinfo);

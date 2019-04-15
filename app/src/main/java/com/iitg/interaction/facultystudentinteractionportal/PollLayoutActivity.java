@@ -7,10 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,7 +51,7 @@ public class PollLayoutActivity extends AppCompatActivity {
 //        optionlist.add(new Options("This is option five"));
 
 
-        PollListAdaptor pollListAdaptor = new PollListAdaptor(PollLayoutActivity.this,R.layout.layout_polloptions,optionlist);
+        final PollListAdaptor pollListAdaptor = new PollListAdaptor(PollLayoutActivity.this,R.layout.layout_polloptions,optionlist);
 
         lv.setAdapter(pollListAdaptor);
 
@@ -82,31 +84,33 @@ public class PollLayoutActivity extends AppCompatActivity {
 //                alert11.show();
 
                 clickedpoll.addvote(position,UserInfo.username);
-                Intent intent1 = getIntent();
-                startActivity(intent1);
+                dataref.child(currentcourseid).child("Polls").child(String.valueOf(index)).setValue(clickedpoll);
+                pollListAdaptor.notifyDataSetChanged();
+//                Intent intent1 = getIntent();
+//                startActivity(intent1);
 
             }
         });
 
-        final GenericTypeIndicator<ArrayList<Polls>> t = new GenericTypeIndicator<ArrayList<Polls>>() {};
-
-        dataref.child(currentcourseid).child("Polls").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Polls> pollslist = dataSnapshot.getValue(t);
-
-                if(pollslist!=null)
-                {
-                    pollslist.set(index,clickedpoll);
-                    dataref.child(currentcourseid).child("Polls").setValue(pollslist);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        final GenericTypeIndicator<ArrayList<Polls>> t = new GenericTypeIndicator<ArrayList<Polls>>() {};
+//
+//        dataref.child(currentcourseid).child("Polls").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                ArrayList<Polls> pollslist = dataSnapshot.getValue(t);
+//                Log.d("debug","polls changed on database !");
+//                if(pollslist!=null)
+//                {
+//                    pollslist.set(index,clickedpoll);
+//                    dataref.child(currentcourseid).child("Polls").setValue(pollslist);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
 

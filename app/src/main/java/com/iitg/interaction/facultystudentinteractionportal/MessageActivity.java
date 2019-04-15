@@ -49,7 +49,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-        dataref.child(UserInfo.username).child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
+        dataref.child(UserInfo.username).child("messages").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Messages> mlist ;
