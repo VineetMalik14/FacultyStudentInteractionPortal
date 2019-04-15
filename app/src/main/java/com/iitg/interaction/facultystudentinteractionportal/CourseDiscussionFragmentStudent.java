@@ -9,7 +9,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.format.DateFormat;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,14 +39,14 @@ public class CourseDiscussionFragmentStudent extends Fragment {
 
     private DatabaseReference databaseReference;
     View dialogView;
-
+    private DatabaseReference databaseReference2;
     String course;
     List<String> ids;
     List<Thread> threads;
     String username;
     String usertype;
     ThreadAdapter adapter;
-
+    ListView listView;
 
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -71,8 +74,19 @@ public class CourseDiscussionFragmentStudent extends Fragment {
                 Collections.reverse(ids);
                 adapter = new ThreadAdapter(getActivity(), threads);
 
-                ListView listView = (ListView) getView().findViewById(R.id.lv_thread);
+                listView = (ListView) getView().findViewById(R.id.lv_thread);
                 listView.setAdapter(adapter);
+
+
+                if(UserInfo.usertype.equals("Prof")){
+
+                    registerForContextMenu(listView);
+
+                }
+
+
+
+
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -87,6 +101,7 @@ public class CourseDiscussionFragmentStudent extends Fragment {
                         intent.putExtra("CONTENT", item.getThreadContent());
                         intent.putExtra("USER", item.getUsername());
                         intent.putExtra("TIME", DateFormat.format("dd-MM-yyyy (HH:mm:ss)", item.getLastModified()) );
+                        intent.putExtra("COURSECLOSED", item.isThreadClosed());
 
 
                         startActivity(intent);
@@ -105,6 +120,10 @@ public class CourseDiscussionFragmentStudent extends Fragment {
 
             }
         });
+
+
+
+
 
 
 
@@ -169,6 +188,49 @@ public class CourseDiscussionFragmentStudent extends Fragment {
     }
 
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId()==R.id.lv_thread) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            //menu.setHeaderTitle(Countries[info.position]);
+            String[] menuItems = {"Delete Thread", "Close Thread"};
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+
+            }
+        }
+
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        //return super.onContextItemSelected(item);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        String threadid = ids.get(info.position);
+        databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(course).child("threads").child(threadid);
+
+        if (menuItemIndex == 0){ // This is to delete the thread
+
+            databaseReference2.removeValue();
+            // succesfull
+            return true;
+        }
+        if (menuItemIndex == 1){      // this is to make the thread closed
+
+
+
+
+            databaseReference2.child("ThreadClosed").setValue(true);
+            return true;
+        }
+
+        return true;
+
+
+    }
 
     public class ThreadAdapter extends ArrayAdapter<Thread> {
         public ThreadAdapter(Context context, List<Thread> threads) {

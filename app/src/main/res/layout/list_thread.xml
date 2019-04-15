@@ -38,5 +38,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
+    <!--<Button-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@id/message_text"-->
+        <!--android:id="@+id/buttonDeleteThread"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:text="Delete"-->
+        <!--/>-->
 
 </RelativeLayout>

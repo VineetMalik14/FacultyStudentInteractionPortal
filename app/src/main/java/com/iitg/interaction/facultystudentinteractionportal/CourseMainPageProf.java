@@ -3,6 +3,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 import android.app.DatePickerDialog;
 import android.app.DownloadManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -95,6 +97,11 @@ public class CourseMainPageProf extends Fragment {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     UploadTask uploadTask;
     StorageReference mountainsRef;
+    int PROGRESS_CURRENT;
+    NotificationCompat.Builder builder;
+    int PROGRESS_MAX = 100;
+    NotificationManager notificationManager;
+    NotificationChannel channel;
 
 
 
@@ -623,6 +630,11 @@ public class CourseMainPageProf extends Fragment {
 
             FileName.setText(filepath);
 
+
+
+
+
+
             // notification for upload progress
             //---------------------------------------
 //            final Integer notificationID = 100;
@@ -644,6 +656,49 @@ public class CourseMainPageProf extends Fragment {
             buttonAddClass.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+
+                   // notificationManager = NotificationManagerCompat.from(CourseMainPageProf.this);
+                    notificationManager = (NotificationManager)(CourseMainPageProf.this.getSystemService(Context.NOTIFICATION_SERVICE));
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        NotificationChannel channel = new NotificationChannel(
+                                "CHANNEL_ID",
+                                "My App",
+                                NotificationManager.IMPORTANCE_DEFAULT
+                        );
+                        notificationManager.createNotificationChannel(channel);
+                    };
+
+
+
+                    builder = new NotificationCompat.Builder(CourseMainPageProf.this, "CHANNEL_ID");
+                    builder.setContentTitle("Upload")
+                            .setContentText("Upload in progress")
+                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setPriority(NotificationCompat.PRIORITY_MAX);
+
+                    PROGRESS_CURRENT = 0;
+                    builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
+                    notificationManager.notify(0, builder.build());
+
+
+
+
+
+
+
+                    notificationManager.notify(0, builder.build());
+
+
+
+
+
+
+
+
+
                     buttonAddClass.setEnabled(false);
 
                     final StorageReference storageRef = storage.getReference();
@@ -659,6 +714,9 @@ public class CourseMainPageProf extends Fragment {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            PROGRESS_CURRENT = (int)progress;
+                            builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
+                            notificationManager.notify(0, builder.build());
 //                            progressBar.setProgress((int) progress);
 //                            Toast.makeText(getActivity(),"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
                             //Update notification information:
@@ -693,6 +751,10 @@ public class CourseMainPageProf extends Fragment {
 
                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                             // ...
+                            builder.setContentText("Upload complete")
+                                    .setProgress(0,0,false);
+                            notificationManager.notify(0, builder.build());
+                            Toast.makeText(CourseMainPageProf.this,"File uploaded successfully.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(getActivity(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
 
 
@@ -840,3 +902,9 @@ public class CourseMainPageProf extends Fragment {
 //TODO 4. parse time slots in course main page for students and prof
 //TODO 5. different course main pages for students and prof from Main Activity page
 //TODO 6. parse the filenames
+
+
+// TODO ANNANYA Modify Course Class to include Project of courses
+// TODO ANNANYA Add progress bar
+// TODO ANNANYA Merge the professor pages
+// TODO ANNANYA Modify discussion forum to include remove thread and read only thread

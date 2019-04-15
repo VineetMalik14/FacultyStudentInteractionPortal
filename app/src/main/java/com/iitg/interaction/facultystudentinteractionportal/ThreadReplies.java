@@ -29,8 +29,8 @@ public class ThreadReplies extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
     private DatabaseReference databaseReference2;
-    String username = "Anna";
-    String type = "Student";
+    String username = UserInfo.username;
+    String type = UserInfo.usertype;
     EditText input;
     ArrayList<String> ids;
     ArrayList<Replies> replies;
@@ -55,6 +55,7 @@ public class ThreadReplies extends AppCompatActivity {
         String content = getIntent().getExtras().getString("CONTENT");
         String user = getIntent().getExtras().getString("USER");  // person who create the thread
         String time = getIntent().getExtras().getString("TIME");
+        boolean threadclosed = getIntent().getExtras().getBoolean("COURSECLOSED");
 
 
 
@@ -71,9 +72,17 @@ public class ThreadReplies extends AppCompatActivity {
 
 
 
-
         FloatingActionButton newreply = findViewById(R.id.newreply);
         input = findViewById(R.id.input);
+        if (threadclosed){
+            newreply.hide();
+            input.setVisibility(View.INVISIBLE);
+
+        }
+
+
+
+
 
         newreply.setOnClickListener(new View.OnClickListener() {
             @Override
