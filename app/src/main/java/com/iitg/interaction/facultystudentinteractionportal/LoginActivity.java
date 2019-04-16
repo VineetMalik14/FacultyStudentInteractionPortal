@@ -13,6 +13,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -60,6 +61,22 @@ public class LoginActivity<scopes> extends AppCompatActivity {
     EditText etusername;
     EditText etpassword;
     FirebaseAuth firebaseAuth;
+
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            btn_login.setEnabled(true);
+        }
+    };
+
+    Runnable runnable2 = new Runnable() {
+        @Override
+        public void run() {
+            btn_customlogin.setEnabled(true);
+        }
+    };
+
 
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -153,6 +170,8 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         btn_customlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_customlogin.setEnabled(false);
+                handler.postDelayed(runnable2,2000);
                 customloginfunction();
             }
         });
@@ -160,6 +179,9 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_login.setEnabled(false);
+                handler.postDelayed(runnable,2000);
+                //btn_login.setEnabled(true);
 
                 loginfunction();
 
@@ -199,6 +221,13 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     {
                         Toast.makeText(getApplicationContext(),"Welcome "+user.fullname,Toast.LENGTH_LONG).show();
                         UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses,user.messages);
+
+
+                        preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
+                        final SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("logined",true);
+                        editor.putString("username",UserInfo.username);
+                        editor.apply();
 
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
@@ -338,7 +367,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                 final SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("logined",true);
                 editor.putString("username",UserInfo.username);
-                editor.commit();
+                editor.apply();
                 //-------------------------------------------------------
 
 

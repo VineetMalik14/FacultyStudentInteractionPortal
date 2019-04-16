@@ -3,14 +3,20 @@ package com.iitg.interaction.facultystudentinteractionportal;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,9 +57,30 @@ public class PollLayoutActivity extends AppCompatActivity {
 //        optionlist.add(new Options("This is option five"));
 
 
+
+
+
         final PollListAdaptor pollListAdaptor = new PollListAdaptor(PollLayoutActivity.this,R.layout.layout_polloptions,optionlist);
 
         lv.setAdapter(pollListAdaptor);
+        if(clickedpoll.users!=null)
+        for(int i =0 ;i<clickedpoll.users.size();i++)
+        {
+            if(clickedpoll.users.get(i).username.equals(UserInfo.username))
+            {
+
+                //lv.getChildAt(i - lv.getFirstVisiblePosition()).findViewById(R.id.tv_option).setBackgroundColor(Color.parseColor("#008ecc"));
+                RelativeLayout cardView = (RelativeLayout) getViewByPosition(clickedpoll.users.get(i).index,lv).findViewById(R.id.rl_polloption);
+                cardView.setBackgroundColor(0xFFEE3333);
+//                cardView.setVisibility(View.INVISIBLE);
+//                RelativeLayout rl = (RelativeLayout)lv.getItemAtPosition(i);
+//                rl.setBackgroundColor(Color.parseColor("#008ecc"));
+
+                Log.d("debug", "i am here inside ! " + getViewByPosition(i,lv).findViewById(R.id.tv_option));
+
+                break;
+            }
+        }
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,9 +110,15 @@ public class PollLayoutActivity extends AppCompatActivity {
 //                AlertDialog alert11 = builder1.create();
 //                alert11.show();
 
-                clickedpoll.addvote(position,UserInfo.username);
-                dataref.child(currentcourseid).child("Polls").child(String.valueOf(index)).setValue(clickedpoll);
-                pollListAdaptor.notifyDataSetChanged();
+                if(!clickedpoll.addvote(position,UserInfo.username)){
+                    Toast.makeText(getApplicationContext(),"You have already Polled",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    dataref.child(currentcourseid).child("Polls").child(String.valueOf(index)).setValue(clickedpoll);
+                    pollListAdaptor.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(),"Successfully Polled for "+clickedpoll.options.get(position).optiontext,Toast.LENGTH_LONG).show();
+                }
 //                Intent intent1 = getIntent();
 //                startActivity(intent1);
 
@@ -114,5 +147,17 @@ public class PollLayoutActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 }

@@ -58,24 +58,7 @@
             android:id="@+id/ll_createpoll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/et_option1"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:ems="10"
-                android:hint="Option 1"
-                android:inputType="textMultiLine" />
-
-            <EditText
-                android:id="@+id/et_option2"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:ems="10"
-                android:hint="Option 2"
-                android:inputType="textMultiLine" />
-        </LinearLayout>
+            android:orientation="vertical"/>
     </ScrollView>
 
 </LinearLayout>
