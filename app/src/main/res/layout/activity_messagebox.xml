@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,17 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".messageboxActivity">
 
+
     <Button
         android:id="@+id/btn_deletemsg"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="115dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="#777"
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_forwardmsg" />
 
     <TextView
         android:id="@+id/tv_msgbox_subject"
@@ -48,17 +50,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_msgbox_subject"
         app:layout_constraintVertical_bias="0.0">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_layout_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_sender"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:text="Sender"
@@ -66,52 +67,69 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_receiver"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_datetime"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_sender"
-                android:layout_alignParentStart="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:text="date"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:id="@+id/tv_receiver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="2dp"
                 android:text="Receiver" />
 
-            <TextView
-                android:id="@+id/tv_datetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:text="date" />
-
-            <TextView
-                android:id="@+id/tv_body"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="430dp"
-                android:layout_below="@+id/tv_receiver"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:text="Here comes the body of the message klfdsj akljf jkd fjkd fj dkja dkjfk                       --------------------------- dfs dfjksal dfjlk sdafjkl sadklf sakdfj lksajd fsjdkla fjskldf klsdjf ksaj dfklajs kdfj askljfakslf jkasl dfjaskld fjkasdfjlkasj fksja kf slkfd ============================================ dfjkas djflas kldf"
-                android:textColor="@android:color/black" />
+                android:layout_height="match_parent">
 
-        </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="430dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:text="Here comes the body of the message klfdsj akljf jkd fjkd fj dkja dkjfk                       --------------------------- dfs dfjksal dfjlk sdafjkl sadklf sakdfj lksajd fsjdkla fjskldf klsdjf ksaj dfklajs kdfj askljfakslf jkasl dfjaskld fjkasdfjlkasj fksja kf slkfd ============================================ dfjkas djflas kldf"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <Button
         android:id="@+id/btn_replymsg"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="115dp"
-        android:layout_height="46dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/design_default_color_primary"
+        android:background="@color/colorAccent"
         android:text="reply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_forwardmsg"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorAccent"
+        android:text="Forward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_replymsg" />
 </android.support.constraint.ConstraintLayout>
+

@@ -47,11 +47,11 @@ public class MessageListAdaptor extends ArrayAdapter<Messages> {
             TextView datetimetv = convertView.findViewById(R.id.tv_datetime);
             TextView bodytv = convertView.findViewById(R.id.tv_body);
             final TextView msgdirectiontv = convertView.findViewById(R.id.tv_msgdirection);
-
+            String[] arrdate = date.split(" ");
             sendertv.setText(sender);
-            receivertv.setText(receiver);
+            receivertv.setText("To: "+receiver);
             subjecttv.setText(subject);
-            datetimetv.setText(date);
+            datetimetv.setText(arrdate[0]+" "+arrdate[1]+ " "+arrdate[2]+" "+arrdate[3].substring(0,5));
             bodytv.setText(body);
             if (UserInfo.username.equals(sender)) {
                 msgdirectiontv.setText("Sent");

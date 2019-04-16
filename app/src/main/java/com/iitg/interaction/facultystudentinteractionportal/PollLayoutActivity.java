@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -31,6 +33,8 @@ import java.util.ArrayList;
 
 public class PollLayoutActivity extends AppCompatActivity {
     ListView lv;
+    int alreadypolledindex=-1;
+
     TextView question;
     String currentcourseid;
     int index;
@@ -40,6 +44,8 @@ public class PollLayoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layoutpoll);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Polls");
 
         currentcourseid = CourseMainPageStudent.courseID;
         lv = findViewById(R.id.lv_optionlist);
@@ -68,9 +74,10 @@ public class PollLayoutActivity extends AppCompatActivity {
         {
             if(clickedpoll.users.get(i).username.equals(UserInfo.username))
             {
-
+                alreadypolledindex=clickedpoll.users.get(i).index;
                 //lv.getChildAt(i - lv.getFirstVisiblePosition()).findViewById(R.id.tv_option).setBackgroundColor(Color.parseColor("#008ecc"));
                 RelativeLayout cardView = (RelativeLayout) getViewByPosition(clickedpoll.users.get(i).index,lv).findViewById(R.id.rl_polloption);
+                cardView.setBackground(getResources().getDrawable(R.color.colorPrimary));
                 cardView.setBackgroundColor(0xFFEE3333);
 //                cardView.setVisibility(View.INVISIBLE);
 //                RelativeLayout rl = (RelativeLayout)lv.getItemAtPosition(i);
@@ -111,7 +118,7 @@ public class PollLayoutActivity extends AppCompatActivity {
 //                alert11.show();
 
                 if(!clickedpoll.addvote(position,UserInfo.username)){
-                    Toast.makeText(getApplicationContext(),"You have already Polled",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"You have already Polled for option "+String.valueOf(alreadypolledindex),Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -159,5 +166,20 @@ public class PollLayoutActivity extends AppCompatActivity {
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 }

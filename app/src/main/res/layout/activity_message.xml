@@ -30,6 +30,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:stackFromBottom="false"
+        android:listSelector="#8003A9F4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

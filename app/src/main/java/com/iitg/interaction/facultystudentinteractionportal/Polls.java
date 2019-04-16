@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Polls {
+    public String creater;
+    public String creatertype;
     public String question;
 //    public ArrayList<String> options;
 //    public Integer[] optionvotes;
@@ -28,14 +30,14 @@ public class Polls {
         this.question = question;
         this.options = new ArrayList<>();
         this.users = new ArrayList<>();
-
+        this.creater=UserInfo.username;
+        this.creatertype = UserInfo.usertype;
         for(String s : options)
         {
             this.options.add(new Options(s));
         }
         this.isactive = true;
         this.totalvotes = 0;
-
 
     }
 
@@ -105,7 +107,7 @@ class userlist{
 class Options {
     public String optiontext;
     public int votes=0;
-    public int totalvotes;
+    public int totalvotes=0;
 
     public Options()
     {

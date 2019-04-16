@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -40,8 +42,10 @@ public class CreatePollActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_poll);
         Button addoptionbtn = findViewById(R.id.btn_createpoll_addoption);
         Button submitbtn = findViewById(R.id.btn_createpoll_finish);
+        setTitle("Create Poll");
 
-       // ett = findViewById(R.id.et_option1);
+
+        // ett = findViewById(R.id.et_option1);
         //heightet = ett.getHeight();
        // Log.d("debug"," option 1 tag = "+ett.getTag());
 
@@ -152,5 +156,21 @@ public class CreatePollActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 
 }
