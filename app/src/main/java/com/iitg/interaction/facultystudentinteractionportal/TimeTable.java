@@ -126,53 +126,13 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
+
+
                 DatabaseReference in = db.getReference().child("Courses").child(value).child("timeSlots");
                 /*String prev =t.getText().toString();
                 t.setText(prev + "\n" + value);*/
-                in.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String op = dataSnapshot.getValue(String.class);
-                        if(op != null){
-                            /*String prev =t.getText().toString();
-                            t.setText(prev + "\n" + op);*/
-                            String[] split =  op.split(",");
-                            int i = 0;
-                            for(i = 1; i< split.length; i++){
-                                String check = split[i].substring(0,3);
-                                if(check.equals(sub_day)){
-                                    /*String prev =t.getText().toString();
-                                    t.setText(prev + "\n" + value + " " + split[i] );*/
+                filltable(in, ad, value);
 
-                                    String[] split2 =  split[i].split("-");
-
-                                    int begin = Integer.parseInt(split2[1]);
-                                    int dur = Integer.parseInt(split2[2]);
-                                    int j = 0;
-                                    for(j = 0; j< dur; j++){
-                                        int temp = begin + j;
-                                        String ans = "" + temp + " " + value;
-                                        al.add(ans);
-
-
-                                    }
-                                    Collections.sort(al);
-                                    ad.notifyDataSetChanged();
-
-                                }
-                            }
-
-
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
 
             }
 
@@ -198,6 +158,55 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
         });
 
         
+    }
+
+    public void filltable(DatabaseReference in, final ArrayAdapter<String> ad , final String xxx){
+        in.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String op = dataSnapshot.getValue(String.class);
+
+                if(op != null){
+                            /*String prev =t.getText().toString();
+                            t.setText(prev + "\n" + op);*/
+                    String[] split =  op.split(",");
+                    int i = 0;
+                    for(i = 1; i< split.length; i++){
+                        String check = split[i].substring(0,3);
+                        if(check.equals(sub_day)){
+                                    /*String prev =t.getText().toString();
+                                    t.setText(prev + "\n" + value + " " + split[i] );*/
+
+                            String[] split2 =  split[i].split("-");
+
+                            int begin = Integer.parseInt(split2[1]);
+                            int dur = Integer.parseInt(split2[2]);
+                            int j = 0;
+                            for(j = 0; j< dur; j++){
+                                int temp = begin + j;
+                                String ans = "" + temp + j + dur + i + " " + xxx;
+                                al.add(ans);
+
+                                ad.notifyDataSetChanged();
+
+                            }
+                            //Collections.sort(al);
+                            //ad.notifyDataSetChanged();
+
+                        }
+                    }
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 

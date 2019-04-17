@@ -121,7 +121,7 @@ public class Search extends AppCompatActivity {
 
                             /*t.setText(t.getText() + " - " + fullname);*/
                             details.add(dat +  " - " + fullname);
-                            
+
                         }
 
 
