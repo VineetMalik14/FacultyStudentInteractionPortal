@@ -55,8 +55,16 @@ public class UserInfo extends AppCompatActivity {
         UserInfo.year = year;
 
         UserInfo.messages = messages;
+        if(UserInfo.messages==null)
+        {
+            UserInfo.messages = new ArrayList<>();
+        }
 
         UserInfo.courses = courses ;
+        if(UserInfo.courses==null)
+        {
+            UserInfo.courses = new ArrayList<>();
+        }
     }
 
 
@@ -76,6 +84,7 @@ public class UserInfo extends AppCompatActivity {
         department=null;
         year=null;
         courses=null;
+        messages = null;
     }
 
 }

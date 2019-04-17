@@ -28,7 +28,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <!--<activity android:name=".CourseStudentList" />-->
         <activity android:name=".CreatePollActivity" />
-        <activity android:name=".PollLayoutActivity" />
+        <activity android:name=".PollLayoutActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".messageboxActivity" />
         <activity android:name=".ThreadReplies" />
         <activity android:name=".DiscussionThreads">

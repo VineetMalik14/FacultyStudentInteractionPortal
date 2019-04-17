@@ -67,7 +67,7 @@ public class messageboxActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(getApplicationContext(),ComposeMessage.class);
                 intent2.putExtra("sender",sender);
                 intent2.putExtra("subject",subject);
-                intent2.putExtra("replybtn",true);
+                intent2.putExtra("reply",true);
                 startActivity(intent2);
 
             }

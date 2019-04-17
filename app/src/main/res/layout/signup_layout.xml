@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#E5E9FF">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/et_occupation"
@@ -33,7 +33,7 @@
         android:layout_marginBottom="5dp"
         android:dropDownWidth="match_parent"
         android:spinnerMode="dropdown"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black" />
 
     <EditText
         android:id="@+id/et_password2"
@@ -59,6 +59,7 @@
         android:layout_marginTop="15dp"
         android:text="Roll No :"
         android:textAlignment="textStart"
+        android:textColor="#344955"
         android:textSize="18sp" />
 
     <EditText
@@ -85,6 +86,7 @@
         android:layout_marginTop="17dp"
         android:text="Re-enter  :"
         android:textAlignment="textStart"
+        android:textColor="#344955"
         android:textSize="18sp" />
 
     <TextView
@@ -93,10 +95,11 @@
         android:layout_height="41dp"
         android:layout_below="@+id/textView10"
         android:layout_alignStart="@+id/textView6"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="19dp"
         android:text="Password :"
         android:textAlignment="textStart"
+        android:textColor="#344955"
         android:textSize="18sp" />
 
     <EditText
@@ -119,10 +122,11 @@
         android:layout_height="41dp"
         android:layout_below="@+id/textView9"
         android:layout_alignStart="@+id/textView6"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="21dp"
         android:text="Year :"
         android:textAlignment="textStart"
+        android:textColor="#344955"
         android:textSize="18sp" />
 
     <EditText
@@ -149,6 +153,7 @@
         android:layout_marginTop="18dp"
         android:text="Department:"
         android:textAlignment="textStart"
+        android:textColor="#344955"
         android:textSize="18sp" />
 
     <TextView
@@ -157,10 +162,11 @@
         android:layout_height="41dp"
         android:layout_below="@+id/textView7"
         android:layout_alignStart="@+id/textView6"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="17dp"
         android:text="Occupation :"
         android:textAlignment="textStart"
+        android:textColor="#344955"
         android:textSize="18sp" />
 
     <TextView
@@ -173,6 +179,7 @@
         android:layout_marginTop="23dp"
         android:text="Name :"
         android:textAlignment="textStart"
+        android:textColor="#344955"
         android:textSize="18sp" />
 
     <EditText
@@ -199,7 +206,8 @@
         android:layout_marginTop="27dp"
         android:text="E-mail :"
         android:textAlignment="textStart"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="#344955" />
 
     <EditText
         android:id="@+id/et_email"
@@ -218,14 +226,15 @@
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="113dp"
         android:layout_marginEnd="125dp"
         android:layout_marginBottom="23dp"
-        android:background="@android:color/holo_blue_dark"
-        android:text="Sign Up" />
+        android:background="@drawable/buttonstyle"
+        android:text="Sign Up"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

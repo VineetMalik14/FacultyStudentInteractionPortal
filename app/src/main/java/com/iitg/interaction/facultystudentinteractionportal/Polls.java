@@ -45,6 +45,25 @@ public class Polls {
     {
         isactive=false;
     }
+    public void openPoll(){isactive=true;}
+
+    public  void removeuser(String username)
+    {
+        for(userlist user: this.users)
+        {
+            if(user.username.equals(username))
+            {
+                this.options.get(user.index).votes--;
+                this.calculateTotalVotes();
+                this.users.remove(user);
+                break;
+            }
+        }
+
+
+
+        return ;
+    }
 
     public boolean addvote(Integer index,String username)
     {
@@ -54,7 +73,7 @@ public class Polls {
         }
 
         if(users.size()>0)
-        for(int i=0;i<options.size();i++)
+        for(int i=0;i<users.size();i++)
         {
 
             if(users.get(i).username.equals(username))
@@ -79,8 +98,12 @@ public class Polls {
     public Integer calculateTotalVotes()
     {
         Integer sum = 0;
-        for (Options op : options) {
+        for (Options op : this.options) {
             sum+=op.votes;
+        }
+        for (Options op: this.options)
+        {
+            op.totalvotes=sum;
         }
         totalvotes=sum;
         return  sum;

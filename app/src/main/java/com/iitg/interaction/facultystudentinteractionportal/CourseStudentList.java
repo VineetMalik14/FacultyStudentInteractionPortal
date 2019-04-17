@@ -156,24 +156,31 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
                 databaseReference.child("Courses").child(courseid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Intent intent = new Intent(getContext(), CourseMainPageStudent.class);
-                        CourseTitle[0] = dataSnapshot.child("fullname").getValue().toString();
-                        CourseDescription[0] = dataSnapshot.child("description").getValue().toString();
-                         CourseSyllabus[0] = dataSnapshot.child("syllabus").getValue().toString();
-                         CourseMarks[0] = dataSnapshot.child("marksDistribution").getValue().toString();
-                         CourseTimeSlots[0] = dataSnapshot.child("timeSlots").getValue().toString();
+
+                        try{
+                            Intent intent = new Intent(getContext(), CourseMainPageStudent.class);
+                            CourseTitle[0] = dataSnapshot.child("fullname").getValue().toString();
+                            CourseDescription[0] = dataSnapshot.child("description").getValue().toString();
+                            CourseSyllabus[0] = dataSnapshot.child("syllabus").getValue().toString();
+                            CourseMarks[0] = dataSnapshot.child("marksDistribution").getValue().toString();
+                            CourseTimeSlots[0] = dataSnapshot.child("timeSlots").getValue().toString();
 //                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date CourseDateOfCreation =dataSnapshot.child("dateOfCreation").getValue(Date.class);
+                            Date CourseDateOfCreation =dataSnapshot.child("dateOfCreation").getValue(Date.class);
 //                        formatter.format(CourseDateOfCreation);
-                        intent.putExtra("CourseID",courseid);
-                        intent.putExtra("CourseTitle",CourseTitle[0]);
-                        intent.putExtra("CourseDescription",CourseDescription[0]);
-                        intent.putExtra("CourseSyllabus",CourseSyllabus[0]);
-                        intent.putExtra("CourseMarks",CourseMarks[0]);
-                        intent.putExtra("CourseTimeSlots",CourseTimeSlots[0]);
-                        intent.putExtra("CourseDateOfCreation",CourseDateOfCreation.toString());
-                        Log.d("ds","   edjk" + CourseDateOfCreation);
-                        mContext.startActivity(intent);
+                            intent.putExtra("CourseID",courseid);
+                            intent.putExtra("CourseTitle",CourseTitle[0]);
+                            intent.putExtra("CourseDescription",CourseDescription[0]);
+                            intent.putExtra("CourseSyllabus",CourseSyllabus[0]);
+                            intent.putExtra("CourseMarks",CourseMarks[0]);
+                            intent.putExtra("CourseTimeSlots",CourseTimeSlots[0]);
+                            intent.putExtra("CourseDateOfCreation",CourseDateOfCreation.toString());
+                            Log.d("ds","   edjk" + CourseDateOfCreation);
+                            mContext.startActivity(intent);
+                        }
+                        catch (NullPointerException e)
+                        {
+                            Log.d("debug",e.toString());
+                        }
                     }
 
                     @Override

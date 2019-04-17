@@ -2,6 +2,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -61,6 +62,9 @@ public class PollsActivity extends Fragment  {
         });
         final GenericTypeIndicator<ArrayList<Polls>> t = new GenericTypeIndicator<ArrayList<Polls>>() {};
 
+        final ArrayList<String> questionlist = new ArrayList<>();
+        final ArrayAdapter<String> adpater = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,questionlist);
+        lv.setAdapter(adpater);
 
         databaseReference.child(currentcourse).child("Polls").addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,15 +73,14 @@ public class PollsActivity extends Fragment  {
                 polls = pollslist;
                 if(pollslist!=null)
                 {
-                    ArrayList<String> questionlist = new ArrayList<>();
+
                     for(Polls p : pollslist)
                     {
                         Log.d("debug","doosre wala datachange");
                         questionlist.add(p.question);
                     }
+                    adpater.notifyDataSetChanged();
 
-                    final ArrayAdapter<String> adpater = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,questionlist);
-                    lv.setAdapter(adpater);
                 }
             }
 
@@ -96,6 +99,7 @@ public class PollsActivity extends Fragment  {
                 PollLayoutActivity.clickedpoll=requiredpoll;
                 Intent intent = new Intent(getContext(),PollLayoutActivity.class);
                 intent.putExtra("index",position);
+
                 startActivity(intent);
             }
         });

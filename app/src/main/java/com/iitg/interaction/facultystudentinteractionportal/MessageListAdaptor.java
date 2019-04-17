@@ -59,7 +59,7 @@ public class MessageListAdaptor extends ArrayAdapter<Messages> {
 
             } else {
                 msgdirectiontv.setText("Received");
-                msgdirectiontv.setTextColor(Color.GREEN);
+                msgdirectiontv.setTextColor(Color.rgb(34,139,34));
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {
