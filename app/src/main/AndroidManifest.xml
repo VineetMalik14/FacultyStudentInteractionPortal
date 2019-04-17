@@ -13,11 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".EventsMainPage"></activity>
         <activity
             android:name=".home"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!-- <activity android:name=".EnrollCourseStudent"> -->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity android:name=".EnrollCourseStudent"> -->
         <!-- </activity> -->
         <activity android:name=".StudentEnrollActivity" /> <!-- <activity android:name=".SearchAllCourses" /> -->
         <activity
@@ -27,10 +27,8 @@
         <activity
             android:name=".CourseMainPageStudent"
             android:label="@string/title_activity_course_main_page_student"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!--<activity android:name=".CourseStudentList" >-->
-
-        <!--</activity>-->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity android:name=".CourseStudentList" > -->
+        <!-- </activity> -->
         <activity android:name=".CreatePollActivity" />
         <activity android:name=".PollLayoutActivity" />
         <activity android:name=".messageboxActivity" />

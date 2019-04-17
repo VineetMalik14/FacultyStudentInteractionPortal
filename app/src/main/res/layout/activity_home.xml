@@ -38,12 +38,13 @@
 
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/tabs">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Schedule" />
+                android:text="Upcoming Events" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
@@ -53,7 +54,7 @@
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upcoming Events" />
+                android:text="Timetable" />
         </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
