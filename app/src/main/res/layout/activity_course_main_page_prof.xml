@@ -23,6 +23,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="68dp"
             android:text="Date of Creation"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -58,6 +59,8 @@
             android:layout_marginTop="72dp"
             android:hint="Course id"
             android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/my_toolbar" />
 
@@ -78,10 +81,11 @@
             android:id="@+id/textView11"
             android:layout_width="155dp"
             android:layout_height="35dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="56dp"
             android:text="Description"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView9" />
 
@@ -91,9 +95,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
+            android:background="#0C000000"
             android:clickable="false"
-            android:ems="10"
 
+            android:ems="10"
             android:hint="description"
             android:inputType="textMultiLine|textPersonName"
             android:nestedScrollingEnabled="true"
@@ -109,6 +114,7 @@
             android:layout_marginTop="20dp"
             android:text="Syllabus"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText6" />
 
@@ -118,6 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
+            android:background="#0C000000"
             android:clickable="false"
             android:ems="10"
             android:hint="syllabus"
@@ -136,6 +143,7 @@
             android:hint="marks"
             android:text="Marks Distribution"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
@@ -146,6 +154,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#0C000000"
             android:clickable="false"
             android:ems="10"
             android:hint="marks distribution"
@@ -173,6 +182,7 @@
             android:layout_marginEnd="216dp"
             android:text="Time Slots"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText8" />
 
@@ -182,6 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:background="#0C000000"
             android:inputType="textImeMultiLine"
             android:minLines="1"
             android:scrollbars="horizontal|vertical"
@@ -196,11 +207,14 @@
             android:id="@+id/textView16"
             android:layout_width="175dp"
             android:layout_height="36dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="212dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="56dp"
             android:text="Materials"
-            android:textSize="18sp"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
 
@@ -208,10 +222,14 @@
             android:id="@+id/hiddenbtn"
             android:layout_width="384dp"
             android:layout_height="36dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Show Additional Information"
+            android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <ListView
@@ -230,12 +248,13 @@
         <TextView
             android:id="@+id/textView17"
             android:layout_width="128dp"
-            android:layout_height="31dp"
+            android:layout_height="35dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:text="Events"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.049"
             app:layout_constraintStart_toStartOf="parent"
@@ -244,9 +263,8 @@
         <ListView
             android:id="@+id/EventsList"
             android:layout_width="370dp"
-            android:layout_height="316dp"
+            android:layout_height="313dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
             app:layout_constraintStart_toStartOf="parent"
@@ -259,7 +277,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Update"
+            android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -271,7 +291,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Update"
+            android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.447"
             app:layout_constraintStart_toEndOf="@+id/textView12"
@@ -284,7 +306,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Update"
+            android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.472"
             app:layout_constraintStart_toEndOf="@+id/textView13"
@@ -298,6 +322,7 @@
             android:layout_marginEnd="216dp"
             android:text="Enroll Key"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.175"
             app:layout_constraintStart_toStartOf="parent"
@@ -309,6 +334,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="216dp"
+            android:background="#0C000000"
             android:inputType="text"
             android:text="key"
             app:layout_constraintEnd_toEndOf="parent"
@@ -323,7 +349,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Update"
+            android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.673"
             app:layout_constraintStart_toEndOf="@+id/textView18"

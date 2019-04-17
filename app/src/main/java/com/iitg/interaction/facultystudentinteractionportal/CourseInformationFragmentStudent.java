@@ -259,11 +259,11 @@ public class CourseInformationFragmentStudent extends Fragment {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            TypeText.setText("Type:" +  events.get(position).getType());
+            TypeText.setText( events.get(position).getType());
             DescriptionText.setText("Description:\n" + events.get(position).getDescription());
             VenueText.setText("Venue: "+events.get(position).getVenue());
-            DateeventText.setText("Date: " + events.get(position).getDateOfEvent());
-            TimeText.setText("Time: " + events.get(position).getTimeOfEvent());
+            DateeventText.setText( events.get(position).getDateOfEvent());
+            TimeText.setText(events.get(position).getTimeOfEvent());
             return convertView;
         }
     }

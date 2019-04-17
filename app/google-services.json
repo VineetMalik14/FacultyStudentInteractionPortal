@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:91495189802:android:62b66d9595a5eaac",
+        "android_client_info": {
+          "package_name": "com.example.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91495189802-no7iphargaeag9kpbdothv9j2oimsq8n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.todo",
+            "certificate_hash": "260278d7b40df30af674dfd215136ba78e5ccfff"
+          }
+        },
+        {
+          "client_id": "91495189802-r85e2iu6nbu9dv1fs2n6rfstaqpq9ik3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP5HEYJ1vg41Ubcfsig0wJ36aV4Q3bKBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91495189802-r85e2iu6nbu9dv1fs2n6rfstaqpq9ik3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:91495189802:android:52b1ca2f3c1453c5",
         "android_client_info": {
           "package_name": "com.iitg.interaction.facultystudentinteractionportal"
@@ -15,9 +52,7 @@
       },
       "oauth_client": [
         {
-
-          "client_id": "91495189802-jhbeoj9supdm49255gci4hoh2c0ket8e.apps.googleusercontent.com",
-
+          "client_id": "91495189802-6ebuosu1nslqd3j92o4leu45e1rcf2tu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.iitg.interaction.facultystudentinteractionportal",
@@ -57,30 +92,24 @@
           }
         },
         {
-
-          "client_id": "91495189802-cl63nrdhdooa701gnu6k0t7ubafaml64.apps.googleusercontent.com",
+          "client_id": "91495189802-jhbeoj9supdm49255gci4hoh2c0ket8e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.iitg.interaction.facultystudentinteractionportal",
-            "certificate_hash": "2dbadd1ac50c9068d4c116c680784f49870447dd"
+            "certificate_hash": "81410122458057de327cb47cbfa3680ace47deda"
           }
         },
         {
-          "client_id": "91495189802-e992ppeg59qq0u00amvjvahpqdu5lq70.apps.googleusercontent.com",
+          "client_id": "91495189802-s53tce9q6tn8rsb48eojqslct4f94sv4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.iitg.interaction.facultystudentinteractionportal",
-            "certificate_hash": "9d1bfd3f64aad1ddc172a4dbede82f1712a2bb4c"
+            "certificate_hash": "605c8668705f3ab21c829e7e873b1030ebb0f6ab"
           }
         },
         {
-          "client_id": "91495189802-sgbb9km9hiabd0ebj1bqvlsum289jtag.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.iitg.interaction.facultystudentinteractionportal",
-            "certificate_hash": "d2159fd4783182af403bf124dbdf0bc59ea0e394"
-          }
-
+          "client_id": "91495189802-r85e2iu6nbu9dv1fs2n6rfstaqpq9ik3.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [

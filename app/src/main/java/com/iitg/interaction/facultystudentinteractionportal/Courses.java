@@ -36,7 +36,7 @@ public class Courses {
 
     }
 
-    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events,String timeSlots) {
+    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events,String timeSlots,String threads) {
         CourseID = courseID;
         CourseKey = courseKey;
         Description = description;
@@ -46,6 +46,7 @@ public class Courses {
         Professor = professor;
         Syllabus = syllabus;
         TimeSlots = timeSlots;
+        threads = threads;
 //        this.events = new ArrayList<>();
     }
     public Courses(){

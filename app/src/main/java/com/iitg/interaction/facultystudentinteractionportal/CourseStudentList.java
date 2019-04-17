@@ -1,8 +1,12 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,15 +33,22 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class CourseStudentList extends AppCompatActivity {
+public class CourseStudentList extends Fragment {
 
     private DatabaseReference databaseReference;
+    // TODO see this
+    @SuppressLint("RestrictedApi")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_student_list);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_course_student_list);
 
-        final ListView listView = findViewById(R.id.lv_courselist);
+        if(UserInfo.usertype.equals("Stud"))
+        {
+            FloatingActionButton floatingActionButton = getView().findViewById(R.id.fab_add_course);
+            floatingActionButton.setVisibility(View.GONE);
+        }
+        final ListView listView = getView().findViewById(R.id.lv_courselist);
 
         final ArrayList<Courseinfo> courseinfos = new ArrayList<>();
 
@@ -55,7 +66,7 @@ public class CourseStudentList extends AppCompatActivity {
                     }
                 }
 
-                CourseInfoAdaptor courseInfoAdaptor = new CourseInfoAdaptor(CourseStudentList.this,R.layout.course_info_layout_student,courseinfos);
+                CourseInfoAdaptor courseInfoAdaptor = new CourseInfoAdaptor(getActivity(),R.layout.course_info_layout_student,courseinfos);
 
                 listView.setAdapter(courseInfoAdaptor);
 
@@ -68,8 +79,24 @@ public class CourseStudentList extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton floatingActionButton = getView().findViewById(R.id.fab_add_course);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),CourseAdd.class);
+                startActivity(intent);
+            }
+        });
 
 
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_course_student_list, container, false);
+        return rootView;
     }
 }
 

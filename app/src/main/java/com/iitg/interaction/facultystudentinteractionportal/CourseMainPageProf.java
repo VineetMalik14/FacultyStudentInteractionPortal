@@ -880,11 +880,11 @@ public class CourseMainPageProf extends Fragment {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            TypeText.setText("Type:" +  events.get(position).getType());
+            TypeText.setText(   events.get(position).getType());
             DescriptionText.setText("Description:\n" + events.get(position).getDescription());
             VenueText.setText("Venue: "+events.get(position).getVenue());
-            DateeventText.setText("Date: " + events.get(position).getDateOfEvent());
-            TimeText.setText("Time: " + events.get(position).getTimeOfEvent());
+            DateeventText.setText( events.get(position).getDateOfEvent());
+            TimeText.setText( events.get(position).getTimeOfEvent());
             return convertView;
         }
     }
@@ -903,7 +903,10 @@ public class CourseMainPageProf extends Fragment {
 //TODO 5. different course main pages for students and prof from Main Activity page
 //TODO 6. parse the filenames
 //TODO 7. create polls which are visible only to students
-
+//TODO 8. see all the back buttons
+//TODO 9. convert course add content to send to course main page using fragment
+//TODO 10. not able to add new courses in professors(user) list
+//TODO 11. make the prof fill the contents of the course
 
 // TODO ANNANYA Modify Course Class to include Project of courses
 // TODO ANNANYA Add progress bar

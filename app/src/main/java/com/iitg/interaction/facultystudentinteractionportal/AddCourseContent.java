@@ -2,6 +2,8 @@ package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -17,8 +19,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.Calendar;
@@ -40,6 +46,7 @@ public class AddCourseContent extends AppCompatActivity {
     public String InDatabaseSlotsText=",";
     public Spinner spinner;
     int[] days=new int[5];
+    String lastindex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +54,64 @@ public class AddCourseContent extends AppCompatActivity {
         setContentView(R.layout.activity_add_course_content);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        String courseid = getIntent().getStringExtra("CourseID");
+        UserInfo.courses.add(courseid);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        final DatabaseReference databaseReference_users_add_course = FirebaseDatabase.getInstance().getReference();
+        databaseReference_users_add_course.child("users").child(UserInfo.username).child("courses").setValue(UserInfo.courses);
+//        databaseReference_users_add_course.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                for(DataSnapshot childsnapshot: dataSnapshot.getChildren()){
+//                    lastindex = ((childsnapshot.getKey()));
+//                }
+//                databaseReference_users_add_course.child("Users").child("yupp").child(""+(lastindex+1)).setValue(getIntent().getStringExtra("CourseID"));
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//        databaseReference_users_add_course.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                long count = dataSnapshot.getChildrenCount();
+//                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+//                databaseReference.child("Users").child("yupp").child("courses").child(Long.toString(count)).setValue(getIntent().getStringExtra("CourseID"));
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+//
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         CourseIDTextView = findViewById(R.id.textView2);
         CourseNameTextView = findViewById(R.id.editText);
@@ -309,13 +365,13 @@ public class AddCourseContent extends AppCompatActivity {
                     Courses courses = new Courses(CourseIDTextView.getText().toString(),KeyTextView.getText().toString(),
                             DescriptionTextView.getText().toString(), Calendar.getInstance().getTime(),
                             CourseNameTextView.getText().toString(),MarksTextView.getText().toString()
-                            ,"ABCD",SyllabusTextView.getText().toString(),null,InDatabaseSlotsText);
+                            ,UserInfo.username,SyllabusTextView.getText().toString(),null,InDatabaseSlotsText,null);
 
                     databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue(courses);
 
                     // adding all the information in putExtra to show in course content page of prof where events and materials can also be added
                     //----------------------------------
-                    Intent intent = new Intent(AddCourseContent.this, CourseMainPageProf.class);
+                    Intent intent = new Intent(AddCourseContent.this, CourseMainPageStudent.class);
                     intent.putExtra("CourseID",CourseIDTextView.getText().toString());
                     intent.putExtra("CourseTitle",CourseNameTextView.getText().toString());
                     intent.putExtra("CourseDescription",DescriptionTextView.getText().toString());
@@ -324,6 +380,7 @@ public class AddCourseContent extends AppCompatActivity {
                     intent.putExtra("CourseKey",KeyTextView.getText().toString());
                     intent.putExtra("CourseTimeSlots",textView5.getText().toString());
                     intent.putExtra("CourseDateOfCreation",Calendar.getInstance().getTime().toString());
+                    CourseMainPageStudent.courseID = CourseIDTextView.getText().toString();
                     finish();
                     startActivity(intent);
 
