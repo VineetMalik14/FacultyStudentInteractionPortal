@@ -1,10 +1,16 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +30,11 @@ import java.util.ArrayList;
 public class CreatePollActivity extends AppCompatActivity {
 
     int numberOfLines = 0;
-    String currentcourse="CS101";
+    int heightet;
+    EditText ett;
+    public ArrayList<Polls> pollslist;
+    public String currentcourse=CourseMainPageStudent.courseID;
+
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(currentcourse);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +42,16 @@ public class CreatePollActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_poll);
         Button addoptionbtn = findViewById(R.id.btn_createpoll_addoption);
         Button submitbtn = findViewById(R.id.btn_createpoll_finish);
+        setTitle("Create Poll");
 
-        EditText ett = findViewById(R.id.et_option1);
-        Log.d("debug"," option 1 tag = "+ett.getTag());
+
+        // ett = findViewById(R.id.et_option1);
+        //heightet = ett.getHeight();
+       // Log.d("debug"," option 1 tag = "+ett.getTag());
+
+        Add_Line();
+        Add_Line();
+
         addoptionbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,11 +74,16 @@ public class CreatePollActivity extends AppCompatActivity {
     public void Add_Line() {
         LinearLayout ll = (LinearLayout)findViewById(R.id.ll_createpoll);
         // add edittext
+
         EditText et = new EditText(this);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         et.setLayoutParams(p);
         et.setHint("Option "+ (numberOfLines+1));
+
+        et.setInputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         et.setId(numberOfLines+1);
+        et.getLayoutParams().height = 150;
+
         //et.setTag(numberOfLines+1);
         Log.d("debug"," id "+ et.getId());
         ll.addView(et);
@@ -71,19 +93,19 @@ public class CreatePollActivity extends AppCompatActivity {
     void submitfunc()
     {
         EditText question = findViewById(R.id.et_createpoll_question);
-        EditText option1 = findViewById(R.id.et_option1);
-        EditText option2 = findViewById(R.id.et_option2);
+//        EditText option1 = findViewById(R.id.et_option1);
+//        EditText option2 = findViewById(R.id.et_option2);
 
         ArrayList<String> optionlist= new ArrayList<>();
-        if(!option1.getText().toString().isEmpty())
-        {
-            optionlist.add(option1.getText().toString());
-        }
-
-        if(!option2.getText().toString().isEmpty())
-        {
-            optionlist.add(option2.getText().toString());
-        }
+//        if(!option1.getText().toString().isEmpty())
+//        {
+//            optionlist.add(option1.getText().toString());
+//        }
+//
+//        if(!option2.getText().toString().isEmpty())
+//        {
+//            optionlist.add(option2.getText().toString());
+//        }
 
 
         for(int i = 1;i<=numberOfLines;i++)
@@ -109,7 +131,7 @@ public class CreatePollActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Polls> pollslist;
+
                 pollslist = dataSnapshot.child("Polls").getValue(t);
                 if(pollslist==null)
                 {
@@ -120,6 +142,10 @@ public class CreatePollActivity extends AppCompatActivity {
                 databaseReference.child("Polls").setValue(pollslist);
 
                 Toast.makeText(getApplicationContext(),"Poll added successfully!",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(),CourseMainPageStudent.class);
+                intent.putExtra("poll",true);
+                startActivity(intent);
+
             }
 
             @Override
@@ -130,5 +156,21 @@ public class CreatePollActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 
 }

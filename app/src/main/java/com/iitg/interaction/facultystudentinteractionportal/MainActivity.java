@@ -133,17 +133,17 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        } else if (id == R.id.nav_FAQ) {
-            Intent intent = new Intent(MainActivity.this,CreatePollActivity.class);
-            startActivity(intent);
+        } else if (id == R.id.nav_outlook) {
+//            Intent intent = new Intent(MainActivity.this,PollsActivity.class);
+//            startActivity(intent);
 
-        } else if (id == R.id.nav_FAQ) {
+        } else if (id == R.id.nav_logout) {
 
             SharedPreferences preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
 
             editor.putBoolean("logined",false);
-            editor.commit();
+            editor.apply();
             UserInfo.logout();
             Intent intent = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);

@@ -7,6 +7,8 @@ import android.media.MediaRouter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,6 +49,9 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_layout);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Sign Up");
+
         name = findViewById(R.id.et_name);
         email = findViewById(R.id.et_email);
         rollnumber = findViewById(R.id.et_rollnumber);
@@ -286,5 +291,21 @@ public class SignupActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 
 }

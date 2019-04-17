@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,6 +33,8 @@ public class ComposeMessage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose_message);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Compose Message");
         receiver= findViewById(R.id.et_receiver);
         subject = findViewById(R.id.et_subject);
         body = findViewById(R.id.et_msgbody);
@@ -43,29 +47,57 @@ public class ComposeMessage extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        try
+
+        if(intent.getBooleanExtra("reply",false))
         {
+            setTitle("Reply");
+
             String replysender = intent.getStringExtra("sender");
             String replysubject = intent.getStringExtra("subject");
+
             if(replysender!=null)
             {
                 receiver.setText(replysender);
             }
             if(replysubject!=null)
             {
-                if(replysender.startsWith("Re: "))
+                if(replysubject.startsWith("Re:"))
                 {
-                    subject.setText(replysender);
+                    subject.setText(replysubject);
                 }else
                 {
                     subject.setText("Re: "+ replysubject);
                 }
             }
         }
-        catch (NullPointerException e)
+        else if( intent.getBooleanExtra("forward",false))
         {
+            setTitle("Forward");
+
+            String fwdbody = intent.getStringExtra("body");
+            String fwdsubject = intent.getStringExtra("subject");
+
+            if(fwdbody!=null)
+            {
+                body.setText(fwdbody);
+            }
+            if(fwdsubject!=null)
+            {
+                if(fwdsubject.startsWith("Fwd:"))
+                {
+                    subject.setText(fwdsubject);
+                }else
+                {
+                    subject.setText("Fwd: "+ fwdsubject);
+                }
+            }
 
         }
+        else
+        {
+            setTitle("Compose Message");
+        }
+
 
 
 
@@ -144,5 +176,21 @@ public class ComposeMessage extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 
 }

@@ -19,3 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepattributes Signature
+-keepclassmembers class com.iitg.interaction.facultystudentinteractionportal.** {*;}
+
+-keep class com.google.firebase.example.fireeats.java.model.** { *; }
+-keep class com.google.firebase.example.fireeats.kotlin.model.** { *; }
+-dontwarn okio.**
+-dontwarn retrofit2.Call
+-dontnote retrofit2.Platform$IOS$MainThreadExecutor
+-keep class android.support.v7.widget.RecyclerView { *; }

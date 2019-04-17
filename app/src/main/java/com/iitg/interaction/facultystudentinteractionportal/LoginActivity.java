@@ -13,6 +13,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -61,6 +62,22 @@ public class LoginActivity<scopes> extends AppCompatActivity {
     EditText etpassword;
     FirebaseAuth firebaseAuth;
 
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            btn_login.setEnabled(true);
+        }
+    };
+
+    Runnable runnable2 = new Runnable() {
+        @Override
+        public void run() {
+            btn_customlogin.setEnabled(true);
+        }
+    };
+
+
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     public SharedPreferences preferences;
@@ -98,7 +115,12 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                         NewUser user=dataSnapshot.child("users").child(preferences.getString("username",null)).getValue(NewUser.class);
                         if(user == null)
                         {
+
                             Log.d("debug","ERROR Already logged in but user is null ");
+                            preferences.edit().putBoolean("logined",false);
+                            Intent intent  = getIntent();
+                            startActivity(intent);
+                            LoginActivity.this.finish();
                             return;
                         }
 
@@ -148,6 +170,8 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         btn_customlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_customlogin.setEnabled(false);
+                handler.postDelayed(runnable2,2000);
                 customloginfunction();
             }
         });
@@ -155,6 +179,9 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_login.setEnabled(false);
+                handler.postDelayed(runnable,2000);
+                //btn_login.setEnabled(true);
 
                 loginfunction();
 
@@ -195,8 +222,16 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Welcome "+user.fullname,Toast.LENGTH_LONG).show();
                         UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses,user.messages);
 
+
+                        preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
+                        final SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("logined",true);
+                        editor.putString("username",UserInfo.username);
+                        editor.apply();
+
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
+                        LoginActivity.this.finish();
                     }
                     else
                     {
@@ -332,7 +367,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                 final SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("logined",true);
                 editor.putString("username",UserInfo.username);
-                editor.commit();
+                editor.apply();
                 //-------------------------------------------------------
 
 

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +30,9 @@ public class messageboxActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messagebox);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("");
+
         TextView subjecttv= findViewById(R.id.tv_msgbox_subject);
         TextView sendertv = findViewById(R.id.tv_sender);
         TextView receivertv = findViewById(R.id.tv_receiver);
@@ -35,14 +40,15 @@ public class messageboxActivity extends AppCompatActivity {
         TextView bodytv = findViewById(R.id.tv_body);
         Button deletebtn= findViewById(R.id.btn_deletemsg);
         Button replybtn = findViewById(R.id.btn_replymsg);
+        Button forwardbtn= findViewById(R.id.btn_forwardmsg);
 
 
         Intent intent = getIntent();
         final String subject = intent.getStringExtra("subject");
         final String sender = intent.getStringExtra("sender");
         final String receiver = intent.getStringExtra("receiver");
-        String body = intent.getStringExtra("body");
-        String date = intent.getStringExtra("datetime");
+        final String body = intent.getStringExtra("body");
+        final String date = intent.getStringExtra("datetime");
         final int uniqueid =intent.getIntExtra("id",-1);
 
 
@@ -61,6 +67,20 @@ public class messageboxActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(getApplicationContext(),ComposeMessage.class);
                 intent2.putExtra("sender",sender);
                 intent2.putExtra("subject",subject);
+                intent2.putExtra("replybtn",true);
+                startActivity(intent2);
+
+            }
+        });
+
+        forwardbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[]  arrdate= date.split(" ");
+                Intent intent2 = new Intent(getApplicationContext(),ComposeMessage.class);
+                intent2.putExtra("body","From: "+sender+"\nTo: "+receiver+"\nDate: "+arrdate[1]+" "+arrdate[2]+" "+arrdate[4]+"\n\n"+body);
+                intent2.putExtra("subject",subject);
+                intent2.putExtra("forward",true);
                 startActivity(intent2);
 
             }
@@ -70,16 +90,18 @@ public class messageboxActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users");
-                ArrayList<Messages> msglist=UserInfo.messages;
+                //ArrayList<Messages> msglist=UserInfo.messages;
                 Log.d("debug","uniquid in clikclistener = "+uniqueid);
 
-                Log.d("debug","msglis "+msglist.size() + " "+uniqueid);
+                Log.d("debug","msglis "+UserInfo.messages.size() + " "+uniqueid);
                 if(uniqueid==-1)
                 {
                     Toast.makeText(getApplicationContext(),"Not able to delete!",Toast.LENGTH_LONG).show();
                     return;
                 }
-                msglist.remove(uniqueid);
+                //msglist.remove(uniqueid);
+                UserInfo.messages.remove(uniqueid);
+
 
 //                for(Messages a : msglist)
 //                {
@@ -88,10 +110,12 @@ public class messageboxActivity extends AppCompatActivity {
 //
 //                    break;
 //                }
-                dataref.child(UserInfo.username).child("messages").setValue(msglist);
+                dataref.child(UserInfo.username).child("messages").setValue(UserInfo.messages);
 
-                Intent intent1 = new Intent(getApplicationContext(),MessageActivity.class);
-                startActivity(intent1);
+                Toast.makeText(getApplicationContext(),"Message Deleted Successfully",Toast.LENGTH_LONG).show();
+
+//                Intent intent1 = new Intent(getApplicationContext(),MessageActivity.class);
+//                startActivity(intent1);
                 messageboxActivity.this.finish();
             }
         });
@@ -99,4 +123,20 @@ public class messageboxActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 }

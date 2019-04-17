@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,7 @@ import java.util.Arrays;
 
 public class PollsActivity extends Fragment  {
     ListView lv;
-    Button addbtn;
+    FloatingActionButton addbtn;
     String currentcourse;
 
     ArrayList<Polls> polls;
@@ -49,7 +51,7 @@ public class PollsActivity extends Fragment  {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         lv = getView().findViewById(R.id.lv_pollsmainlist);
-        addbtn = getView().findViewById(R.id.btn_addpoll);
+        addbtn = getView().findViewById(R.id.fab_addpoll);
         addbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +72,7 @@ public class PollsActivity extends Fragment  {
                     ArrayList<String> questionlist = new ArrayList<>();
                     for(Polls p : pollslist)
                     {
+                        Log.d("debug","doosre wala datachange");
                         questionlist.add(p.question);
                     }
 
