@@ -69,6 +69,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -111,7 +112,7 @@ public class CourseMainPageProf extends Fragment {
     NotificationChannel channel;
 
 
-
+    public ArrayList<CourseProject> projects = new ArrayList<CourseProject>();
 
 
     TextView FileNameProject;
@@ -135,7 +136,13 @@ public class CourseMainPageProf extends Fragment {
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+//        Toolbar toolbar = getView().findViewById(R.id.my_toolbar);
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
+        // filling the values in the content page
+
+//        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID"));
         TextView textView = getView().findViewById(R.id.textView4);
         textView.setText(getActivity().getIntent().getStringExtra("CourseID"));
         TextView textView1 = getView().findViewById(R.id.textView7);
@@ -177,6 +184,7 @@ public class CourseMainPageProf extends Fragment {
                 Log.v("Size", String.valueOf(events.size()));
                 ListView listView1 = getView().findViewById(R.id.EventsList);
                 final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
+////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
                 listView1.setAdapter(customAdapter1);
             }
 
@@ -208,13 +216,18 @@ public class CourseMainPageProf extends Fragment {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // now we have  all the value that will be needed for
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
                         CourseMaterial item = customAdapter.getItem(position);
                         downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
+                        // now send the key with the intent you are showing
                     }
                 });
 
+//                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
+
+//                Log.v("Size", String.valueOf(materials.size()));
             }
 
             @Override
@@ -222,9 +235,78 @@ public class CourseMainPageProf extends Fragment {
 
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("CourseProject");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                projects = new ArrayList<CourseProject>();
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    CourseProject project = messageSnapshot.getValue(CourseProject.class);
+                    projects.add(project);
+
+                }
+                Collections.reverse(projects);
+                ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.CourseProjects);
+                final CustomAdapter2 customAdapter = new CustomAdapter2(getActivity(),projects);
+                listView.setAdapter(customAdapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // now we have  all the value that will be needed for
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        CourseProject item = customAdapter.getItem(position);
+                        assert item != null;
+                        downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
+                        // now send the key with the intent you are showing
+                    }
+                });
+
+//                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
+
+//                Log.v("Size", String.valueOf(materials.size()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
         //------------------------------------------------------------------------------------
 
 
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+
+//        final TextView urlText = getView().findViewById(R.id.textView4);
+//        urlText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                new DownloadFileFromURL().execute(urlText.getText().toString());
+//                downloadFiles(getActivity(),"ABC.pdf",DIRECTORY_DOWNLOADS,urlText.getText().toString());
+//            }
+//        });
         getView().findViewById(R.id.textView11).setVisibility(View.GONE);
         getView().findViewById(R.id.editText6).setVisibility(View.GONE);
         getView().findViewById(R.id.textView12).setVisibility(View.GONE);
@@ -250,6 +332,7 @@ public class CourseMainPageProf extends Fragment {
         getView().findViewById(R.id.CourseProjects).setVisibility(View.GONE);
         count++;
         count1++;
+//        int count2=0;
         count2++;
         count3++;
         Button textView16 = getView().findViewById(R.id.textView16);
@@ -258,7 +341,7 @@ public class CourseMainPageProf extends Fragment {
             public void onClick(View v) {
                 if(count1%2==1)
                 {
-                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
+                    Objects.requireNonNull(getView()).findViewById(R.id.course_material).setVisibility(View.VISIBLE);
                     count1++;
                 }
                 else
@@ -269,6 +352,29 @@ public class CourseMainPageProf extends Fragment {
 
             }
         });
+
+        Button button4 = getView().findViewById(R.id.button4);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count3%2==1)
+                {
+                    getView().findViewById(R.id.CourseProjects).setVisibility(View.VISIBLE);
+                    count3++;
+                }
+                else
+                {
+                    getView().findViewById(R.id.CourseProjects).setVisibility(View.GONE);
+                    count3++;
+                }
+
+            }
+        });
+
+
+
+
+
         Button textView17 = getView().findViewById(R.id.textView17);
         textView17.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,7 +437,25 @@ public class CourseMainPageProf extends Fragment {
                 else {
                     getView().findViewById(R.id.textView11).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.editText6).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.textView9).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView9).setVisibility(View.VISIBLE);//    class CustomAdapter2 extends ArrayAdapter<CourseProject> {
+//
+//        public CustomAdapter2(Context context, ArrayList<CourseProject> threads) {
+//            super(context, 0, threads);
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent){
+//            convertView = getLayoutInflater().inflate(R.layout.course_list_project_prof,null);
+//            TextView TitleView = convertView.findViewById(R.id.textView19);
+//            TextView datecreationText = convertView.findViewById(R.id.textView20);
+//            TextView TypeText = convertView.findViewById(R.id.textView23);
+//
+//
+//        }
+//
+//
+//    }
+
                     getView().findViewById(R.id.textView8).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.textView12).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.editText7).setVisibility(View.VISIBLE);
@@ -353,6 +477,9 @@ public class CourseMainPageProf extends Fragment {
         getView().findViewById(R.id.editText7).setFocusable(false);
         getView().findViewById(R.id.editText6).setFocusable(false);
         getView().findViewById(R.id.textView25).setFocusable(false);
+//        getView().findViewById(R.id.editText8).setClickable(false);
+//        getView().findViewById(R.id.editText7).setClickable(false);
+//        getView().findViewById(R.id.editText6).setClickable(false);
 
         getView().findViewById(R.id.editText6).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -360,6 +487,8 @@ public class CourseMainPageProf extends Fragment {
                 ScrollView scrollView= getView().findViewById(R.id.scrollView2);
                 scrollView.requestDisallowInterceptTouchEvent(true);
                 getView().findViewById(R.id.editText6).setFocusable(false);
+//                getView().findViewById(R.id.editText6).setClickable(true);
+//                getView().findViewById(R.id.editText6).setEnabled(true);
                 getView().findViewById(R.id.editText6).setFocusableInTouchMode(true);
                 getView().findViewById(R.id.button5).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
@@ -369,6 +498,7 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.editText6);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.editText6).setFocusable(false);
+//                        getView().findViewById(R.id.editText6).setClickable(false);
                         getView().findViewById(R.id.button5).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Description has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -382,6 +512,8 @@ public class CourseMainPageProf extends Fragment {
             public boolean onLongClick(View v) {
                 getView().findViewById(R.id.editText7).setFocusable(true);
                 getView().findViewById(R.id.editText7).setFocusableInTouchMode(true);
+//                getView().findViewById(R.id.editText7).setClickable(true);
+//                getView().findViewById(R.id.editText7).setEnabled(true);
                 getView().findViewById(R.id.button6).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -390,6 +522,7 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.editText7);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.editText7).setFocusable(false);
+//                        getView().findViewById(R.id.editText7).setClickable(false);
                         getView().findViewById(R.id.button6).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Syllabus has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -403,6 +536,9 @@ public class CourseMainPageProf extends Fragment {
             public boolean onLongClick(View v) {
                 getView().findViewById(R.id.editText8).setFocusable(true);
                 getView().findViewById(R.id.editText8).setFocusableInTouchMode(true);
+//                getView().findViewById(R.id.editText8).setClickable(true);
+//                getView().findViewById(R.id.editText8).setEnabled(true);
+//                getView().findViewById(R.id.editText8).setFocusableInTouchMode(true);
                 getView().findViewById(R.id.button7).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -411,6 +547,7 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.editText8);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.editText8).setFocusable(false);
+//                        getView().findViewById(R.id.editText8).setClickable(false);
                         getView().findViewById(R.id.button7).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Marks Distribution has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -425,6 +562,8 @@ public class CourseMainPageProf extends Fragment {
                 ScrollView scrollView= getView().findViewById(R.id.scrollView2);
                 scrollView.requestDisallowInterceptTouchEvent(true);
                 getView().findViewById(R.id.textView25).setFocusable(false);
+//                getView().findViewById(R.id.editText6).setClickable(true);
+//                getView().findViewById(R.id.editText6).setEnabled(true);
                 getView().findViewById(R.id.textView25).setFocusableInTouchMode(true);
                 getView().findViewById(R.id.button8).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
@@ -434,6 +573,7 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.textView25);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.textView25).setFocusable(false);
+//                        getView().findViewById(R.id.editText6).setClickable(false);
                         getView().findViewById(R.id.button8).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Course Key has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -447,6 +587,11 @@ public class CourseMainPageProf extends Fragment {
     }
 
 
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getActivity().getMenuInflater();
+//        inflater.inflate(R.menu.menu_course_main_page_prof, menu);
+//        return true;
+//    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_course_main_page_prof, menu);
@@ -560,6 +705,12 @@ public class CourseMainPageProf extends Fragment {
 
 
     }
+
+
+
+
+
+
 
 
     //-------------------------------------------------
@@ -1244,6 +1395,39 @@ public class CourseMainPageProf extends Fragment {
         }
     }
 
+
+    class CustomAdapter2 extends ArrayAdapter<CourseProject> {
+
+        public CustomAdapter2(Context context, ArrayList<CourseProject> threads) {
+            super(context, 0, threads);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            convertView = getLayoutInflater().inflate(R.layout.course_list_project_prof,null);
+            TextView titleview = convertView.findViewById(R.id.textView19);
+            TextView urldesription = convertView.findViewById(R.id.textView20);
+            TextView duedate = convertView.findViewById(R.id.textView23);
+            TextView description = convertView.findViewById(R.id.textView24);
+
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.course_list_project_prof, parent, false);
+            }
+
+            titleview.setText(projects.get(position).getTitle());
+            urldesription.setText(projects.get(position).getFileName());
+            duedate.setText( "Deadline: " +projects.get(position).getDeadline());
+            description.setText("Description: "+ projects.get(position).getDeadline());
+            return convertView;
+
+        }
+
+
+    }
+
+
+
 }
 
 
@@ -1265,4 +1449,3 @@ public class CourseMainPageProf extends Fragment {
 //TODO 12. remove barney from aman's code
 //TODO 13. back button after logout
 //TODO 14. disable login button after clicking once
-//TODO 15. do not allow prof to enroll in the course

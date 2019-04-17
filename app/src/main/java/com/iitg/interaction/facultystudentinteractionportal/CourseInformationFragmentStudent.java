@@ -46,6 +46,8 @@ public class CourseInformationFragmentStudent extends Fragment {
     public int count3=0;
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         final TextView textView = getView().findViewById(R.id.textView4);
         final TextView fullname_tv = getView().findViewById(R.id.textView7);
         final TextView description_tv  = getView().findViewById(R.id.editText6);
