@@ -76,7 +76,9 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class CourseMainPageProf extends Fragment {
 
     public String filepath;
+    public String filepath2;
     public Uri selectedfile;
+    public Uri selectedfile2;
     public ArrayList<Event> events = new ArrayList<Event>();
     public ArrayList<CourseMaterial> materials = new ArrayList<CourseMaterial>();
     TextView editTextName;
@@ -85,6 +87,7 @@ public class CourseMainPageProf extends Fragment {
     Button buttonAddClass;
     private DatabaseReference databaseReference;
     public int flag=0;
+    int flag2 = 0;
     public String TitleMaterial;
     public View dialogViewFile;
     private ProgressDialog pDialog;
@@ -97,11 +100,24 @@ public class CourseMainPageProf extends Fragment {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     UploadTask uploadTask;
     StorageReference mountainsRef;
+    AlertDialog b;
     int PROGRESS_CURRENT;
     NotificationCompat.Builder builder;
     int PROGRESS_MAX = 100;
     NotificationManager notificationManager;
     NotificationChannel channel;
+
+
+
+
+
+    TextView FileNameProject;
+    EditText title;
+    EditText description;
+    Button buttonSelectFileProject;
+    Button buttonProjectAdd;
+    View dialogView;
+    EditText date_of_event;
 
 
 
@@ -430,9 +446,109 @@ public class CourseMainPageProf extends Fragment {
             case R.id.NewEvent:
                 ShowAddEventDialogBox();
                 return true;
+            case R.id.AddProject:
+                ShowAddProjectDialogBox();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void ShowAddProjectDialogBox(){
+        flag2 = 0;
+        selectedfile = null;
+
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getLayoutInflater();
+        dialogView = inflater.inflate(R.layout.add_project_dialog_box, null);
+        dialogBuilder.setView(dialogView);
+
+        b = dialogBuilder.create();
+        b.show();
+
+
+        description = dialogView.findViewById(R.id.descriptionofproject);
+        FileNameProject = dialogView.findViewById(R.id.FIleNameProject);
+        buttonSelectFileProject = dialogView.findViewById(R.id.buttonSelectFileProject);
+        buttonProjectAdd = dialogView.findViewById(R.id.buttonProjectAdd);
+
+        title = dialogView.findViewById(R.id.titleofproject);
+        date_of_event = dialogView.findViewById(R.id.Deadline);
+
+
+
+
+
+
+        final Calendar myCalendar = Calendar.getInstance();
+
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                myCalendar.set(Calendar.HOUR,hour);
+//                myCalendar.set(Calendar.MINUTE,minutes);
+                String myFormat = "dd/MM/yyyy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                date_of_event.setText(sdf.format(myCalendar.getTime()));
+            }
+
+
+        };
+
+        date_of_event.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(getActivity(), date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//                new DatePickerDialog(CourseMainPageProf.this,myCalendar.get(Calendar.DAY_OF_WEEK));
+            }
+        });
+
+
+
+        buttonSelectFileProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filepath2 = "";
+                flag2 = 1;
+                FileNameProject.setText("");
+                getFile2();
+            }
+        });
+
+
+
+        if(flag2 == 0){
+            buttonProjectAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "First select a file", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
     //-------------------------------------------------
 
     // add event dialog box
@@ -603,6 +719,20 @@ public class CourseMainPageProf extends Fragment {
     }
 
 
+    public void getFile2()
+    {
+        Intent intent = new Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT);
+//        intent.putExtra("Filename",);
+
+        startActivityForResult(Intent.createChooser(intent, "Select a file"), 321);
+
+
+    }
+
+
+
 
     public void getFile()
     {
@@ -760,7 +890,7 @@ public class CourseMainPageProf extends Fragment {
 
                             //------------------------
                             // getting download url for file
-                            getDownloadUrl(mountainsRef,uploadTask);
+                            getDownloadUrl(mountainsRef,uploadTask, 0);
 
                         }
                     });
@@ -769,55 +899,267 @@ public class CourseMainPageProf extends Fragment {
 
         }
 
+
+        if(requestCode == 321 && resultCode == RESULT_OK){
+
+
+            selectedfile2 = data.getData(); //The uri with the location of the file
+            filepath2 = selectedfile2.getPath().toString();
+            // Toast.makeText(this,filepath,Toast.LENGTH_LONG).show();
+            if (filepath2.equals("")){
+                flag2 =0;
+                return;
+            }
+
+            Toast.makeText(getActivity(),filepath2,Toast.LENGTH_LONG).show();
+
+            FileNameProject.setText(filepath2);
+
+            // notification for upload progress
+            //---------------------------------------
+//            final Integer notificationID = 100;
+//
+//            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            //Set notification information:
+//            final Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
+//            notificationBuilder.setOngoing(true)
+//                    .setContentTitle("Notification Content Title")
+//                    .setContentText("Notification Content Text")
+//                    .setSmallIcon(android.R.drawable.stat_sys_upload)
+//                    .setProgress(100, 0, false);
+//
+//            //Send the notification:
+//             notification = notificationBuilder.build();
+//            notificationManager.notify(notificationID, notification);
+            //-------------------------------------------------------------
+            buttonProjectAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buttonProjectAdd.setEnabled(false);
+
+                    final StorageReference storageRef = storage.getReference();
+
+                    // add course id in front of file path
+                    mountainsRef = storageRef.child(selectedfile2.getLastPathSegment());
+                    uploadTask = mountainsRef.putFile(selectedfile2);
+
+                    // Observe state change events such as progress, pause, and resume
+//                    final ProgressBar finalProgressBar = progressBar;
+//                    progressBar = findViewById(R.id.progressBar);
+                    uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+//                            progressBar.setProgress((int) progress);
+//                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
+                            //Update notification information:
+//                            notificationBuilder.setProgress(100, (int) progress, false);
+//
+//                            //Send the notification:
+//                            notification = notificationBuilder.build();
+//                            notificationManager.notify(notificationID, notification);
+
+
+                            System.out.println("Upload is " + progress + "% done");
+                        }
+                    }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                            System.out.println("Upload is paused");
+                        }
+                    });
+
+
+                    // failure and success listeners
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            buttonProjectAdd.setEnabled(true);
+                            Toast.makeText(getActivity(),"File could not be uploaded",Toast.LENGTH_SHORT).show();
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                            Toast.makeText(getActivity(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
+
+
+                            //------------------------
+                            // getting download url for file
+                            getDownloadUrl(mountainsRef,uploadTask,1);
+
+                        }
+                    });
+                }
+            });
+
+
+
+        }
+
+
+
+
     }
 
-    public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask) {
+//    public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask) {
+////        final String[] url = new String[1];
+//        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//            @Override
+//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//                if (!task.isSuccessful()) {
+//                    throw task.getException();
+//                }
+//
+//                // Continue with the task to get the download URL
+//                return mountainsRef.getDownloadUrl();
+//            }
+//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Uri> task) {
+//                if (task.isSuccessful()) {
+//                    Uri downloadUri = task.getResult();
+////                    url[0] = downloadUri.toString();
+////                    Toast.makeText(getActivity(), "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
+////                    Log.v(TAG, "Download Url:" + downloadUri.toString());
+//                    //----------------
+//                    // taking values from title and file url to be stored in firebase
+//                    if (TitleMaterial == "") {
+//                        Toast.makeText(getActivity(), "Please fill the title of class", Toast.LENGTH_SHORT).show();
+//                    } else {
+//
+//                        EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
+//                        TextView FileName = dialogViewFile.findViewById(R.id.FileName);
+//                        databaseReference = FirebaseDatabase.getInstance().getReference();
+//                        CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
+//                                , downloadUri.toString(), FileName.getText().toString(), Calendar.getInstance().getTime());
+//                        String key = databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
+//                        databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
+//                        mate.dismiss();
+//
+//                    }
+//
+//                } else {
+//                    Toast.makeText(getActivity(), "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
+//                    // Handle failures
+//                    // ...
+//                }
+//            }
+//        });
+//
+//
+//    }
+
+    public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask, int code) {
 //        final String[] url = new String[1];
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
 
-                // Continue with the task to get the download URL
-                return mountainsRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-//                    url[0] = downloadUri.toString();
-//                    Toast.makeText(getActivity(), "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
-//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
-                    //----------------
-                    // taking values from title and file url to be stored in firebase
-                    if (TitleMaterial == "") {
-                        Toast.makeText(getActivity(), "Please fill the title of class", Toast.LENGTH_SHORT).show();
-                    } else {
+        if (code == 0){
 
-                        EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
-                        TextView FileName = dialogViewFile.findViewById(R.id.FileName);
-                        databaseReference = FirebaseDatabase.getInstance().getReference();
-                        CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
-                                , downloadUri.toString(), FileName.getText().toString(), Calendar.getInstance().getTime());
-                        String key = databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
-                        databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
-                        mate.dismiss();
-
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
 
-                } else {
-                    Toast.makeText(getActivity(), "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
-                    // Handle failures
-                    // ...
+                    // Continue with the task to get the download URL
+                    return mountainsRef.getDownloadUrl();
                 }
-            }
-        });
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+//                    url[0] = downloadUri.toString();
+//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
+//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
+                        //----------------
+                        // taking values from title and file url to be stored in firebase
+                        if (TitleMaterial == "") {
+                            Toast.makeText(getActivity(), "Please fill the title of class", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
+                            TextView FileName = dialogViewFile.findViewById(R.id.FileName);
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                            CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
+                                    , downloadUri.toString(), FileName.getText().toString(), Calendar.getInstance().getTime());
+                            String key = databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
+                            databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
+                            mate.dismiss();
+
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
+
+        }
+
+        if (code == 1){
+
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return mountainsRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+//                    url[0] = downloadUri.toString();
+//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
+//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
+                        //----------------
+                        // taking values from title and file url to be stored in firebase
+                        if(title.getText().toString().equals("")||description.getText().toString().equals("")||date_of_event.getText().toString().equals("")){
+                            Toast.makeText(getActivity(), "Please Fill All The Fields", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            TextView FileName = dialogView.findViewById(R.id.FIleNameProject);
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                            CourseProject project = new CourseProject(title.getText().toString(), downloadUri.toString(), FileName.getText().toString(), date_of_event.getText().toString(), description.getText().toString());
+                            String key = databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("CourseProject").push().getKey();
+                            databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("CourseProject").child(key).setValue(project);
+                            b.dismiss();
+
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
+
+
+
+
+
+        }
+
 
 
     }
+
+
     public void downloadFiles(Context context, String Filename,String FileDestination, String url)
     {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -909,7 +1251,3 @@ public class CourseMainPageProf extends Fragment {
 //TODO 11. make the prof fill the contents of the course
 //TODO 12. remove barney from aman's code
 
-// TODO ANNANYA Modify Course Class to include Project of courses
-// TODO ANNANYA Add progress bar
-// TODO ANNANYA Merge the professor pages
-// TODO ANNANYA Modify discussion forum to include remove thread and read only thread
