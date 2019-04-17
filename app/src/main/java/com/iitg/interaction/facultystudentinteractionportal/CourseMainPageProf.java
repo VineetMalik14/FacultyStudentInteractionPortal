@@ -93,6 +93,8 @@ public class CourseMainPageProf extends Fragment {
     private ProgressDialog pDialog;
     public static final int progress_bar_type = 0;
     public int count=0;
+    public int count1=0;
+    public int count2=0;
     public AlertDialog mate;
     public  Notification notification;
     public static final String TAG="CourseMainPageProf";
@@ -258,8 +260,47 @@ public class CourseMainPageProf extends Fragment {
         getView().findViewById(R.id.button5).setVisibility(View.GONE);
         getView().findViewById(R.id.button6).setVisibility(View.GONE);
         getView().findViewById(R.id.button8).setVisibility(View.GONE);
+        getView().findViewById(R.id.course_material).setVisibility(View.GONE);
+        getView().findViewById(R.id.EventsList).setVisibility(View.GONE);
         count++;
+//        int count1=0;
+        count1++;
+//        int count2=0;
+        count2++;
+        Button textView16 = getView().findViewById(R.id.textView16);
+        textView16.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count1%2==1)
+                {
+                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
+                    count1++;
+                }
+                else
+                {
+                    getView().findViewById(R.id.course_material).setVisibility(View.GONE);
+                    count1++;
+                }
 
+            }
+        });
+        Button textView17 = getView().findViewById(R.id.textView17);
+        textView17.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count2%2==1)
+                {
+                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
+                    count2++;
+                }
+                else
+                {
+                    getView().findViewById(R.id.EventsList).setVisibility(View.GONE);
+                    count2++;
+                }
+
+            }
+        });
         Button button = getView().findViewById(R.id.hiddenbtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1250,4 +1291,5 @@ public class CourseMainPageProf extends Fragment {
 //TODO 10. not able to add new courses in professors(user) list
 //TODO 11. make the prof fill the contents of the course
 //TODO 12. remove barney from aman's code
-
+//TODO 13. back button after logout
+//TODO 14. disable login button after clicking once
