@@ -62,63 +62,64 @@ public class CourseDiscussionFragmentStudent extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                threads = new ArrayList<Thread>();
-                ids = new ArrayList<String>();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    ids.add(messageSnapshot.getKey());
-                    Thread thread = messageSnapshot.getValue(Thread.class);
-                    threads.add(thread);
-                    //  Log.v("Title", event.getTitle());
-                }
-                Collections.reverse(threads);
-                Collections.reverse(ids);
+                if (getActivity() != null && getView() != null){
+
+                    threads = new ArrayList<Thread>();
+                    ids = new ArrayList<String>();
+                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                        ids.add(messageSnapshot.getKey());
+                        Thread thread = messageSnapshot.getValue(Thread.class);
+                        threads.add(thread);
+                        //  Log.v("Title", event.getTitle());
+                    }
+                    Collections.reverse(threads);
+                    Collections.reverse(ids);
 
 
-                if(getActivity() != null)
-                {
+
                     adapter = new ThreadAdapter(getActivity(), threads);
 
                     listView = (ListView) getView().findViewById(R.id.lv_thread);
                     listView.setAdapter(adapter);
 
-                }
-
-
-                if(UserInfo.usertype.equals("Prof")){
-
-                    registerForContextMenu(listView);
-
-                }
 
 
 
+                    if(UserInfo.usertype.equals("Prof")){
 
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // now we have  all the value that will be needed for
-                        Thread item = adapter.getItem(position);
-                        String key = ids.get(position);
-                        // now send the key with the intent you are showing
-                        Intent intent = new Intent(getActivity(), ThreadReplies.class);
-                        intent.putExtra("KEY", key);
-                        intent.putExtra("COURSE", course);
-                        intent.putExtra("TITLE", item.getTitle());
-                        intent.putExtra("CONTENT", item.getThreadContent());
-                        intent.putExtra("USER", item.getUsername());
-                        intent.putExtra("TIME", DateFormat.format("dd-MM-yyyy (HH:mm:ss)", item.getLastModified()) );
-                        intent.putExtra("COURSECLOSED", item.isThreadClosed());
+                        registerForContextMenu(listView);
 
-
-                        startActivity(intent);
-
-
-
-
-                        // now we have the item in the
                     }
-                });
 
+
+
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // now we have  all the value that will be needed for
+                            Thread item = adapter.getItem(position);
+                            String key = ids.get(position);
+                            // now send the key with the intent you are showing
+                            Intent intent = new Intent(getActivity(), ThreadReplies.class);
+                            intent.putExtra("KEY", key);
+                            intent.putExtra("COURSE", course);
+                            intent.putExtra("TITLE", item.getTitle());
+                            intent.putExtra("CONTENT", item.getThreadContent());
+                            intent.putExtra("USER", item.getUsername());
+                            intent.putExtra("TIME", DateFormat.format("dd-MM-yyyy (HH:mm:ss)", item.getLastModified()) );
+                            intent.putExtra("COURSECLOSED", item.isThreadClosed());
+
+
+                            startActivity(intent);
+
+
+
+
+                            // now we have the item in the
+                        }
+                    });
+                }
             }
 
             @Override

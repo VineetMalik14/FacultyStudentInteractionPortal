@@ -135,7 +135,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     }
                 });
 
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this,home.class);
                 startActivity(intent);
                 this.finish();
 
@@ -229,7 +229,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                         editor.putString("username",UserInfo.username);
                         editor.apply();
 
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this,home.class);
                         startActivity(intent);
                         LoginActivity.this.finish();
                     }
@@ -356,7 +356,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                    Log.d("printing","username " + metadat.toString() );
 
 
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this,home.class);
                     startActivity(intent);
 
                 }

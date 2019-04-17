@@ -24,6 +24,8 @@
             android:layout_marginTop="8dp"
             android:hint="Course id"
             android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,10 +46,11 @@
             android:id="@+id/textView11"
             android:layout_width="155dp"
             android:layout_height="35dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="72dp"
             android:text="Description"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hiddenbtn" />
 
@@ -57,13 +60,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
+            android:background="#0C000000"
             android:clickable="false"
-            android:ems="10"
 
+            android:ems="10"
             android:hint="description"
             android:inputType="textMultiLine|textPersonName"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
@@ -75,6 +80,7 @@
             android:layout_marginTop="20dp"
             android:text="Syllabus"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText6" />
 
@@ -84,12 +90,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
+            android:background="#0C000000"
             android:clickable="false"
             android:ems="10"
             android:hint="syllabus"
             android:inputType="textPersonName"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -102,22 +110,25 @@
             android:hint="marks"
             android:text="Marks Distribution"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
-        <EditText
+        <TextView
             android:id="@+id/editText8"
             android:layout_width="376dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#0C000000"
             android:clickable="false"
             android:ems="10"
             android:hint="marks distribution"
             android:inputType="textPersonName"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.684"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,6 +150,7 @@
             android:layout_marginEnd="216dp"
             android:text="Time Slots"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText8" />
 
@@ -148,36 +160,47 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:background="#0C000000"
             android:inputType="textImeMultiLine"
             android:minLines="1"
             android:scrollbars="horizontal|vertical"
             android:singleLine="false"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.823"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
 
-        <TextView
+        <Button
             android:id="@+id/textView16"
-            android:layout_width="175dp"
-            android:layout_height="36dp"
+            android:layout_width="375dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="216dp"
+            android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Materials"
-            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
 
         <Button
             android:id="@+id/hiddenbtn"
-            android:layout_width="384dp"
-            android:layout_height="36dp"
+            android:layout_width="375dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Show Additional Information"
+            android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <ListView
@@ -193,30 +216,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-        <TextView
+        <Button
             android:id="@+id/textView17"
-            android:layout_width="128dp"
-            android:layout_height="31dp"
+            android:layout_width="375dp"
+            android:layout_height="38dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
             android:text="Events"
-            android:textSize="24sp"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.049"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/course_material" />
 
         <ListView
             android:id="@+id/EventsList"
             android:layout_width="370dp"
-            android:layout_height="316dp"
+            android:layout_height="400dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="375dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="#3C3C46"
+            android:text="Course Projects"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EventsList" />
+
+        <ListView
+            android:id="@+id/CourseProjects"
+            android:layout_width="375dp"
+            android:layout_height="400dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button4" />
 
 
     </android.support.constraint.ConstraintLayout>

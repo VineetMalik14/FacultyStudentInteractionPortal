@@ -57,6 +57,10 @@ public class SearchAllCourses extends Fragment {
 
 
                 item = al.get(position);
+                if(UserInfo.courses==null)
+                {
+                    UserInfo.courses = new ArrayList<>();
+                }
                 if(UserInfo.courses.contains(item))
                 {
                     Intent intent = new Intent(getActivity(),CourseMainPageStudent.class);

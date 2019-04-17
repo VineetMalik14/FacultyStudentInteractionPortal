@@ -72,15 +72,17 @@ public class Polls {
             this.users = new ArrayList<>();
         }
 
-        if(users.size()>0)
-        for(int i=0;i<users.size();i++)
-        {
-
-            if(users.get(i).username.equals(username))
+        if(users.size()>0){
+            for(int i=0;i<users.size();i++)
             {
-                return false;
+
+                if(users.get(i).username.equals(username))
+                {
+                    return false;
+                }
+                // Toast.makeText(,"You have already Polled!",Toast.LENGTH_LONG).show();
+
             }
-           // Toast.makeText(,"You have already Polled!",Toast.LENGTH_LONG).show();
 
         }
         options.get(index).votes++;

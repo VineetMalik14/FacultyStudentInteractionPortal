@@ -30,8 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static com.iitg.interaction.facultystudentinteractionportal.CourseMainPageProf.TAG;
 
 public class CourseInformationFragmentStudent extends Fragment {
 
@@ -39,8 +41,13 @@ public class CourseInformationFragmentStudent extends Fragment {
     public ArrayList<Event> events;
     public ArrayList<CourseMaterial> materials;
     public int count=0;
+    public int count1=0;
+    public int count2=0;
+    public int count3=0;
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         final TextView textView = getView().findViewById(R.id.textView4);
         final TextView fullname_tv = getView().findViewById(R.id.textView7);
         final TextView description_tv  = getView().findViewById(R.id.editText6);
@@ -62,14 +69,61 @@ public class CourseInformationFragmentStudent extends Fragment {
         getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
 //        getView().findViewById(R.id.textView18).setVisibility(View.GONE);
 //        getView().findViewById(R.id.textView25).setVisibility(View.GONE);
-        getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
-        getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
-//        getView().findViewById(R.id.button7).setVisibility(View.GONE);
-//        getView().findViewById(R.id.button5).setVisibility(View.GONE);
-//        getView().findViewById(R.id.button6).setVisibility(View.GONE);
-//        getView().findViewById(R.id.button8).setVisibility(View.GONE);
+        getView().findViewById(R.id.course_material).setVisibility(View.GONE);
+        getView().findViewById(R.id.EventsList).setVisibility(View.GONE);
+        getView().findViewById(R.id.CourseProjects).setVisibility(View.GONE);
         count++;
-
+        count1++;
+        count2++;
+        count3++;
+        Button button1 = getView().findViewById(R.id.textView16);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count1%2==1)
+                {
+                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
+                    count1++;
+                }
+                else
+                {
+                    getView().findViewById(R.id.course_material).setVisibility(View.GONE);
+                    count1++;
+                }
+            }
+        });
+        Button button2 = getView().findViewById(R.id.textView17);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count2%2==1)
+                {
+                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
+                    count2++;
+                }
+                else
+                {
+                    getView().findViewById(R.id.EventsList).setVisibility(View.GONE);
+                    count2++;
+                }
+            }
+        });
+        Button button3 = getView().findViewById(R.id.button4);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count3%2==1)
+                {
+                    getView().findViewById(R.id.CourseProjects).setVisibility(View.VISIBLE);
+                    count3++;
+                }
+                else
+                {
+                    getView().findViewById(R.id.CourseProjects).setVisibility(View.GONE);
+                    count3++;
+                }
+            }
+        });
         Button button = getView().findViewById(R.id.hiddenbtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,8 +143,8 @@ public class CourseInformationFragmentStudent extends Fragment {
                     getView().findViewById(R.id.textView15).setVisibility(View.GONE);
                     getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
 //                    getView().findViewById(R.id.button7).setVisibility(View.GONE);
 //                    getView().findViewById(R.id.button5).setVisibility(View.GONE);
 //                    getView().findViewById(R.id.button6).setVisibility(View.GONE);
@@ -128,7 +182,13 @@ public class CourseInformationFragmentStudent extends Fragment {
                     description_tv.setText(dataSnapshot.child("description").getValue().toString());
                     syllabus_tv.setText(dataSnapshot.child("syllabus").getValue().toString());
                     marks_tv.setText(dataSnapshot.child("marksDistribution").getValue().toString());
-                    time_slots.setText(dataSnapshot.child("timeSlots").getValue().toString());
+                String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
+                Log.d(TAG,timeslots[0]+timeslots[1]);
+                for(int i=0;i<timeslots.length;i++)
+                {
+                    time_slots.append("      "+timeslots[i]+"\n");
+                }
+//                    time_slots.setText(dataSnapshot.child("timeSlots").getValue().toString());
 //                    events = currentcourse.getEvents();
 //                    Collections.reverse(events);
 //                    ListView listView1 = getView().findViewById(R.id.EventsList);
@@ -164,7 +224,8 @@ public class CourseInformationFragmentStudent extends Fragment {
 
                 }
                 Collections.reverse(materials);
-                ListView listView = getView().findViewById(R.id.course_material);
+
+                ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.course_material);
                 final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
                 listView.setAdapter(customAdapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

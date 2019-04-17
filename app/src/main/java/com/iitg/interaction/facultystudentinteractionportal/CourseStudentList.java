@@ -56,20 +56,27 @@ public class CourseStudentList extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                courseinfos.clear();
-                for(DataSnapshot course : dataSnapshot.getChildren())
-                {
-                    if(UserInfo.courses!=null &&UserInfo.courses.contains(course.getKey()))
+
+                if (getActivity() != null){
+                    courseinfos.clear();
+                    for(DataSnapshot course : dataSnapshot.getChildren())
                     {
-                        Courseinfo newcourseinfo = new Courseinfo(course.child("courseID").getValue().toString(),course.child("fullname").getValue().toString(),course.child("professor").getValue().toString());
-                        courseinfos.add(newcourseinfo);
+                        if(UserInfo.courses!=null &&UserInfo.courses.contains(course.getKey()))
+                        {
+                            Courseinfo newcourseinfo = new Courseinfo(course.child("courseID").getValue().toString(),course.child("fullname").getValue().toString(),course.child("professor").getValue().toString());
+                            courseinfos.add(newcourseinfo);
+                        }
                     }
+
+                    CourseInfoAdaptor courseInfoAdaptor = new CourseInfoAdaptor(getActivity(),R.layout.course_info_layout_student,courseinfos);
+
+                    listView.setAdapter(courseInfoAdaptor);
+
+
                 }
-
-                CourseInfoAdaptor courseInfoAdaptor = new CourseInfoAdaptor(getActivity(),R.layout.course_info_layout_student,courseinfos);
-
-                listView.setAdapter(courseInfoAdaptor);
-
+                else{
+                    Log.d("NULLHEYANNANYA", "1");
+                }
 
             }
 
