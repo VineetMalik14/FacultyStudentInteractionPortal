@@ -907,6 +907,7 @@ public class CourseMainPageProf extends Fragment {
 //TODO 9. convert course add content to send to course main page using fragment
 //TODO 10. not able to add new courses in professors(user) list
 //TODO 11. make the prof fill the contents of the course
+//TODO 12. remove barney from aman's code
 
 // TODO ANNANYA Modify Course Class to include Project of courses
 // TODO ANNANYA Add progress bar
