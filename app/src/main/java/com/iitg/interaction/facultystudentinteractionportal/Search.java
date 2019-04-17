@@ -36,6 +36,7 @@ public class Search extends AppCompatActivity {
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     public  static String name = "com.iitg.interaction.facultystudentinteractionportal.name";
     ArrayList<String> al = new ArrayList<String>();
+    ArrayList<String> details = new ArrayList<String>();
 
     ListView r;
     TextView t;
@@ -88,8 +89,10 @@ public class Search extends AppCompatActivity {
 
             r = (ListView) findViewById(R.id.table);
             al.clear();
+            details.clear();
             al = new ArrayList<String>();
-            final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
+            details = new ArrayList<String>();
+            final ArrayAdapter<String>  ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, details);
             r.setAdapter(ad);
             ad.notifyDataSetChanged();
 
@@ -104,10 +107,23 @@ public class Search extends AppCompatActivity {
                     {
                         String dat =data.getKey();
                         String prev = t.getText().toString();
+                        String fullname = data.child("fullname").getValue().toString();
                         if(dat.toLowerCase().contains(prev.toLowerCase())){
 
                             al.add(dat);
+
+                            /*t.setText(t.getText() + " - " + fullname);*/
+                            details.add(dat +  " - " + fullname);
+
+                        }else if (fullname.toLowerCase().contains(prev.toLowerCase())){
+
+                            al.add(dat);
+
+                            /*t.setText(t.getText() + " - " + fullname);*/
+                            details.add(dat +  " - " + fullname);
+                            
                         }
+
 
                     }
                     /*String base = dataSnapshot.getValue().toString();

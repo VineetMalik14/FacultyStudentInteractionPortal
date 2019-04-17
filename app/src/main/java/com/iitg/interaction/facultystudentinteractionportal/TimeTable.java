@@ -126,7 +126,7 @@ public class TimeTable extends Activity implements DatePickerDialog.OnDateSetLis
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
-                DatabaseReference in = db.getReference().child("Courses").child(value).child("TimeSlots");
+                DatabaseReference in = db.getReference().child("Courses").child(value).child("timeSlots");
                 /*String prev =t.getText().toString();
                 t.setText(prev + "\n" + value);*/
                 in.addValueEventListener(new ValueEventListener() {

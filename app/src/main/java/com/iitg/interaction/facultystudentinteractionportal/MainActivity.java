@@ -82,6 +82,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void EventsClick(View v) {
+        if(v.getId() == R.id.events){
+            Intent i = new Intent(MainActivity.this , Events.class );
+            startActivity(i);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

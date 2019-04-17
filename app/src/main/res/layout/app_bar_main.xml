@@ -49,4 +49,13 @@
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|center" />
 
+    <Button
+        android:id="@+id/events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="EventsClick"
+        android:text="Events"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="right|center" />
+
 </android.support.design.widget.CoordinatorLayout>
