@@ -173,35 +173,35 @@ public class CourseInformationFragmentStudent extends Fragment {
         databaseReference.child("Courses").child(CourseMainPageStudent.courseID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-//                Courses currentcourse = dataSnapshot.getValue(Courses.class);
-//                if(currentcourse!=null)
-//                {
+                if (getActivity() != null && getView() != null && getActivity().getIntent() != null){
+    //                Courses currentcourse = dataSnapshot.getValue(Courses.class);
+    //                if(currentcourse!=null)
+    //                {
                     textView.setText(CourseMainPageStudent.courseID);
                     fullname_tv.setText(dataSnapshot.child("fullname").getValue().toString());
                     description_tv.setText(dataSnapshot.child("description").getValue().toString());
                     syllabus_tv.setText(dataSnapshot.child("syllabus").getValue().toString());
                     marks_tv.setText(dataSnapshot.child("marksDistribution").getValue().toString());
-                String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
-                Log.d(TAG,timeslots[0]+timeslots[1]);
-                for(int i=0;i<timeslots.length;i++)
-                {
-                    time_slots.append("      "+timeslots[i]+"\n");
-                }
-//                    time_slots.setText(dataSnapshot.child("timeSlots").getValue().toString());
-//                    events = currentcourse.getEvents();
-//                    Collections.reverse(events);
-//                    ListView listView1 = getView().findViewById(R.id.EventsList);
-//                    final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
-//////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-//                    listView1.setAdapter(customAdapter1);
-//
-//                    materials = currentcourse.getCourseMaterial();
-//                    Collections.reverse(materials);
-//                    ListView coursematerials = getView().findViewById(R.id.course_material);
-//                    final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
-//////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-//                    coursematerials.setAdapter(customAdapter);
+                    String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
+                    Log.d(TAG, timeslots[0] + timeslots[1]);
+                    for (int i = 0; i < timeslots.length; i++) {
+                        time_slots.append("      " + timeslots[i] + "\n");
+                    }
+    //                    time_slots.setText(dataSnapshot.child("timeSlots").getValue().toString());
+    //                    events = currentcourse.getEvents();
+    //                    Collections.reverse(events);
+    //                    ListView listView1 = getView().findViewById(R.id.EventsList);
+    //                    final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
+    //////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
+    //                    listView1.setAdapter(customAdapter1);
+    //
+    //                    materials = currentcourse.getCourseMaterial();
+    //                    Collections.reverse(materials);
+    //                    ListView coursematerials = getView().findViewById(R.id.course_material);
+    //                    final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
+    //////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
+    //                    coursematerials.setAdapter(customAdapter);
+                    }
                 }
 
 //            }

@@ -62,7 +62,7 @@ public class CourseDiscussionFragmentStudent extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (getActivity() != null && getView() != null){
+                if ((getActivity() != null) && (getView() != null)){
 
                     threads = new ArrayList<Thread>();
                     ids = new ArrayList<String>();
@@ -161,11 +161,11 @@ public class CourseDiscussionFragmentStudent extends Fragment {
 
                         Date c = Calendar.getInstance().getTime();
 
-                        ArrayList<Replies> repliesArrayList = new ArrayList<Replies>();
+                       // ArrayList<Replies> repliesArrayList = new ArrayList<Replies>();
                         if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
                             Toast.makeText(getActivity(), "Please enter correct Title and Content", Toast.LENGTH_SHORT).show();
                         } else {
-                            Thread newthread = new Thread(false, username, usertype, content.getText().toString(), title.getText().toString(), c, c, repliesArrayList);
+                            Thread newthread = new Thread(false, username, usertype, content.getText().toString(), title.getText().toString(), c, c);
                             databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
