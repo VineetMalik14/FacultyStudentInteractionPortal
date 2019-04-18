@@ -26,6 +26,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CreatePollActivity extends AppCompatActivity {
 
@@ -127,32 +128,14 @@ public class CreatePollActivity extends AppCompatActivity {
         final GenericTypeIndicator<ArrayList<Polls>> t = new GenericTypeIndicator<ArrayList<Polls>>() {};
 
         final Polls newpoll = new Polls(question.getText().toString(),optionlist);
+        databaseReference.child("Polls").child(newpoll.uniqueid).setValue(newpoll);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        Toast.makeText(getApplicationContext(),"Poll added successfully!",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getApplicationContext(),CourseMainPageStudent.class);
+        intent.putExtra("poll",true);
+        intent.putExtra("CourseID",currentcourse);
+        startActivity(intent);
 
-                pollslist = dataSnapshot.child("Polls").getValue(t);
-                if(pollslist==null)
-                {
-                    pollslist = new ArrayList<>();
-                }
-                pollslist.add(newpoll);
-
-                databaseReference.child("Polls").setValue(pollslist);
-
-                Toast.makeText(getApplicationContext(),"Poll added successfully!",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(),CourseMainPageStudent.class);
-                intent.putExtra("poll",true);
-                startActivity(intent);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
     }

@@ -3,6 +3,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
+
+import java.time.format.TextStyle;
 import java.util.List;
 
 public class MessageListAdaptor extends ArrayAdapter<Messages> {
@@ -30,12 +38,15 @@ public class MessageListAdaptor extends ArrayAdapter<Messages> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         if(getItem(position)!=null) {
 
-
+            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
             final String sender = getItem(position).sender;
             final String receiver = getItem(position).receiver;
             final String subject = getItem(position).subject;
             final String body = getItem(position).body;
             final String date = getItem(position).date;
+            final  String uniqueid = getItem(position).uniquid;
+            final boolean read = getItem(position).read;
+
             String msgdirection;
 
             //Messages msg = new Messages(sender,receiver,subject,body);
@@ -52,6 +63,7 @@ public class MessageListAdaptor extends ArrayAdapter<Messages> {
             receivertv.setText("To: "+receiver);
             subjecttv.setText(subject);
             datetimetv.setText(arrdate[0]+" "+arrdate[1]+ " "+arrdate[2]+" "+arrdate[3].substring(0,5));
+
             bodytv.setText(body);
             if (UserInfo.username.equals(sender)) {
                 msgdirectiontv.setText("Sent");
@@ -62,20 +74,49 @@ public class MessageListAdaptor extends ArrayAdapter<Messages> {
                 msgdirectiontv.setTextColor(Color.rgb(34,139,34));
             }
 
+            if(!read && !sender.equals(UserInfo.username)){
+                datetimetv.setTextColor(Color.BLUE);
+                datetimetv.setTypeface(Typeface.DEFAULT_BOLD);
+                sendertv.setTypeface(Typeface.DEFAULT_BOLD);
+                sendertv.setTextColor(Color.BLACK);
+                subjecttv.setTypeface(Typeface.DEFAULT_BOLD);
+                subjecttv.setTextColor(Color.BLACK);
+            }
+            else
+            {
+                datetimetv.setTextColor(Color.DKGRAY);
+                datetimetv.setTypeface(Typeface.DEFAULT);
+                sendertv.setTypeface(Typeface.DEFAULT);
+                subjecttv.setTypeface(Typeface.DEFAULT);
+                subjecttv.setTextColor(Color.DKGRAY);
+                sendertv.setTextColor(Color.DKGRAY);
+
+
+
+            }
+
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), messageboxActivity.class);
-                    intent.putExtra("subject", subject);
-                    intent.putExtra("msgdirection", msgdirectiontv.getText().toString());
-                    intent.putExtra("body", body);
-                    intent.putExtra("sender", sender);
-                    intent.putExtra("receiver", receiver);
-                    intent.putExtra("datetime", date);
-                    intent.putExtra("id", position);
-                    Log.d("debug","clicked on position "+position);
+                    if(getItem(position)!=null)
+                    {
+                        getItem(position).read=true;
+                        databaseReference.child(UserInfo.username).child("messages").child(uniqueid).setValue(getItem(position));
 
-                    mContext.startActivity(intent);
+                        Intent intent = new Intent(getContext(), messageboxActivity.class);
+                        intent.putExtra("subject", subject);
+                        intent.putExtra("msgdirection", msgdirectiontv.getText().toString());
+                        intent.putExtra("body", body);
+                        intent.putExtra("sender", sender);
+                        intent.putExtra("receiver", receiver);
+                        intent.putExtra("datetime", date);
+                        intent.putExtra("uniqueid",uniqueid);
+                        intent.putExtra("id", position);
+                        Log.d("debug","clicked on position "+position);
+
+                        mContext.startActivity(intent);
+                    }
 
                 }
             });

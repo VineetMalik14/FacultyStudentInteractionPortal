@@ -111,12 +111,12 @@ public class ComposeMessage extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Enter Senders username",Toast.LENGTH_LONG).show();
             return;
         }
-        if(subject.getText().toString().isEmpty())
+        /*if(subject.getText().toString().isEmpty())
         {
             Toast.makeText(getApplicationContext(),"Enter Subject",Toast.LENGTH_LONG).show();
             return;
 
-        }
+        }*/
         if(body.getText().toString().isEmpty())
         {
             Toast.makeText(getApplicationContext(),"Write some message !",Toast.LENGTH_LONG).show();
@@ -129,30 +129,19 @@ public class ComposeMessage extends AppCompatActivity {
             return;
         }
 
-        final GenericTypeIndicator<ArrayList<Messages>> t = new GenericTypeIndicator<ArrayList<Messages>>() {};
+        //final GenericTypeIndicator<ArrayList<Messages>> t = new GenericTypeIndicator<ArrayList<Messages>>() {};
 
-        final Messages newmsg = new Messages(UserInfo.username,receiver.getText().toString(),subject.getText().toString(),body.getText().toString());
+        final Messages newmsg = new Messages(UserInfo.username,receiver.getText().toString().trim().replace("@iitg.ac.in",""),subject.getText().toString(),body.getText().toString());
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(receiver.getText().toString()).exists())
+                if(dataSnapshot.child(receiver.getText().toString().trim().replace("@iitg.ac.in","")).exists())
                 {
-                    ArrayList<Messages> mlist = dataSnapshot.child(receiver.getText().toString()).child("messages").getValue(t);
-                    if(mlist==null)
-                    {
-                        mlist = new ArrayList<>();
-                    }
-                    mlist.add(0,newmsg);
-                    if(UserInfo.messages==null)
-                    {
-                        UserInfo.messages = new ArrayList<>();
-                    }
-                    UserInfo.messages.add(0,newmsg);
-                    databaseReference.child(receiver.getText().toString()).child("messages").setValue(mlist);
-                    databaseReference.child(UserInfo.username).child("messages").setValue(UserInfo.messages);
+                    databaseReference.child(UserInfo.username).child("messages").child(newmsg.uniquid).setValue(newmsg);
+                    databaseReference.child(receiver.getText().toString().trim().replace("@iitg.ac.in","")).child("messages").child(newmsg.uniquid).setValue(newmsg);
                     Toast.makeText(getApplicationContext(),"Message sent successfully!",Toast.LENGTH_LONG).show();
-               //     ComposeMessage.this.finish();
+                    ComposeMessage.this.finish();
                 }
                 else
                 {
@@ -168,8 +157,8 @@ public class ComposeMessage extends AppCompatActivity {
 
         });
 
-        Intent intent = new Intent(ComposeMessage.this, MessageActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(ComposeMessage.this, MessageActivity.class);
+//        startActivity(intent);
 
         //this.finish();
 

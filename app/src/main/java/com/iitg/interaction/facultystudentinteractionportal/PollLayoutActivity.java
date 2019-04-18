@@ -48,6 +48,12 @@ public class PollLayoutActivity extends AppCompatActivity {
     static Polls clickedpoll;
     DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("Courses");
 
+    Integer totalvotes=0;
+    Integer optionvotes=0;
+    Integer usernum=0;
+    Integer optionsusernum=0;
+    SwipeRefreshLayout pullToRefresh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,21 +110,18 @@ public class PollLayoutActivity extends AppCompatActivity {
 
         pollListAdaptor = new PollListAdaptor(PollLayoutActivity.this, R.layout.layout_polloptions, optionlist);
 
-        lv.setAdapter(pollListAdaptor);
-        if (clickedpoll.users != null)
-            for (int i = 0; i < clickedpoll.users.size(); i++) {
-                if (clickedpoll.users.get(i).username.equals(UserInfo.username)) {
-                    alreadypolledindex = clickedpoll.users.get(i).index;
-                    //lv.getChildAt(i - lv.getFirstVisiblePosition()).findViewById(R.id.tv_option).setBackgroundColor(Color.parseColor("#008ecc"));
-                    RelativeLayout cardView = (RelativeLayout) getViewByPosition(clickedpoll.users.get(i).index, lv).findViewById(R.id.rl_polloption);
-                    cardView.setBackground(getResources().getDrawable(R.color.colorPrimary));
-                    cardView.setBackgroundColor(0x55008ecc);
-
-                    Log.d("debug", "i am here inside ! " + alreadypolledindex);
-
+        if(clickedpoll.users!=null && clickedpoll.users.contains(UserInfo.username))
+        {
+            for(Options op : clickedpoll.options)
+            {
+                if(op.userslist!=null && op.userslist.contains(UserInfo.username))
+                {
+                    alreadypolledindex = clickedpoll.options.indexOf(op);
                     break;
                 }
             }
+        }
+        lv.setAdapter(pollListAdaptor);
 
             if(alreadypolledindex==-1)
             {
@@ -135,22 +138,47 @@ public class PollLayoutActivity extends AppCompatActivity {
                 //================================================================================================================
 
 
-                if(clickedpoll.isactive)
-                {
-                    if (!clickedpoll.addvote(position, UserInfo.username)) {
-                        Toast.makeText(getApplicationContext(), "You have already Polled for option " + String.valueOf(alreadypolledindex+1), Toast.LENGTH_LONG).show();
-                    } else {
-                        dataref.child(currentcourseid).child("Polls").child(String.valueOf(index)).setValue(clickedpoll);
-                        pollListAdaptor.notifyDataSetChanged();
-                        Toast.makeText(getApplicationContext(), "Successfully Polled for " + clickedpoll.options.get(position).optiontext, Toast.LENGTH_LONG).show();
-                        editchoicebtn.setVisibility(View.VISIBLE);
-                        alreadypolledindex = position;
+                dataref.child(currentcourseid).child("Polls").child(clickedpoll.uniqueid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+/*                        optionvotes = dataSnapshot.child("options").child(String.valueOf(position)).child("votes").getValue(Integer.class);
+                        optionsusernum=dataSnapshot.child("options").child(String.valueOf(position)).child("usernum").getValue(Integer.class);
+                        usernum = dataSnapshot.child("usernum").getValue(Integer.class);
+                        optionvotes++;
+                        optionsusernum++;
+                        usernum++;*/
+                        clickedpoll = dataSnapshot.getValue(Polls.class);
+
+                        if(clickedpoll.isactive)
+                        {
+                            if (!clickedpoll.addvote(position, UserInfo.username)) {
+                                Toast.makeText(getApplicationContext(), "You have already Polled for option " + String.valueOf(alreadypolledindex+1), Toast.LENGTH_LONG).show();
+                            } else {
+                                dataref.child(currentcourseid).child("Polls").child(clickedpoll.uniqueid).setValue(clickedpoll);
+                                pollListAdaptor.notifyDataSetChanged();
+                                Toast.makeText(getApplicationContext(), "Successfully Polled for " + clickedpoll.options.get(position).optiontext, Toast.LENGTH_LONG).show();
+                                editchoicebtn.setVisibility(View.VISIBLE);
+                                alreadypolledindex = position;
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"Poll is Closed, You can't Choose any option",Toast.LENGTH_LONG).show();
+                        }
+
+
+
+
+
+
                     }
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Poll is Closed, You can't Choose any option",Toast.LENGTH_LONG).show();
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
 //===========================================================================================================================
 
@@ -165,23 +193,16 @@ public class PollLayoutActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if(clickedpoll.isactive)
                     {
-                        for(userlist user : clickedpoll.users)
-                        {
-                            if(user.username.equals(UserInfo.username))
-                            {
-                                clickedpoll.removeuser(UserInfo.username);
-
-                                dataref.child(currentcourseid).child("Polls").child(String.valueOf(index)).setValue(clickedpoll);
-                                pollListAdaptor.notifyDataSetChanged();
-                                Toast.makeText(getApplicationContext(),"Your choice is removed, now you can select a different option.",Toast.LENGTH_LONG).show();
-                                break;
-                            }
-                        }
+                        clickedpoll.removeuser(UserInfo.username);
+                        dataref.child(currentcourseid).child("Polls").child(clickedpoll.uniqueid).setValue(clickedpoll);
+                        Toast.makeText(getApplicationContext(),"Your choice is removed, You can select a new option.",Toast.LENGTH_LONG).show();
+                        pollListAdaptor.notifyDataSetChanged();
                     }
                     else
                     {
                         Toast.makeText(getApplicationContext(),"Poll is Closed. You can't change your choice now.",Toast.LENGTH_LONG).show();
                     }
+
                 }
             });
 
@@ -193,15 +214,15 @@ public class PollLayoutActivity extends AppCompatActivity {
                     {
                         if(clickedpoll.isactive)
                         {
-                            clickedpoll.closePoll();
-                            dataref.child(currentcourseid).child("Polls").child(String.valueOf(index)).setValue(clickedpoll);
-                            pollListAdaptor.notifyDataSetChanged();
+
+                            dataref.child(currentcourseid).child("Polls").child(clickedpoll.uniqueid).child("isactive").setValue(false);
+                            //pollListAdaptor.notifyDataSetChanged();
                             Toast.makeText(getApplicationContext(),"You have Closed the Poll.",Toast.LENGTH_LONG).show();
                         }
                         else {
-                            clickedpoll.openPoll();
-                            dataref.child(currentcourseid).child("Polls").child(String.valueOf(index)).setValue(clickedpoll);
-                            pollListAdaptor.notifyDataSetChanged();
+
+                            dataref.child(currentcourseid).child("Polls").child(clickedpoll.uniqueid).child("isactive").setValue(true);
+                            //pollListAdaptor.notifyDataSetChanged();
                             Toast.makeText(getApplicationContext(),"You have Opened the Poll again.",Toast.LENGTH_LONG).show();
                         }
 
@@ -227,32 +248,31 @@ public class PollLayoutActivity extends AppCompatActivity {
 
 
 
-/*
-        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("Courses").child(currentcourseid).child("Polls").child(String.valueOf(index));
+
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(currentcourseid).child("Polls").child(clickedpoll.uniqueid);
 
 
-        dataref.addValueEventListener(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 clickedpoll = dataSnapshot.getValue(Polls.class);
-                Log.d("debug","I am inside polllayout datachange ");
-                if(clickedpoll!=null)
+                //pollListAdaptor.notifyDataSetChanged();
+
+                if(!clickedpoll.isactive)
                 {
-                    if(!clickedpoll.isactive)
-                    {
-                        closepollbtn.setText("Re-pen\nPoll");
-                        pollstatustv.setText("Poll Closed");
-                        pollstatustv.setTextColor(Color.RED);
-                    }
-                    else
-                    {
-                        closepollbtn.setText("Close Poll");
-                        pollstatustv.setText("Poll Opened");
-                        pollstatustv.setTextColor(Color.rgb(34,139,34));
-                    }
+                    closepollbtn.setText("Re-pen\nPoll");
+                    pollstatustv.setText("Poll Closed");
+                    pollstatustv.setTextColor(Color.RED);
                 }
-               pollListAdaptor.notifyDataSetChanged();
+                else
+                {
+                    closepollbtn.setText("Close Poll");
+                    pollstatustv.setText("Poll Opened");
+                    pollstatustv.setTextColor(Color.rgb(34,139,34));
+                }
+
+
 
             }
 
@@ -262,7 +282,21 @@ public class PollLayoutActivity extends AppCompatActivity {
             }
         });
 
-*/
+
+        // SWIPE TO REFRESH..
+
+        pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Here you can update your data from internet or from local SQLite data
+
+                pollListAdaptor.notifyDataSetChanged();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
+
 
 
 

@@ -40,7 +40,7 @@ public class UserInfo extends AppCompatActivity {
     private UserInfo() {
     }
 
-    public static void fillUserInfo(String username,String fullname, String usertype, String rollnumber, String email, String occupation, String department, String year , ArrayList<String> courses,ArrayList<Messages> messages) {
+    public static void fillUserInfo(String username,String fullname, String usertype, String rollnumber, String email, String occupation, String department, String year , ArrayList<String> courses) {
 
 
 
@@ -54,11 +54,7 @@ public class UserInfo extends AppCompatActivity {
         UserInfo.department = department;
         UserInfo.year = year;
 
-        UserInfo.messages = messages;
-        if(UserInfo.messages==null)
-        {
-            UserInfo.messages = new ArrayList<>();
-        }
+        UserInfo.messages = new ArrayList<>();
 
         UserInfo.courses = courses ;
         if(UserInfo.courses==null)

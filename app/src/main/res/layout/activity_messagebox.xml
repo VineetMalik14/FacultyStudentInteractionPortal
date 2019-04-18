@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".messageboxActivity">
 
-
-    <Button
-        android:id="@+id/btn_deletemsg"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#777"
-        android:text="Delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_forwardmsg" />
 
     <TextView
         android:id="@+id/tv_msgbox_subject"
@@ -29,26 +18,18 @@
         android:text="This is Subject"
         android:textAlignment="textStart"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp" />
 
     <android.support.v7.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="491dp"
+        android:layout_width="match_parent"
+        android:layout_height="586dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"
-        app:contentPadding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_msgbox_subject"
-        app:layout_constraintVertical_bias="0.0">
+        app:contentPadding="10dp">
 
         <LinearLayout
             android:id="@+id/rl_layout_card"
@@ -89,13 +70,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_body"
                         android:layout_width="match_parent"
-                        android:layout_height="430dp"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="0dp"
@@ -108,28 +89,44 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <Button
-        android:id="@+id/btn_replymsg"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorAccent"
-        android:text="reply"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingStart="5dp">
 
-    <Button
-        android:id="@+id/btn_forwardmsg"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorAccent"
-        android:text="Forward"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_replymsg" />
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_deletemsg"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:background="#777"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/btn_forwardmsg"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="Forward" />
+
+        <Button
+            android:id="@+id/btn_replymsg"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="reply" />
+    </LinearLayout>
+
+</LinearLayout>
 

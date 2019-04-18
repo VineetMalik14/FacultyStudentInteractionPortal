@@ -106,7 +106,6 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         try{
             if(preferences.getBoolean("logined",false) && preferences.getString("username",null)!=null)
             {
-                Log.d("debug","Already logined as "+ FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
                DatabaseReference dataref = database.getReference();
                 dataref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -124,7 +123,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                             return;
                         }
 
-                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses,user.messages);
+                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses);
                         Log.d("debug","Already logined, FILLED USER INFO" );
 
                     }
@@ -144,7 +143,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         }
         catch (NullPointerException e)
         {
-
+            Log.d("debug","already logined error "+e.toString());
         }
 
 
@@ -158,7 +157,10 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
 
-
+        if(preferences.getString("username",null)!=null)
+        {
+            etusername.setText(preferences.getString("username",null));
+        }
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,7 +222,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     if(userpass.equals(Sha1Custom.SHA1(etpassword.getText().toString())))
                     {
                         Toast.makeText(getApplicationContext(),"Welcome "+user.fullname,Toast.LENGTH_LONG).show();
-                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses,user.messages);
+                        UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses);
 
 
                         preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
@@ -336,7 +338,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     user=dataSnapshot.getValue(NewUser.class);
                     Toast.makeText(getApplicationContext(),"Logined !",Toast.LENGTH_LONG).show();
                     UserInfo.profilepicurl=loginuser.getPhotoUrl();
-                    UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year,user.courses,user.messages);
+                    UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year,user.courses);
                     Object username = authResult.getAdditionalUserInfo().getProfile().get("jobTitle");
                     Map<String,Object> addinfo = authResult.getAdditionalUserInfo().getProfile();
 //                    String add_depart=addinfo.get("department").toString();

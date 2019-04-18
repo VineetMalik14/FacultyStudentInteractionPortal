@@ -30,13 +30,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 
 public class PollsActivity extends Fragment  {
     ListView lv;
     FloatingActionButton addbtn;
     String currentcourse;
-
+    String pollkey;
     ArrayList<Polls> polls;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses");
 
@@ -65,20 +66,28 @@ public class PollsActivity extends Fragment  {
         final ArrayList<String> questionlist = new ArrayList<>();
         final ArrayAdapter<String> adpater = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,questionlist);
         lv.setAdapter(adpater);
-
-        databaseReference.child(currentcourse).child("Polls").addValueEventListener(new ValueEventListener() {
+        if(polls==null)
+        {
+            polls = new ArrayList<Polls>();
+        }
+        databaseReference.child(currentcourse).child("Polls").orderByKey().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Polls> pollslist = dataSnapshot.getValue(t);
-                polls = pollslist;
-                if(pollslist!=null)
+                polls.clear();
+                questionlist.clear();
+                for(DataSnapshot data : dataSnapshot.getChildren())
                 {
-
-                    for(Polls p : pollslist)
+                    polls.add(data.getValue(Polls.class));
+                }
+                if(polls!=null)
+                {
+                    Collections.reverse(polls);
+                    for(Polls p : polls)
                     {
                         Log.d("debug","doosre wala datachange");
                         questionlist.add(p.question);
                     }
+
                     adpater.notifyDataSetChanged();
 
                 }

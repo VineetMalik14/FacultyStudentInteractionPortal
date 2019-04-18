@@ -47,33 +47,33 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        final GenericTypeIndicator<ArrayList<Messages>> t = new GenericTypeIndicator<ArrayList<Messages>>() {};
+//        final GenericTypeIndicator<ArrayList<Messages>> t = new GenericTypeIndicator<ArrayList<Messages>>() {};
 
 
 
+        final MessageListAdaptor messageListAdaptor = new MessageListAdaptor(MessageActivity.this,R.layout.layout_messagecard,UserInfo.messages);
+        lv.setAdapter(messageListAdaptor);
 
 
-
-        dataref.child(UserInfo.username).child("messages").addValueEventListener(new ValueEventListener() {
+        dataref.child(UserInfo.username).child("messages").orderByKey().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Messages> mlist ;
                 Log.d("debug","Inside messagelist update ");
-                mlist = dataSnapshot.getValue(t);
-                UserInfo.messages=mlist;
+                if(UserInfo.messages==null)
+                {
+                    UserInfo.messages= new ArrayList<>();
+                }
+                UserInfo.messages.clear();
+              for(DataSnapshot data : dataSnapshot.getChildren())
+              {
+                  Messages msg = data.getValue(Messages.class);
+                  UserInfo.messages.add(msg);
+              }
+
+              Collections.reverse(UserInfo.messages);
+              messageListAdaptor.notifyDataSetChanged();
                 Log.d("debug","mlist got updated! ");
-                try
-                {
-                    if( mlist!=null && !mlist.isEmpty())
-                    {
-                        MessageListAdaptor messageListAdaptor = new MessageListAdaptor(MessageActivity.this,R.layout.layout_messagecard,mlist);
-                        lv.setAdapter(messageListAdaptor);
-                    }
-                }
-                catch (NullPointerException e)
-                {
-                    Log.d("debug",e.toString());
-                }
 
             }
 

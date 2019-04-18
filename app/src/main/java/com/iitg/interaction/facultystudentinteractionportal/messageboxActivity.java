@@ -49,10 +49,11 @@ public class messageboxActivity extends AppCompatActivity {
         final String receiver = intent.getStringExtra("receiver");
         final String body = intent.getStringExtra("body");
         final String date = intent.getStringExtra("datetime");
-        final int uniqueid =intent.getIntExtra("id",-1);
+        final int position =intent.getIntExtra("id",-1);
+        final String uniqueid = intent.getStringExtra("uniqueid");
 
 
-        Log.d("debug","uniquid at start msgboxactivity = "+uniqueid);
+        Log.d("debug","uniquid at start msgboxactivity = "+position);
 
         subjecttv.setText(subject);
         sendertv.setText(sender);
@@ -91,31 +92,18 @@ public class messageboxActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users");
                 //ArrayList<Messages> msglist=UserInfo.messages;
-                Log.d("debug","uniquid in clikclistener = "+uniqueid);
+                Log.d("debug","uniquid in clikclistener = "+position);
 
-                Log.d("debug","msglis "+UserInfo.messages.size() + " "+uniqueid);
-                if(uniqueid==-1)
+                Log.d("debug","msglis "+UserInfo.messages.size() + " "+position);
+                if(position==-1)
                 {
                     Toast.makeText(getApplicationContext(),"Not able to delete!",Toast.LENGTH_LONG).show();
                     return;
                 }
-                //msglist.remove(uniqueid);
-                UserInfo.messages.remove(uniqueid);
-
-
-//                for(Messages a : msglist)
-//                {
-//                    if(a.uniquid.equals(uniqueid))
-//                        msglist.remove(a);
-//
-//                    break;
-//                }
-                dataref.child(UserInfo.username).child("messages").setValue(UserInfo.messages);
+                dataref.child(UserInfo.username).child("messages").child(uniqueid).removeValue();
 
                 Toast.makeText(getApplicationContext(),"Message Deleted Successfully",Toast.LENGTH_LONG).show();
 
-//                Intent intent1 = new Intent(getApplicationContext(),MessageActivity.class);
-//                startActivity(intent1);
                 messageboxActivity.this.finish();
             }
         });

@@ -124,7 +124,7 @@ public class home extends AppCompatActivity {
                     SharedPreferences.Editor editor = preferences.edit();
 
                     editor.putBoolean("logined",false);
-                    editor.commit();
+                    editor.apply();
                     UserInfo.logout();
                     Intent intent = new Intent(home.this,LoginActivity.class);
                     startActivity(intent);
