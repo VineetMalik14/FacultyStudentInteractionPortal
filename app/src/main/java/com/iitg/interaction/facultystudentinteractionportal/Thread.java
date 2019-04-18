@@ -12,7 +12,7 @@ public class Thread {
     private String Title;
     private Date DateOfCreation;
     private Date LastModified;
-    private ArrayList<Replies> repliesArrayList;
+
     public Thread(){
 
     }
@@ -73,15 +73,8 @@ public class Thread {
         LastModified = lastModified;
     }
 
-    public ArrayList<Replies> getRepliesArrayList() {
-        return repliesArrayList;
-    }
 
-    public void setRepliesArrayList(ArrayList<Replies> repliesArrayList) {
-        this.repliesArrayList = repliesArrayList;
-    }
-
-    public Thread(boolean threadClosed, String username, String usertype, String threadContent, String title, Date dateOfCreation, Date lastModified, ArrayList<Replies> repliesArrayList) {
+    public Thread(boolean threadClosed, String username, String usertype, String threadContent, String title, Date dateOfCreation, Date lastModified) {
         ThreadClosed = threadClosed;
         Username = username;
         Usertype = usertype;
@@ -89,6 +82,5 @@ public class Thread {
         Title = title;
         DateOfCreation = dateOfCreation;
         LastModified = lastModified;
-        this.repliesArrayList = repliesArrayList;
     }
 }

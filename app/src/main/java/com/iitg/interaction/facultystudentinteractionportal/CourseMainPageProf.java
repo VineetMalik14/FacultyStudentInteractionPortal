@@ -392,20 +392,6 @@ public class CourseMainPageProf extends Fragment {
 
             }
         });
-        Button button1 = getView().findViewById(R.id.button4);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(count3%2==1)
-                {
-                    getView().findViewById(R.id.CourseProjects).setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    getView().findViewById(R.id.CourseProjects).setVisibility(View.GONE);
-                }
-            }
-        });
         Button button = getView().findViewById(R.id.hiddenbtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -102,30 +102,33 @@ public class ThreadReplies extends AppCompatActivity {
                 replies2 = new ArrayList<Replies>();
 
                 databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(idofcourse).child("threads").child(idofthread).child("repliesArrayList");
-                databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String dora = databaseReference2.push().getKey();
+                databaseReference2.child(dora).setValue(r);
 
-                        // ids = new ArrayList<String>();
-                        for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                            //   ids.add(messageSnapshot.getKey());
-                            //   ids.add(messageSnapshot.getKey());
-                            Replies reply = messageSnapshot.getValue(Replies.class);
-                            replies2.add(reply);
-                            //  Log.v("Title", event.getTitle());
-                        }
-                        replies2.add(r);
-
-                        databaseReference2.setValue(replies2);
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                //                databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        // ids = new ArrayList<String>();
+////                        for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+////                            //   ids.add(messageSnapshot.getKey());
+////                            //   ids.add(messageSnapshot.getKey());
+////                            Replies reply = messageSnapshot.getValue(Replies.class);
+////                            replies2.add(reply);
+////                            //  Log.v("Title", event.getTitle());
+////                        }
+////                        replies2.add(r);
+//                        databaseReference2.
+//                        databaseReference2.setValue(replies2);
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
 
                 input.setText("");
 

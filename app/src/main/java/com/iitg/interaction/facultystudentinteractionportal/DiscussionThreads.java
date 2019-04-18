@@ -166,7 +166,7 @@ public class DiscussionThreads extends AppCompatActivity {
                         if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
                             Toast.makeText(DiscussionThreads.this, "Please enter correct Title and Content", Toast.LENGTH_SHORT).show();
                         } else {
-                            Thread newthread = new Thread(false, username, usertype, content.getText().toString(), title.getText().toString(), c, c, repliesArrayList);
+                            Thread newthread = new Thread(false, username, usertype, content.getText().toString(), title.getText().toString(), c, c);
                             databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
@@ -207,7 +207,7 @@ public class DiscussionThreads extends AppCompatActivity {
 //                messageText = (TextView) v.findViewById(R.id.message_text);
 //                messageUser = (TextView) v.findViewById(R.id.message_user);
 //                messageTime = (TextView) v.findViewById(R.id.message_time);
-//
+//, repliesArrayList
 //                messageText.setText(model.getThreadContent());
 //                messageUser.setText(model.getUsername());
 //                //messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getDateOfCreation()));
