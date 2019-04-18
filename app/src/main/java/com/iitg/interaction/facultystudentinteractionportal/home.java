@@ -109,6 +109,8 @@ public class home extends AppCompatActivity {
 
 
 
+
+
         /*if (UserInfo.profilepicurl!=null){
             Picasso.with(this).load(UserInfo.profilepicurl).into(profilePic);
             Log.d("debug","photo load  dkjlfjakls "+ UserInfo.profilepicurl);

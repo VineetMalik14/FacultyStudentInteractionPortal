@@ -5,7 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".home">
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="No more events scheduled"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <TextView
         android:id="@+id/textView7"
@@ -32,7 +43,7 @@
     <ListView
         android:id="@+id/table_today"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
@@ -56,5 +67,15 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="28dp"
+        android:text="No more events today"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 </android.support.constraint.ConstraintLayout>

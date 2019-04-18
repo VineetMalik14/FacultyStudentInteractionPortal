@@ -82,25 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                 year.setVisibility(View.INVISIBLE);
             }
         }
-          ll = (ListView) findViewById(R.id.lv_courses);
-        TextView emp = findViewById(R.id.tv_emptylist);
-        if(!(UserInfo.courses==null)) {
 
-            final ArrayAdapter<String> adpater = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,UserInfo.courses);
-            ll.setAdapter(adpater);
-        }
-
-        else
-            {
-                emp.setVisibility(View.VISIBLE);
-            }
-
-      ll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-          @Override
-          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              /* open Cources Form */
-          }
-      });
 
     }
 

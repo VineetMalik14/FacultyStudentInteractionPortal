@@ -23,16 +23,18 @@
                 android:id="@+id/text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="24sp"
+                android:fontFamily="sans-serif"
+                android:textColor="#3c3c46"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
                 android:textColor="#555"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
 
         </LinearLayout>

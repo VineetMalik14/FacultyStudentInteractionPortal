@@ -49,7 +49,7 @@ public class EventsMainPage extends Fragment {
     Context ye;
     List<HashMap<String, String>> listItems;
     List<HashMap<String, String>> listdo;
-    String currentuser  = "barney" ;
+    String currentuser  = "ross" ;
     ArrayList<Object> ObjectList1;
     ArrayList<Object> ObjectList2;
     HashMap<String, String> nameAddresses = new HashMap<>();
@@ -177,6 +177,10 @@ public class EventsMainPage extends Fragment {
                         today.setAdapter(ad_today);
                         upcoming.setAdapter(ad_upcoming);
 
+                        if(today.getAdapter().getCount() == 0){
+
+                        }
+
 
                         today.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                             @Override
@@ -235,11 +239,11 @@ public class EventsMainPage extends Fragment {
                 TextView desc = dialogView.findViewById(R.id.DescriptionEvent);
                 desc.setText(e.getDescription());
                 TextView date = dialogView.findViewById(R.id.DateEvent);
-                date.setText(e.getDateOfEvent());
+                date.setText("Date: " + e.getDateOfEvent());
                 TextView time = dialogView.findViewById(R.id.TimeEvent);
-                time.setText(e.getTimeOfEvent());
+                time.setText("Time: " + e.getTimeOfEvent());
                 TextView venue = dialogView.findViewById(R.id.VenueEvent);
-                venue.setText(e.getVenue());
+                venue.setText("Venue: " + e.getVenue());
                 TextView type = dialogView.findViewById(R.id.Type);
                 type.setText(e.getType());
                 //dialogView.findViewById(R.id.id7).setVisibility(View.GONE);
@@ -268,11 +272,11 @@ public class EventsMainPage extends Fragment {
                 TextView desc = dialogView.findViewById(R.id.DescriptionEvent);
                 desc.setText(e.getDescription());
                 TextView date = dialogView.findViewById(R.id.DateEvent);
-                date.setText(e.getDateOfEvent());
+                date.setText("Date: " + e.getDateOfEvent());
                 TextView time = dialogView.findViewById(R.id.TimeEvent);
-                time.setText(e.getTimeOfEvent());
+                time.setText("Time: " + e.getTimeOfEvent());
                 TextView venue = dialogView.findViewById(R.id.VenueEvent);
-                venue.setText(e.getVenue());
+                venue.setText("Venue: " + e.getVenue());
                 TextView type = dialogView.findViewById(R.id.Type);
                 type.setText(e.getType());
                 //dialogView.findViewById(R.id.id7).setVisibility(View.GONE);
