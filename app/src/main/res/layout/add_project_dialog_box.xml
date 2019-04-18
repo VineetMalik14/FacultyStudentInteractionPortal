@@ -44,12 +44,17 @@
             android:hint="Project Details"
             android:textAlignment="center"
             android:textSize="20dp" />
+
         <Button
             android:id="@+id/buttonSelectFileProject"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Select File" />
+            android:background="#fff"
+            android:text="Select File"
+            android:textColor="#344955"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -87,7 +92,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Project" />
+            android:background="#fff"
+            android:elevation="24dp"
+            android:text="Add Project"
+            android:textColor="#344955"
+            android:textSize="16dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 

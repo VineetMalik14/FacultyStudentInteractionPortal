@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,6 +59,7 @@ import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.firebase.storage.network.DeleteNetworkRequest;
 
 import org.w3c.dom.Text;
 
@@ -68,6 +70,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -95,6 +98,7 @@ public class CourseMainPageProf extends Fragment {
     public static final int progress_bar_type = 0;
     public int count=0;
     public int count1=0;
+    List<String> material_keys;
     public int count2=0;
     public int count3=0;
     public AlertDialog mate;
@@ -110,7 +114,7 @@ public class CourseMainPageProf extends Fragment {
     int PROGRESS_MAX = 100;
     NotificationManager notificationManager;
     NotificationChannel channel;
-
+    ListView listView_material;
 
     public ArrayList<CourseProject> projects = new ArrayList<CourseProject>();
 
@@ -174,18 +178,22 @@ public class CourseMainPageProf extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                events = new ArrayList<Event>();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    Event event = messageSnapshot.getValue(Event.class);
-                    events.add(event);
-                    Log.v("Title", event.getTitle());
-                }
-                Collections.reverse(events);
-                Log.v("Size", String.valueOf(events.size()));
-                ListView listView1 = getView().findViewById(R.id.EventsList);
-                final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
+                if(getView()!=null && getActivity()!=null)
+                {
+                    events = new ArrayList<Event>();
+                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                        Event event = messageSnapshot.getValue(Event.class);
+                        events.add(event);
+                        Log.v("Title", event.getTitle());
+                    }
+                    Collections.reverse(events);
+                    Log.v("Size", String.valueOf(events.size()));
+                    ListView listView1 = getView().findViewById(R.id.EventsList);
+                    final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
 ////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-                listView1.setAdapter(customAdapter1);
+                    listView1.setAdapter(customAdapter1);
+                }
+
             }
 
             @Override
@@ -202,28 +210,41 @@ public class CourseMainPageProf extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 materials = new ArrayList<CourseMaterial>();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    CourseMaterial material = messageSnapshot.getValue(CourseMaterial.class);
-                    materials.add(material);
-                    Log.v("Title", material.getTitle());
+                if(getView() != null && getActivity()!=null)
+                {
+                    materials = new ArrayList<CourseMaterial>();
+                    material_keys = new ArrayList<String>();
+                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                        material_keys.add(messageSnapshot.getKey());
+                        CourseMaterial material = messageSnapshot.getValue(CourseMaterial.class);
+                        materials.add(material);
+                        Log.v("Title", material.getTitle());
+
+                    }
+                    Collections.reverse(materials);
+                    Collections.reverse(material_keys);
+                    ListView listView = getView().findViewById(R.id.course_material);
+                    final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
+                    listView.setAdapter(customAdapter);
+                    // registering context menu for prof
+                    if(UserInfo.usertype.equals("Prof")){
+
+                        registerForContextMenu(listView);
+
+                    }
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // now we have  all the value that will be needed for
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+                            CourseMaterial item = customAdapter.getItem(position);
+                            downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
+                            // now send the key with the intent you are showing
+                        }
+                    });
 
                 }
-                Collections.reverse(materials);
-                ListView listView = getView().findViewById(R.id.course_material);
-                final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
-                listView.setAdapter(customAdapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // now we have  all the value that will be needed for
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        CourseMaterial item = customAdapter.getItem(position);
-                        downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
-                        // now send the key with the intent you are showing
-                    }
-                });
 
 //                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
 
@@ -256,28 +277,32 @@ public class CourseMainPageProf extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                projects = new ArrayList<CourseProject>();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    CourseProject project = messageSnapshot.getValue(CourseProject.class);
-                    projects.add(project);
+                if(getActivity()!=null && getView()!=null)
+                {
+                    projects = new ArrayList<CourseProject>();
+                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                        CourseProject project = messageSnapshot.getValue(CourseProject.class);
+                        projects.add(project);
+
+                    }
+                    Collections.reverse(projects);
+                    ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.CourseProjects);
+                    final CustomAdapter2 customAdapter = new CustomAdapter2(getActivity(),projects);
+                    listView.setAdapter(customAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // now we have  all the value that will be needed for
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+                            CourseProject item = customAdapter.getItem(position);
+                            assert item != null;
+                            downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
+                            // now send the key with the intent you are showing
+                        }
+                    });
 
                 }
-                Collections.reverse(projects);
-                ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.CourseProjects);
-                final CustomAdapter2 customAdapter = new CustomAdapter2(getActivity(),projects);
-                listView.setAdapter(customAdapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // now we have  all the value that will be needed for
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        CourseProject item = customAdapter.getItem(position);
-                        assert item != null;
-                        downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
-                        // now send the key with the intent you are showing
-                    }
-                });
 
 //                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
 
@@ -411,8 +436,8 @@ public class CourseMainPageProf extends Fragment {
                     getView().findViewById(R.id.textView15).setVisibility(View.GONE);
                     getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.button7).setVisibility(View.GONE);
                     getView().findViewById(R.id.button5).setVisibility(View.GONE);
                     getView().findViewById(R.id.button6).setVisibility(View.GONE);
@@ -1412,6 +1437,84 @@ public class CourseMainPageProf extends Fragment {
 
     }
 
+    // deleting course materials
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId()==R.id.course_material) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            //menu.setHeaderTitle(Countries[info.position]);
+            String[] menuItems = {"Delete Material"};
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+
+            }
+        }
+
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        String threadid = material_keys.get(info.position);
+        Log.d(TAG,threadid);
+        Log.d(TAG,CourseMainPageStudent.courseID);
+        final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
+//        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
+        // getting url from database
+
+
+        if (menuItemIndex == 0){ // This is to delete the thread
+            Log.d(TAG,threadid);
+            databaseReference2.removeValue();
+//            final CourseMaterial[] courseMaterial = {new CourseMaterial()};
+//            databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    if (dataSnapshot.getValue() != null)
+//                    {
+//                        courseMaterial[0] = dataSnapshot.getValue(CourseMaterial.class);
+//                    }
+//                }
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+//            String url = courseMaterial[0].getURL();
+//            Log.d(TAG,"url" + url);
+
+
+            // also remove from storage
+
+//            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+//            DeleteNetworkRequest request = new DownloadManager.Request();
+//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                @Override
+//                public void onSuccess(Void aVoid) {
+//
+//                    // File deleted successfully
+//                    Log.e("firebasestorage", "onSuccess: deleted file");
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//                    // Uh-oh, an error occurred!
+//                    Log.e("firebasestorage", "onFailure: did not delete file");
+//                }
+//            });
+            return true;
+        }
+
+
+        return true;
+
+
+    }
+
 
 
 }
@@ -1435,3 +1538,5 @@ public class CourseMainPageProf extends Fragment {
 //TODO 12. remove barney from aman's code
 //TODO 13. back button after logout
 //TODO 14. disable login button after clicking once
+//TODO 15. UI of profile page
+//TODO 16. delete file

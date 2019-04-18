@@ -235,5 +235,10 @@
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add" />
+        android:background="#fff"
+        android:elevation="24dp"
+        android:text="Add"
+        android:textColor="#344955"
+        android:textSize="16dp"
+        android:textStyle="bold" />
 </LinearLayout>
