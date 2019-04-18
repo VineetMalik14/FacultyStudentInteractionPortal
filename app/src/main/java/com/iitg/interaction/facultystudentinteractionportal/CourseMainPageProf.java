@@ -1437,83 +1437,46 @@ public class CourseMainPageProf extends Fragment {
 
     }
 
-    // deleting course materials
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        if (v.getId()==R.id.course_material) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-            //menu.setHeaderTitle(Countries[info.position]);
-            String[] menuItems = {"Delete Material"};
-            for (int i = 0; i<menuItems.length; i++) {
-                menu.add(Menu.NONE, i, i, menuItems[i]);
-
-            }
-        }
-
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        int menuItemIndex = item.getItemId();
-        String threadid = material_keys.get(info.position);
-        Log.d(TAG,threadid);
-        Log.d(TAG,CourseMainPageStudent.courseID);
-        final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
-//        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
-        // getting url from database
-
-
-        if (menuItemIndex == 0){ // This is to delete the thread
-            Log.d(TAG,threadid);
-            databaseReference2.removeValue();
-//            final CourseMaterial[] courseMaterial = {new CourseMaterial()};
-//            databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    if (dataSnapshot.getValue() != null)
-//                    {
-//                        courseMaterial[0] = dataSnapshot.getValue(CourseMaterial.class);
-//                    }
-//                }
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
+//    // deleting course materials
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        if (v.getId()==R.id.course_material) {
+//            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+//            //menu.setHeaderTitle(Countries[info.position]);
+//            String[] menuItems = {"Delete Material"};
+//            for (int i = 0; i<menuItems.length; i++) {
+//                menu.add(Menu.NONE, i, i, menuItems[i]);
 //
-//                }
-//            });
-//            String url = courseMaterial[0].getURL();
-//            Log.d(TAG,"url" + url);
-
-
-            // also remove from storage
-
-//            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
-//            DeleteNetworkRequest request = new DownloadManager.Request();
-//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                @Override
-//                public void onSuccess(Void aVoid) {
+//            }
+//        }
 //
-//                    // File deleted successfully
-//                    Log.e("firebasestorage", "onSuccess: deleted file");
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    // Uh-oh, an error occurred!
-//                    Log.e("firebasestorage", "onFailure: did not delete file");
-//                }
-//            });
-            return true;
-        }
+//
+//    }
 
-
-        return true;
-
-
-    }
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+//        int menuItemIndex = item.getItemId();
+//        String threadid = material_keys.get(info.position);
+//        Log.d(TAG,threadid);
+//        Log.d(TAG,CourseMainPageStudent.courseID);
+//        final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
+////        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
+//        // getting url from database
+//
+//
+//        if (menuItemIndex == 0){ // This is to delete the thread
+//            Log.d(TAG,threadid);
+//            databaseReference2.removeValue();
+//            return true;
+//        }
+//
+//
+//        return true;
+//
+//
+//    }
 
 
 
@@ -1540,3 +1503,10 @@ public class CourseMainPageProf extends Fragment {
 //TODO 14. disable login button after clicking once
 //TODO 15. UI of profile page
 //TODO 16. delete file
+
+// TODO bugs: modified code in enroll student as it was not passing corect intent values (1.5hrs) code changed in searchallcourses and courseenrollactivity
+// TODO bugs: app was crashing due to getview() returning null pointer, made checks to ensure that it never happens again (1.5hrs), code changed in in Coursemainpageprof and DiscussionThreads,
+// TODO bugs: modified replies from arraysformat to simply pushign them. This removed the error of overwriting replies in DiscussionThreads (1 hrs)
+// TODO bugs: When enrolling to a new course the course page is not refreshing itself
+//TODO 17. ADD NEW COURSE TO USERIFO.COURSES ON enrolling
+//TODO 18.

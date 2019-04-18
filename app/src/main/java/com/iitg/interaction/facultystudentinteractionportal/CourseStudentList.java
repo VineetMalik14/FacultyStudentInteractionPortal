@@ -74,9 +74,6 @@ public class CourseStudentList extends Fragment {
 
 
                 }
-                else{
-                    Log.d("NULLHEYANNANYA", "1");
-                }
 
             }
 
@@ -166,9 +163,9 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
                         Intent intent = new Intent(getContext(), CourseMainPageStudent.class);
                         CourseTitle[0] = dataSnapshot.child("fullname").getValue().toString();
                         CourseDescription[0] = dataSnapshot.child("description").getValue().toString();
-                         CourseSyllabus[0] = dataSnapshot.child("syllabus").getValue().toString();
-                         CourseMarks[0] = dataSnapshot.child("marksDistribution").getValue().toString();
-                         CourseTimeSlots[0] = dataSnapshot.child("timeSlots").getValue().toString();
+                        CourseSyllabus[0] = dataSnapshot.child("syllabus").getValue().toString();
+                        CourseMarks[0] = dataSnapshot.child("marksDistribution").getValue().toString();
+                        CourseTimeSlots[0] = dataSnapshot.child("timeSlots").getValue().toString();
 //                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date CourseDateOfCreation =dataSnapshot.child("dateOfCreation").getValue(Date.class);
 //                        formatter.format(CourseDateOfCreation);
@@ -198,7 +195,3 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
 
 
 }
-
-
-
-

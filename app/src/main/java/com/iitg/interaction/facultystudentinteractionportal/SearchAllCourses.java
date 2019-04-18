@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +39,7 @@ public class SearchAllCourses extends Fragment {
     ListView r;
     TextView t;
     Activity truth = getActivity();
+    Intent intent;
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
@@ -63,17 +65,101 @@ public class SearchAllCourses extends Fragment {
                 }
                 if(UserInfo.courses.contains(item))
                 {
-                    Intent intent = new Intent(getActivity(),CourseMainPageStudent.class);
+                    intent = new Intent(getActivity(),CourseMainPageStudent.class);
                     CourseMainPageStudent.courseID=item;
-                    intent.putExtra("CourseID",item);
-                    startActivity(intent);
+
+                    DatabaseReference us = db.getReference().child("Courses").child(item).child("description");
+                    us.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String value = dataSnapshot.getValue(String.class);
+
+
+                            intent.putExtra("CourseDescription", value);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+
+                        }
+                    });
+
+
+                    DatabaseReference po = db.getReference().child("Courses").child(item).child("marksDistribution");
+                    po.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String  marks = dataSnapshot.getValue(String.class);
+                            intent.putExtra("CourseMarks", marks);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+
+                        }
+                    });
+
+                    us = db.getReference().child("Courses").child(item).child("fullname");
+                    us.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String value = dataSnapshot.getValue(String.class);
+                            intent.putExtra("CourseTitle", value);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    us = db.getReference().child("Courses").child(item).child("syllabus");
+                    us.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String value = dataSnapshot.getValue(String.class);
+                            intent.putExtra("CourseSyllabus", value);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    us = db.getReference().child("Courses").child(item).child("timeSlots");
+                    us.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String value = dataSnapshot.getValue(String.class);
+                            intent.putExtra("CourseTimeSlots", value);
+                            Toast.makeText(getActivity(), value, Toast.LENGTH_SHORT).show();
+
+                            intent.putExtra("CourseID",item);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
                 }
                 else {
 
-                    Intent i = new Intent(getActivity() , StudentEnrollActivity.class );
+                    Intent i = new Intent(getActivity() , StudentEnrollActivity.class);
+
+
                     i.putExtra("name", item);
 
                     startActivity(i);
+                    getActivity().finish();
 
                 }
 

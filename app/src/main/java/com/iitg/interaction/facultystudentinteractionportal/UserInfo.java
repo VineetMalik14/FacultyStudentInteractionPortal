@@ -53,9 +53,7 @@ public class UserInfo extends AppCompatActivity {
         UserInfo.occupation = occupation;
         UserInfo.department = department;
         UserInfo.year = year;
-
         UserInfo.messages = messages;
-
         UserInfo.courses = courses ;
     }
 
