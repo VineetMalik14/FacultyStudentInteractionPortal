@@ -304,6 +304,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     }
 
                     UserInfo.profilepicurl = authResult.getUser().getPhotoUrl();
+                    //String temp  = "https://firebasestorage.googleapis.com/v0/b/placement-portal-89289.appspot.com/o/Upload_CompanyNotices%2FSara%20Ali%20Khan%20Poses%20For%20Vogue%20Photos_5.jpg?alt=media&token=a7147922-5ff6-4625-8055-7e7b7bec884d";
                     Map<String,Object> uu=authResult.getAdditionalUserInfo().getProfile();
 
                     for (String s : authResult.getAdditionalUserInfo().getProfile().keySet())
@@ -320,6 +321,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     }
 
                     UserInfo.profilepicurl=Uri.parse(uu.get("@odata.context").toString());
+
 
                     Log.d("DEBUG","NAME AND EMAIL ENTERED IN USERINFO");
 
@@ -352,6 +354,9 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     Log.d("printing","username " + metadat.toString() );
 
                     UserInfo.profilepicurl = Uri.parse(metadat.toString());
+//                    String temp  = "https://firebasestorage.googleapis.com/v0/b/placement-portal-89289.appspot.com/o/Upload_CompanyNotices%2FSara%20Ali%20Khan%20Poses%20For%20Vogue%20Photos_5.jpg?alt=media&token=a7147922-5ff6-4625-8055-7e7b7bec884d";
+//                    UserInfo.profilepicurl = Uri.parse(temp);
+
 
                     authResult.getAdditionalUserInfo().getProfile();
                //     Object companyname = addinfo.get("country");

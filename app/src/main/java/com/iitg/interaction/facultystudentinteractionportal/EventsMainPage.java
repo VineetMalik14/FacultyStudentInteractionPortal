@@ -49,7 +49,7 @@ public class EventsMainPage extends Fragment {
     Context ye;
     List<HashMap<String, String>> listItems;
     List<HashMap<String, String>> listdo;
-    String currentuser  = UserInfo.username;
+    String currentuser  = "barney" ;
     ArrayList<Object> ObjectList1;
     ArrayList<Object> ObjectList2;
     HashMap<String, String> nameAddresses = new HashMap<>();
@@ -62,6 +62,7 @@ public class EventsMainPage extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_events_main_page, container, false);
         setHasOptionsMenu(true);
+
         return rootView;
     }
 
@@ -70,6 +71,8 @@ public class EventsMainPage extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         /*super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_main_page);*/
+
+       // currentuser=UserInfo.username;
 
         today = Objects.requireNonNull(getView()).findViewById(R.id.table_today);
         upcoming = getView().findViewById(R.id.table_upcoming);

@@ -20,16 +20,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 public class home extends AppCompatActivity {
 
@@ -95,6 +99,26 @@ public class home extends AppCompatActivity {
 
         final NavigationView navigationView =  findViewById(R.id.nav_view);
         navigationView.bringToFront();
+
+        View header = navigationView.getHeaderView(0);
+        TextView name  = header.findViewById(R.id.tv_name);
+        name.setText(UserInfo.fullname);
+
+        ImageView profilePic  = header.findViewById(R.id.display_pic);
+        profilePic.setImageResource(R.mipmap.ic_launcher);
+
+
+
+        /*if (UserInfo.profilepicurl!=null){
+            Picasso.with(this).load(UserInfo.profilepicurl).into(profilePic);
+            Log.d("debug","photo load  dkjlfjakls "+ UserInfo.profilepicurl);
+            Toast.makeText(getApplicationContext(),UserInfo.profilepicurl.toString()+"hello",Toast.LENGTH_LONG).show();
+        }
+        else{
+            profilePic.setImageResource(R.mipmap.ic_launcher);
+        }
+*/
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
