@@ -6,24 +6,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="Profile" />
         <item
             android:id="@+id/exam_timetable"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_event_black_24dp"
             android:title="Exam Timetable" />
         <item
             android:id="@+id/courses"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_library_books_black_24dp"
             android:title="Courses" />
-        <!--<item-->
-            <!--android:id="@+id/nav_"-->
-            <!--android:icon="@drawable/ic_menu_slideshow"-->
-            <!--android:title="Slideshow" />-->
-        <!--<item-->
-            <!--android:id="@+id/nave_logout"-->
-            <!--android:icon="@drawable/ic_menu_manage"-->
-            <!--android:title="Logout" />-->
+
     </group>
 
     <item android:title="Communicate">
@@ -34,7 +27,7 @@
                 android:title="Messages" />
             <item
                 android:id="@+id/nav_outlook"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_mail_outline_black_24dp"
                 android:title="Outlook" />
         </menu>
     </item>
@@ -43,22 +36,22 @@
         <menu>
             <item
                 android:id="@+id/nav_FAQ"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_faq_black_24dp"
                 android:title="FAQ" />
 
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_info_black_24dp"
                 android:title="About" />
 
         </menu>
     </item>
     <item android:title="Privacy">
         <menu>
-    <item
-        android:id="@+id/nav_logout"
-        android:icon="@drawable/ic_menu_share"
-        android:title="Logout" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout_new_black_24dp"
+                android:title="Logout" />
         </menu>
     </item>
 

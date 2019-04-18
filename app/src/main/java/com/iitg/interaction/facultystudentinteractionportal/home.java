@@ -94,6 +94,7 @@ public class home extends AppCompatActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final NavigationView navigationView =  findViewById(R.id.nav_view);
+        navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -201,22 +202,10 @@ public class home extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = null;
-            rootView = inflater.inflate(R.layout.activity_events_main_page, container, false);
+            rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-//            switch (getArguments().getInt(ARG_SECTION_NUMBER)){
-//                case 1:
-//                     rootView = inflater.inflate(R.layout.activity_profile, container, false);
-//                break;
-//
-//                case 2:
-//                    rootView = inflater.inflate(R.layout.login_screen, container, false);
-//                    break;
-//                case 3:
-//                    rootView = inflater.inflate(R.layout.fragment_home, container, false);
-//                  break;
-//
-//
-//            }
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }

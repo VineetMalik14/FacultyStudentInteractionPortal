@@ -49,7 +49,7 @@ public class EventsMainPage extends Fragment {
     Context ye;
     List<HashMap<String, String>> listItems;
     List<HashMap<String, String>> listdo;
-    String currentuser = "barney";
+    String currentuser  = UserInfo.username;
     ArrayList<Object> ObjectList1;
     ArrayList<Object> ObjectList2;
     HashMap<String, String> nameAddresses = new HashMap<>();
