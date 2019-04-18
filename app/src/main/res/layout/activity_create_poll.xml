@@ -19,12 +19,12 @@
         android:layout_marginEnd="156dp"
         android:text="Create a Poll"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/et_createpoll_question"
-        android:layout_width="383dp"
+        android:layout_width="match_parent"
         android:layout_height="69dp"
         android:ems="10"
         android:hint="Question"
@@ -40,14 +40,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Option" />
+            android:background="#3C3C46"
+            android:text="Add Option"
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/btn_createpoll_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Submit" />
+            android:background="#3C3C46"
+            android:text="Submit"
+            android:textColor="#fff" />
     </LinearLayout>
 
     <ScrollView

@@ -6,24 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".home$PlaceholderFragment">
 
-    <TextView
+    <Button
         android:id="@+id/textView7"
         android:layout_width="139dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:background="#3C3C46"
         android:text="Today"
+        android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/textView13"
         android:layout_width="139dp"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:background="#3C3C46"
         android:text="Upcoming "
+        android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/table_today" />

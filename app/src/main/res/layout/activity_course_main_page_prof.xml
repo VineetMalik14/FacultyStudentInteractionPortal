@@ -22,8 +22,10 @@
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="68dp"
+            android:layout_marginEnd="8dp"
             android:text="Date of Creation"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/textView8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -95,14 +97,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:background="#0C000000"
-            android:clickable="false"
 
+            android:clickable="false"
             android:ems="10"
             android:hint="description"
             android:inputType="textMultiLine|textPersonName"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
@@ -124,6 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:background="#0C000000"
             android:clickable="false"
             android:ems="10"
@@ -131,6 +136,7 @@
             android:inputType="textPersonName"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -178,12 +184,15 @@
             android:id="@+id/textView14"
             android:layout_width="175dp"
             android:layout_height="36dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="216dp"
             android:text="Time Slots"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText8" />
 
         <TextView
@@ -214,7 +223,6 @@
             android:text="Materials"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -259,7 +267,6 @@
             android:text="Events"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
@@ -374,7 +381,6 @@
             android:background="#3C3C46"
             android:text="Course Projects"
             android:textColor="#fff"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/EventsList" />
