@@ -131,10 +131,96 @@ public class CreatePollActivity extends AppCompatActivity {
         databaseReference.child("Polls").child(newpoll.uniqueid).setValue(newpoll);
 
         Toast.makeText(getApplicationContext(),"Poll added successfully!",Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(),CourseMainPageStudent.class);
+        final Intent intent = new Intent(getApplicationContext(),CourseMainPageStudent.class);
         intent.putExtra("poll",true);
-        intent.putExtra("CourseID",currentcourse);
-        startActivity(intent);
+       // intent.putExtra("CourseID",currentcourse);
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+
+        DatabaseReference us = db.getReference().child("Courses").child(currentcourse).child("description");
+        us.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+
+
+                intent.putExtra("CourseDescription", value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+
+            }
+        });
+
+
+        DatabaseReference po = db.getReference().child("Courses").child(currentcourse).child("marksDistribution");
+        po.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String  marks = dataSnapshot.getValue(String.class);
+                intent.putExtra("CourseMarks", marks);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+
+            }
+        });
+
+        us = db.getReference().child("Courses").child(currentcourse).child("fullname");
+        us.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                intent.putExtra("CourseTitle", value);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        us = db.getReference().child("Courses").child(currentcourse).child("syllabus");
+        us.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                intent.putExtra("CourseSyllabus", value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        us = db.getReference().child("Courses").child(currentcourse).child("timeSlots");
+        us.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                intent.putExtra("CourseTimeSlots", value);
+                Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+
+                intent.putExtra("CourseID",currentcourse);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
 
 

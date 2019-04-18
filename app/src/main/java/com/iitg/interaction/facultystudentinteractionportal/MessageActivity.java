@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +65,7 @@ public class MessageActivity extends AppCompatActivity {
                 {
                     UserInfo.messages= new ArrayList<>();
                 }
+                int prevsize = UserInfo.messages.size();
                 UserInfo.messages.clear();
               for(DataSnapshot data : dataSnapshot.getChildren())
               {
@@ -72,6 +74,14 @@ public class MessageActivity extends AppCompatActivity {
               }
 
               Collections.reverse(UserInfo.messages);
+              if(UserInfo.messages.size()>prevsize)
+              {
+                 if(UserInfo.messages.get(0).receiver.equals(UserInfo.username))
+                 {
+                     Toast.makeText(getApplicationContext(),"You got a new message.",Toast.LENGTH_LONG).show();
+                 }
+              }
+
               messageListAdaptor.notifyDataSetChanged();
                 Log.d("debug","mlist got updated! ");
 
