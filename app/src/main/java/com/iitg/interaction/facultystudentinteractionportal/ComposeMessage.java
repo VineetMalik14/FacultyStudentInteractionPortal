@@ -138,8 +138,9 @@ public class ComposeMessage extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(receiver.getText().toString().trim().replace("@iitg.ac.in","")).exists())
                 {
-                    databaseReference.child(UserInfo.username).child("messages").child(newmsg.uniquid).setValue(newmsg);
                     databaseReference.child(receiver.getText().toString().trim().replace("@iitg.ac.in","")).child("messages").child(newmsg.uniquid).setValue(newmsg);
+                    newmsg.read=true;
+                    databaseReference.child(UserInfo.username).child("messages").child(newmsg.uniquid).setValue(newmsg);
                     Toast.makeText(getApplicationContext(),"Message sent successfully!",Toast.LENGTH_LONG).show();
                     ComposeMessage.this.finish();
                 }

@@ -111,6 +111,7 @@ public class CourseMainPageProf extends Fragment {
     AlertDialog b;
     int PROGRESS_CURRENT;
     NotificationCompat.Builder builder;
+
     int PROGRESS_MAX = 100;
     NotificationManager notificationManager;
     NotificationChannel channel;

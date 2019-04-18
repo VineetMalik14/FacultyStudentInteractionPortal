@@ -104,6 +104,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
 
 
         try{
+            if(false)
             if(preferences.getBoolean("logined",false) && preferences.getString("username",null)!=null)
             {
 
@@ -173,7 +174,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 btn_customlogin.setEnabled(false);
-                handler.postDelayed(runnable2,2000);
+                handler.postDelayed(runnable2,10000);
                 customloginfunction();
             }
         });
@@ -182,7 +183,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 btn_login.setEnabled(false);
-                handler.postDelayed(runnable,2000);
+                handler.postDelayed(runnable,10000);
                 //btn_login.setEnabled(true);
 
                 loginfunction();
