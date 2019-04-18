@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--android:padding="@dimen/activity_horizontal_margin">-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:orientation="vertical"-->
+<!--android:padding="@dimen/activity_horizontal_margin">-->
 
 <android.support.v7.widget.CardView
 
@@ -23,18 +23,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/TitleEvent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:editable="true"
-            android:hint="Title"
-            android:inputType="textMultiLine"
-            android:scrollbars="vertical"
-            android:textAlignment="center" />
+        <!--<EditText-->
+        <!--android:id="@+id/TitleEvent"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:editable="true"-->
+        <!--android:hint="Title"-->
+        <!--android:inputType="textMultiLine"-->
+        <!--android:scrollbars="vertical"-->
+        <!--android:textAlignment="center" />-->
 
         <EditText
-            android:id="@+id/DescriptionEvent"
+            android:id="@+id/DescriptionExam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="true"
@@ -50,7 +50,7 @@
             android:weightSum="100">
 
             <EditText
-                android:id="@+id/DateEvent"
+                android:id="@+id/DateExam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
@@ -61,7 +61,7 @@
                 android:inputType="date" />
 
             <EditText
-                android:id="@+id/TimeEvent"
+                android:id="@+id/TimeExam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -73,7 +73,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/VenueEvent"
+            android:id="@+id/VenueExam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="true"
@@ -82,14 +82,19 @@
             android:inputType="textMultiLine"
             android:scrollbars="vertical" />
 
-        <Spinner
-            android:id="@+id/TypeEvent"
+
+        <EditText
+            android:id="@+id/DurationExam"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:entries="@array/EventTypes" />
+            android:layout_height="wrap_content"
+            android:editable="true"
+            android:ems="10"
+            android:hint="Duration"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
 
         <Button
-            android:id="@+id/AddEventButton"
+            android:id="@+id/AddExamButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"

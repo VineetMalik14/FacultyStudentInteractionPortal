@@ -18,8 +18,10 @@ public class Courses {
     private String TimeSlots;
     private ArrayList<Thread> threads;
     private ArrayList<CourseMaterial> CourseMaterial;
+    private Midsemester midsemester;
+    private Endsemester endsemester;
 
-    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, ArrayList<Event> events, String fullname, String marksDistribution, String professor, String studentList, String syllabus, String timeSlots, ArrayList<Thread> threads,ArrayList<CourseMaterial> courseMaterial) {
+    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, ArrayList<Event> events, String fullname, String marksDistribution, String professor, String studentList, String syllabus, String timeSlots, ArrayList<Thread> threads,ArrayList<CourseMaterial> courseMaterial,String exams) {
         CourseID = courseID;
         CourseKey = courseKey;
         Description = description;
@@ -34,9 +36,26 @@ public class Courses {
         this.threads = threads;
         this.CourseMaterial = courseMaterial;
 
+
     }
 
-    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events,String timeSlots,String threads) {
+//    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus,ArrayList<Event> events,String timeSlots,String threads,Midsemester midsemester,Endsemester endsemester) {
+//        CourseID = courseID;
+//        CourseKey = courseKey;
+//        Description = description;
+//        DateOfCreation = dateOfCreation;
+//        Fullname = fullname;
+//        MarksDistribution = marksDistribution;
+//        Professor = professor;
+//        Syllabus = syllabus;
+//        TimeSlots = timeSlots;
+//        midsemester = midsemester;
+//        endsemester = endsemester;
+////        this.events = new ArrayList<>();
+//    }
+
+
+    public Courses(String courseID, String courseKey, String description, Date dateOfCreation, String fullname, String marksDistribution, String professor, String syllabus, String timeSlots,Midsemester midsemester,Endsemester endsemester) {
         CourseID = courseID;
         CourseKey = courseKey;
         Description = description;
@@ -46,9 +65,10 @@ public class Courses {
         Professor = professor;
         Syllabus = syllabus;
         TimeSlots = timeSlots;
-        threads = threads;
-//        this.events = new ArrayList<>();
+        this.midsemester = midsemester;
+        this.endsemester = endsemester;
     }
+
     public Courses(){
 
     }
@@ -156,4 +176,6 @@ public class Courses {
     public void setCourseMaterial(ArrayList<com.iitg.interaction.facultystudentinteractionportal.CourseMaterial> courseMaterial) {
         CourseMaterial = courseMaterial;
     }
+
+
 }

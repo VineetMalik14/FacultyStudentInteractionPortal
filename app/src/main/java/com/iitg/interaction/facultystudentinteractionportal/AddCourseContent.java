@@ -1,5 +1,7 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,15 +12,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,8 +34,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class AddCourseContent extends AppCompatActivity {
 
@@ -47,6 +56,8 @@ public class AddCourseContent extends AppCompatActivity {
     public Spinner spinner;
     int[] days=new int[5];
     String lastindex;
+    public Midsemester midsemester;
+    public Endsemester endsemester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,64 +65,12 @@ public class AddCourseContent extends AppCompatActivity {
         setContentView(R.layout.activity_add_course_content);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        String courseid = getIntent().getStringExtra("CourseID");
+        final String courseid = getIntent().getStringExtra("CourseID");
         UserInfo.courses.add(courseid);
 
         final DatabaseReference databaseReference_users_add_course = FirebaseDatabase.getInstance().getReference();
         databaseReference_users_add_course.child("users").child(UserInfo.username).child("courses").setValue(UserInfo.courses);
-//        databaseReference_users_add_course.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                for(DataSnapshot childsnapshot: dataSnapshot.getChildren()){
-//                    lastindex = ((childsnapshot.getKey()));
-//                }
-//                databaseReference_users_add_course.child("Users").child("yupp").child(""+(lastindex+1)).setValue(getIntent().getStringExtra("CourseID"));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//        databaseReference_users_add_course.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                long count = dataSnapshot.getChildrenCount();
-//                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-//                databaseReference.child("Users").child("yupp").child("courses").child(Long.toString(count)).setValue(getIntent().getStringExtra("CourseID"));
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
-//
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         CourseIDTextView = findViewById(R.id.textView2);
         CourseNameTextView = findViewById(R.id.editText);
@@ -339,6 +298,221 @@ public class AddCourseContent extends AppCompatActivity {
             }
         });
 
+        //mid sem
+        final TextView midSem_btn = findViewById(R.id.MidSem);
+        midSem_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AddCourseContent.this);
+                LayoutInflater inflater = getLayoutInflater();
+                dialogView = inflater.inflate(R.layout.midsem_alert_box, null);
+                dialogBuilder.setView(dialogView);
+
+                final AlertDialog b = dialogBuilder.create();
+                b.show();
+
+                // getting date
+                //--------------------------------------------------
+                final Calendar myCalendar = Calendar.getInstance();
+                final EditText date_of_exam = dialogView.findViewById(R.id.DateExam);
+                final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                myCalendar.set(Calendar.HOUR,hour);
+//                myCalendar.set(Calendar.MINUTE,minutes);
+                        String myFormat = "dd/MM/yyyy"; //In which you need put here
+                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                        date_of_exam.setText(sdf.format(myCalendar.getTime()));
+                    }
+
+
+                };
+
+                date_of_exam.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        new DatePickerDialog(AddCourseContent.this, date, myCalendar
+                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//                new DatePickerDialog(getActivity(),myCalendar.get(Calendar.DAY_OF_WEEK));
+                    }
+                });
+
+                //-----------------------------------
+                // show time select dialog box on clicking time edit box
+                //------------------------------
+                final EditText time_of_exam = dialogView.findViewById(R.id.TimeExam);
+                time_of_exam.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+//                Calendar mcurrentTime = Calendar.getInstance();
+                        int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
+                        int minute = myCalendar.get(Calendar.MINUTE);
+                        TimePickerDialog mTimePicker;
+                        mTimePicker = new TimePickerDialog(AddCourseContent.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                time_of_exam.setText( selectedHour + ":" + selectedMinute);
+                            }
+                        }, hour, minute, true);//Yes 24 hour time
+//                mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
+
+                    }
+                });
+                //-------------------------------------------------
+
+                Button addmidsem_btn = dialogView.findViewById(R.id.AddExamButton);
+                addmidsem_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = dialogView.findViewById(R.id.DescriptionExam);
+                        EditText editText1 = dialogView.findViewById(R.id.DateExam);
+                        EditText editText2 = dialogView.findViewById(R.id.TimeExam);
+                        EditText editText3 = dialogView.findViewById(R.id.VenueExam);
+                        EditText editText4 = dialogView.findViewById(R.id.DurationExam);
+
+                        final String description = editText.getText().toString();
+                        final String date = editText1.getText().toString();
+                        final String time = editText2.getText().toString();
+                        final String venue = editText3.getText().toString();
+                        final String duration = editText4.getText().toString();
+
+
+                        if(description.equals("") || date.equals("") || time.equals("") || venue.equals("") || duration.equals("")){Toast.makeText(AddCourseContent.this,"Please fill all the fields",Toast.LENGTH_SHORT).show();}
+                        else {
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                             midsemester = new Midsemester(date,duration,time,description,venue);
+//                            String key=databaseReference.child("Courses").child(courseid).child("MidSemester").push().getKey();
+//                            databaseReference.child("Courses").child(courseid).child("MidSemester").setValue(midsemester);
+                            midSem_btn.setHint("Mid Semester added");
+                            b.dismiss();
+                        }
+                    }
+                });
+
+            }
+        });
+
+        // getting endsem
+
+
+        final TextView endsem_btn = findViewById(R.id.EndSem);
+        endsem_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AddCourseContent.this);
+                LayoutInflater inflater = getLayoutInflater();
+                dialogView = inflater.inflate(R.layout.endsem_alert_box, null);
+                dialogBuilder.setView(dialogView);
+
+                final AlertDialog b = dialogBuilder.create();
+                b.show();
+
+                // getting date
+                //--------------------------------------------------
+                final Calendar myCalendar = Calendar.getInstance();
+                final EditText date_of_exam = dialogView.findViewById(R.id.DateExam);
+                final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                myCalendar.set(Calendar.HOUR,hour);
+//                myCalendar.set(Calendar.MINUTE,minutes);
+                        String myFormat = "dd/MM/yyyy"; //In which you need put here
+                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                        date_of_exam.setText(sdf.format(myCalendar.getTime()));
+                    }
+
+
+                };
+
+                date_of_exam.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        new DatePickerDialog(AddCourseContent.this, date, myCalendar
+                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//                new DatePickerDialog(getActivity(),myCalendar.get(Calendar.DAY_OF_WEEK));
+                    }
+                });
+
+                //-----------------------------------
+                // show time select dialog box on clicking time edit box
+                //------------------------------
+                final EditText time_of_exam = dialogView.findViewById(R.id.TimeExam);
+                time_of_exam.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+//                Calendar mcurrentTime = Calendar.getInstance();
+                        int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
+                        int minute = myCalendar.get(Calendar.MINUTE);
+                        TimePickerDialog mTimePicker;
+                        mTimePicker = new TimePickerDialog(AddCourseContent.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                time_of_exam.setText( selectedHour + ":" + selectedMinute);
+                            }
+                        }, hour, minute, true);//Yes 24 hour time
+//                mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
+
+                    }
+                });
+                //-------------------------------------------------
+
+                Button addendsem_btn = dialogView.findViewById(R.id.AddExamButton);
+                addendsem_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = dialogView.findViewById(R.id.DescriptionExam);
+                        EditText editText1 = dialogView.findViewById(R.id.DateExam);
+                        EditText editText2 = dialogView.findViewById(R.id.TimeExam);
+                        EditText editText3 = dialogView.findViewById(R.id.VenueExam);
+                        EditText editText4 = dialogView.findViewById(R.id.DurationExam);
+
+                        final String description = editText.getText().toString();
+                        final String date = editText1.getText().toString();
+                        final String time = editText2.getText().toString();
+                        final String venue = editText3.getText().toString();
+                        final String duration = editText4.getText().toString();
+
+
+                        if(description.equals("") || date.equals("") || time.equals("") || venue.equals("") || duration.equals("")){Toast.makeText(AddCourseContent.this,"Please fill all the fields",Toast.LENGTH_SHORT).show();}
+                        else {
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                            endsemester = new Endsemester(date,duration,time,description,venue);
+//                            String key=databaseReference.child("Courses").child(courseid).child("MidSemester").push().getKey();
+//                            databaseReference.child("Courses").child(courseid).child("MidSemester").setValue(midsemester);
+                            endsem_btn.setHint("End Semester added");
+                            b.dismiss();
+                        }
+                    }
+                });
+
+            }
+        });
 
 
 
@@ -356,18 +530,30 @@ public class AddCourseContent extends AppCompatActivity {
                 TextView textView5 = findViewById(R.id.textView5);
                 if(textView.getText().toString().equals("") || textView1.getText().toString().equals("") || textView2.getText().toString().equals("") || textView3.getText().toString().equals("") || textView4.getText().toString().equals("") || textView5.getText().toString().equals(""))
                 {
-                    Toast.makeText(AddCourseContent.this, "None of the feilds should be empty.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddCourseContent.this, "None of the fields should be empty.", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
 //                    Toast.makeText(AddCourseContent.this,InDatabaseSlotsText,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AddCourseContent.this,midsemester.Description,Toast.LENGTH_LONG).show();
+                    Log.d("fgf",midsemester.Description);
                     databaseReference = FirebaseDatabase.getInstance().getReference();
                     Courses courses = new Courses(CourseIDTextView.getText().toString(),KeyTextView.getText().toString(),
                             DescriptionTextView.getText().toString(), Calendar.getInstance().getTime(),
                             CourseNameTextView.getText().toString(),MarksTextView.getText().toString()
-                            ,UserInfo.username,SyllabusTextView.getText().toString(),null,InDatabaseSlotsText,null);
+                            ,UserInfo.username,SyllabusTextView.getText().toString(),InDatabaseSlotsText,midsemester,endsemester);
 
-                    databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue(courses);
+                    databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue(courses).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+                                databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).child("MidSemester").setValue(midsemester);
+                                databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).child("EndSemester").setValue(endsemester);
+                            }
+                        }
+                    });
+
 
                     // adding all the information in putExtra to show in course content page of prof where events and materials can also be added
                     //----------------------------------

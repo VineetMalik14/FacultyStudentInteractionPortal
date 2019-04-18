@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EventsMainPage"></activity>
+        <activity android:name=".ExamTimetable"></activity>
+        <activity android:name=".EventsMainPage" />
         <activity
             android:name=".home"
             android:label="@string/title_activity_home"
@@ -31,8 +32,9 @@
             android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity android:name=".CourseStudentList" > -->
         <!-- </activity> -->
         <activity android:name=".CreatePollActivity" />
-        <activity android:name=".PollLayoutActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".PollLayoutActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".messageboxActivity" />
         <activity android:name=".ThreadReplies" />
         <activity android:name=".DiscussionThreads">

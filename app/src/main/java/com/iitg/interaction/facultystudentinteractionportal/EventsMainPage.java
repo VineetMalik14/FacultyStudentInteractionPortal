@@ -57,11 +57,13 @@ public class EventsMainPage extends Fragment {
     ListView upcoming;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_events_main_page, container, false);
         setHasOptionsMenu(true);
+
         return rootView;
     }
 

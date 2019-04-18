@@ -111,6 +111,9 @@ public class home extends AppCompatActivity {
 
 
                 } else if (id == R.id.exam_timetable) {
+                    Intent intent = new Intent(home.this,ExamTimetable.class);
+                    startActivity(intent);
+
 
 
                 } else if (id == R.id.nav_FAQ) {

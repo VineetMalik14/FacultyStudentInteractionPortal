@@ -159,7 +159,7 @@ public class CourseMainPageProf extends Fragment {
         textView4.setText(getActivity().getIntent().getStringExtra("CourseMarks"));
         TextView textView5 = getView().findViewById(R.id.textView15);
         String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
-        Log.d(TAG,timeslots[0]+timeslots[1]);
+//        Log.d(TAG,timeslots[0]+timeslots[1]);
         for(int i=0;i<timeslots.length;i++)
         {
             textView5.append("      "+timeslots[i]+'\n');
@@ -1486,23 +1486,19 @@ public class CourseMainPageProf extends Fragment {
 
 
 
-//TODO 1. show all the information from course add page to course main page of prof
-//TODO 2. while showing all the information first check if this course already exists if yes then retrieve information from there
-//TODO    because you can here from main page also of prof.
-//TODO 3. make notification bar for upload file
-//TODO 4. parse time slots in course main page for students and prof
-//TODO 5. different course main pages for students and prof from Main Activity page
 //TODO 6. parse the filenames
 //TODO 7. create polls which are visible only to students
 //TODO 8. see all the back buttons
 //TODO 9. convert course add content to send to course main page using fragment
 //TODO 10. not able to add new courses in professors(user) list
 //TODO 11. make the prof fill the contents of the course
-//TODO 12. remove barney from aman's code
-//TODO 13. back button after logout
 //TODO 14. disable login button after clicking once
 //TODO 15. UI of profile page
-//TODO 16. delete file
+//TODO 17. prof has to add the content
+//TODO 18. FAQs
+//TODO 19. timetable merge
+//TODO 20. make all buttons single click
+
 
 // TODO bugs: modified code in enroll student as it was not passing corect intent values (1.5hrs) code changed in searchallcourses and courseenrollactivity
 // TODO bugs: app was crashing due to getview() returning null pointer, made checks to ensure that it never happens again (1.5hrs), code changed in in Coursemainpageprof and DiscussionThreads,

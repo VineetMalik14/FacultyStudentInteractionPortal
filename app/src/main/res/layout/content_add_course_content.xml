@@ -139,14 +139,13 @@
             android:layout_width="179dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="256dp"
             android:layout_marginEnd="8dp"
             android:background="#344955"
             android:text="Create  Course"
 
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.451"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText5" />
 
@@ -166,6 +165,44 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.121"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+
+        <TextView
+            android:id="@+id/MidSem"
+            android:layout_width="362dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="96dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/borders"
+            android:hint="MidSem Date"
+
+            android:inputType="textMultiLine"
+            android:textColor="#090808"
+            android:textColorHint="#8B000000"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+
+        <TextView
+            android:id="@+id/EndSem"
+            android:layout_width="362dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="176dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/borders"
+            android:hint="EndSem Date"
+
+            android:inputType="textMultiLine"
+            android:textColor="#090808"
+            android:textColorHint="#8B000000"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.09"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText5" />
 
