@@ -23,8 +23,14 @@
         <activity
             android:name=".ExamTimetable"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" />
-         <activity android:name=".faqactivity" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home"/>
+
+         <activity android:name=".faqactivity"
+             android:configChanges="orientation"
+             android:screenOrientation="portrait"
+             android:parentActivityName=".home"
+             />
         <activity
             android:name=".home"
             android:configChanges="orientation"
@@ -41,7 +47,9 @@
             android:configChanges="orientation"
             android:label="@string/title_activity_course_search_tabbed"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".home"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".CourseMainPageStudent"
             android:configChanges="orientation"

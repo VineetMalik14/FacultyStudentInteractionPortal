@@ -161,7 +161,7 @@ public class CourseDiscussionFragmentStudent extends Fragment {
 
                         Date c = Calendar.getInstance().getTime();
 
-                       // ArrayList<Replies> repliesArrayList = new ArrayList<Replies>();
+                        // ArrayList<Replies> repliesArrayList = new ArrayList<Replies>();
                         if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
                             Toast.makeText(getActivity(), "Please enter correct Title and Content", Toast.LENGTH_SHORT).show();
                         } else {

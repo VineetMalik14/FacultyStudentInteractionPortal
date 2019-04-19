@@ -1,5 +1,6 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -50,6 +51,8 @@ public class ExamTimetable extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_timetable);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Exam Timetable");
 
         userName = UserInfo.username;
         examType = "";

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:background="#344955"
         android:paddingTop="@dimen/appbar_padding_top"
+        android:scrollbars="none"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -22,7 +23,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_weight="1"
             android:background="#344955"
-            app:layout_scrollFlags="scroll|enterAlways"
+
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="Courses">
 
