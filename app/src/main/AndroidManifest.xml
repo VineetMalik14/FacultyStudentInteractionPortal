@@ -24,7 +24,8 @@
         <activity
             android:name=".ExamTimetable"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" /> <!-- <activity android:name=".EventsMainPage" /> -->
+            android:screenOrientation="portrait" />
+         <activity android:name=".faqactivity" />
         <activity
             android:name=".home"
             android:configChanges="orientation"

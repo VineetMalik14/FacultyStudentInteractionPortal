@@ -225,7 +225,8 @@ public class home extends AppCompatActivity {
 
                 } else if (id == R.id.nav_FAQ) {
 
-
+                    Intent intent = new Intent(home.this,faqactivity.class);
+                    startActivity(intent);
 
                 }
 
