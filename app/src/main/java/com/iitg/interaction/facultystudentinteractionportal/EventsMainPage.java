@@ -46,6 +46,7 @@ public class EventsMainPage extends Fragment {
     ListView today;
     String formattedDate;
     public View dialogView;
+    public View dialogView2;
     Context ye;
     List<HashMap<String, String>> listItems;
     List<HashMap<String, String>> listdo;
@@ -74,7 +75,7 @@ public class EventsMainPage extends Fragment {
         setContentView(R.layout.activity_events_main_page);*/
 
         today = Objects.requireNonNull(getView()).findViewById(R.id.table_today);
-        upcoming = getView().findViewById(R.id.table_upcoming);
+        upcoming = Objects.requireNonNull(getView()).findViewById(R.id.table_upcoming);
 
         list_today.clear();
         list_upcoming.clear();
@@ -85,6 +86,8 @@ public class EventsMainPage extends Fragment {
 
         ObjectList1 = new ArrayList<>();
         ObjectList2 = new ArrayList<>();
+        nameAddresses = new HashMap<>();
+        namedo = new HashMap<>();
         /*nameAddresses.put("Diana", "3214 Broadway Avenue");
         nameAddresses.put("Tyga", "343 Rack City Drive");
         nameAddresses.put("Rich Homie Quan", "111 Everything Gold Way");
@@ -110,6 +113,7 @@ public class EventsMainPage extends Fragment {
                 getevents.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                         for(DataSnapshot data : dataSnapshot.getChildren())
                         {
 
@@ -149,26 +153,32 @@ public class EventsMainPage extends Fragment {
 
                         Iterator it = nameAddresses.entrySet().iterator();
                         listItems.clear();
+                        int i = 0;
                         while (it.hasNext())
                         {
 
                             HashMap<String, String> resultsMap = new HashMap<>();
                             Map.Entry pair = (Map.Entry)it.next();
-                            resultsMap.put("First Line", pair.getKey().toString());
-                            resultsMap.put("Second Line", pair.getValue().toString());
+                            Event e = (Event )ObjectList1.get(i);
+                            resultsMap.put("First Line", e.getTitle() );
+                            resultsMap.put("Second Line", e.getTimeOfEvent());
                             listItems.add(resultsMap);
+                            i++;
                         }
 
                         Iterator itdo = namedo.entrySet().iterator();
                         listdo.clear();
+                        i = 0;
                         while (itdo.hasNext())
                         {
 
                             HashMap<String, String> resultsMap = new HashMap<>();
                             Map.Entry pair = (Map.Entry)itdo.next();
-                            resultsMap.put("First Line", pair.getKey().toString());
-                            resultsMap.put("Second Line", pair.getValue().toString());
+                            Event e = (Event )ObjectList2.get(i);
+                            resultsMap.put("First Line", e.getTitle() );
+                            resultsMap.put("Second Line", e.getDateOfEvent());
                             listdo.add(resultsMap);
+                            i++;
                         }
 
 
@@ -177,12 +187,67 @@ public class EventsMainPage extends Fragment {
                         upcoming.setAdapter(ad_upcoming);
 
 
-                        today.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        today.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Event e = (Event) ObjectList1.get(position);
+                                //Toast.makeText(getApplicationContext(), e.getTitle(),Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                                LayoutInflater inflater = getLayoutInflater();
+                                dialogView = inflater.inflate(R.layout.event_show_dialog_box, null);
+                                dialogBuilder.setView(dialogView);
+                                //spinner = dialogView.findViewById(R.id.spinner);
+//                dialogView.findViewById(R.id.id0).setVisibility(View.GONE);
+                                TextView t = dialogView.findViewById(R.id.TitleEvent);
+                                t.setText(e.getTitle());
+                                TextView desc = dialogView.findViewById(R.id.DescriptionEvent);
+                                desc.setText(e.getDescription());
+                                TextView date = dialogView.findViewById(R.id.DateEvent);
+                                date.setText(e.getDateOfEvent());
+                                TextView time = dialogView.findViewById(R.id.TimeEvent);
+                                time.setText(e.getTimeOfEvent());
+                                TextView venue = dialogView.findViewById(R.id.VenueEvent);
+                                venue.setText(e.getVenue());
+                                TextView type = dialogView.findViewById(R.id.Type);
+                                type.setText(e.getType());
+                                //dialogView.findViewById(R.id.id7).setVisibility(View.GONE);
 
 
-                                return true;
+
+                                final AlertDialog b = dialogBuilder.create();
+                                b.show();
+                            }
+                        });
+
+                        upcoming.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Event e = (Event) ObjectList2.get(position);
+                                //Event e = (Event) ObjectList1.get(position);
+                                //Toast.makeText(getActivity(), e.getTitle(),Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(getActivity());
+                                LayoutInflater inflater = getLayoutInflater();
+                                dialogView2= inflater.inflate(R.layout.event_show_dialog_box, null);
+                                dialogBuilder2.setView(dialogView2);
+                                //spinner = dialogView2.findViewById(R.id.spinner);
+//                dialogView2.findViewById(R.id.id0).setVisibility(View.GONE);
+                                TextView t = dialogView2.findViewById(R.id.TitleEvent);
+                                t.setText(e.getTitle());
+                                TextView desc = dialogView2.findViewById(R.id.DescriptionEvent);
+                                desc.setText(e.getDescription());
+                                TextView date = dialogView2.findViewById(R.id.DateEvent);
+                                date.setText(e.getDateOfEvent());
+                                TextView time = dialogView2.findViewById(R.id.TimeEvent);
+                                time.setText(e.getTimeOfEvent());
+                                TextView venue = dialogView2.findViewById(R.id.VenueEvent);
+                                venue.setText(e.getVenue());
+                                TextView type = dialogView2.findViewById(R.id.Type);
+                                type.setText(e.getType());
+                                //dialogView2.findViewById(R.id.id7).setVisibility(View.GONE);
+                                //Toast.makeText(getApplicationContext(), e.getTitle(),Toast.LENGTH_SHORT).show();
+
+                                final AlertDialog b2 = dialogBuilder2.create();
+                                b2.show();
                             }
                         });
 
@@ -218,7 +283,7 @@ public class EventsMainPage extends Fragment {
             }
         });
 
-        today.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*today.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event e = (Event) ObjectList1.get(position);
@@ -256,31 +321,31 @@ public class EventsMainPage extends Fragment {
                 Event e = (Event) ObjectList2.get(position);
                 //Event e = (Event) ObjectList1.get(position);
                 //Toast.makeText(getActivity(), e.getTitle(),Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getLayoutInflater();
-                dialogView = inflater.inflate(R.layout.event_show_dialog_box, null);
-                dialogBuilder.setView(dialogView);
-                //spinner = dialogView.findViewById(R.id.spinner);
-//                dialogView.findViewById(R.id.id0).setVisibility(View.GONE);
-                TextView t = dialogView.findViewById(R.id.TitleEvent);
+                dialogView2= inflater.inflate(R.layout.event_show_dialog_box, null);
+                dialogBuilder2.setView(dialogView2);
+                //spinner = dialogView2.findViewById(R.id.spinner);
+//                dialogView2.findViewById(R.id.id0).setVisibility(View.GONE);
+                TextView t = dialogView2.findViewById(R.id.TitleEvent);
                 t.setText(e.getTitle());
-                TextView desc = dialogView.findViewById(R.id.DescriptionEvent);
+                TextView desc = dialogView2.findViewById(R.id.DescriptionEvent);
                 desc.setText(e.getDescription());
-                TextView date = dialogView.findViewById(R.id.DateEvent);
+                TextView date = dialogView2.findViewById(R.id.DateEvent);
                 date.setText(e.getDateOfEvent());
-                TextView time = dialogView.findViewById(R.id.TimeEvent);
+                TextView time = dialogView2.findViewById(R.id.TimeEvent);
                 time.setText(e.getTimeOfEvent());
-                TextView venue = dialogView.findViewById(R.id.VenueEvent);
+                TextView venue = dialogView2.findViewById(R.id.VenueEvent);
                 venue.setText(e.getVenue());
-                TextView type = dialogView.findViewById(R.id.Type);
+                TextView type = dialogView2.findViewById(R.id.Type);
                 type.setText(e.getType());
-                //dialogView.findViewById(R.id.id7).setVisibility(View.GONE);
+                //dialogView2.findViewById(R.id.id7).setVisibility(View.GONE);
                 //Toast.makeText(getApplicationContext(), e.getTitle(),Toast.LENGTH_SHORT).show();
 
-                final AlertDialog b = dialogBuilder.create();
-                b.show();
+                final AlertDialog b2 = dialogBuilder2.create();
+                b2.show();
             }
-        });
+        });*/
 
 
 
