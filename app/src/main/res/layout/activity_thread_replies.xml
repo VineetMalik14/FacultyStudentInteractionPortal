@@ -25,14 +25,16 @@
     <ListView
         android:id="@+id/lv_Replies"
         android:layout_width="match_parent"
-        android:layout_height="560dp"
-        android:layout_below="@+id/Contentthread"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="47dp"
+        android:layout_height="match_parent"
+
+        android:layout_above="@+id/newreply"
+        android:layout_below="@+id/divider"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="29dp"
+        android:backgroundTint="@color/colorPrimary"
         android:divider="#C0C0C0"
         android:dividerHeight="5px"
-        android:backgroundTint="@color/colorPrimary"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,22 +43,31 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/newreply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="81dp"
+        android:layout_height="62dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="13dp"
         android:clickable="true"
+        app:backgroundTint="#3c3c46"
         app:fabSize="mini"
-        app:rippleColor="@color/colorAccent"
+        app:rippleColor="#fff"
         app:srcCompat="@android:drawable/ic_menu_send" />
 
     <android.support.design.widget.TextInputLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginRight="37dp"
+        android:layout_marginBottom="9dp"
+        android:layout_toStartOf="@+id/newreply"
         android:layout_toLeftOf="@+id/newreply"
-        android:backgroundTint="@color/colorPrimary">
+        android:background="@drawable/button2"
+        android:backgroundTint="#fff">
 
         <EditText
             android:id="@+id/input"
@@ -68,35 +79,53 @@
 
     <TextView
         android:id="@+id/Titlethread"
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="0dp"
-        android:backgroundTint="@color/colorAccent"
+        android:background="@drawable/borders"
+        android:backgroundTint="#fff"
         android:isScrollContainer="true"
         android:text="TextView"
+        android:textAlignment="center"
         android:textColor="#000"
+        android:textColorHint="#8B000000"
         android:textSize="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />/>
 
     <TextView
         android:id="@+id/Contentthread"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/Titlethread"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="0dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="#fff"
+        android:fontFamily="sans-serif-light"
         android:text="TextView"
         android:textColor="#111"
         android:textSize="18dp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@+id/Contentthread"
+
+        android:layout_marginTop="15dp"
+        android:background="@android:color/darker_gray" />
 
 
 </RelativeLayout>
