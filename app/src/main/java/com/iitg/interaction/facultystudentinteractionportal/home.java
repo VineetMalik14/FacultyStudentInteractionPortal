@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -82,6 +83,7 @@ public class home extends AppCompatActivity {
 
                             if (message.child("read").getValue().toString().equals("false")) {
                                 i++;
+                                Toast.makeText(getApplicationContext(),"You got a new message",Toast.LENGTH_LONG).show();
                                 // Create a notification
                                 notificationManager = (NotificationManager)(getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE));
 
