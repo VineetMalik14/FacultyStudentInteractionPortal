@@ -58,8 +58,6 @@ public class CourseInformationFragmentStudent extends Fragment {
         getView().findViewById(R.id.textView11).setVisibility(View.GONE);
         getView().findViewById(R.id.editText6).setVisibility(View.GONE);
         getView().findViewById(R.id.textView12).setVisibility(View.GONE);
-//        getView().findViewById(R.id.textView9).setVisibility(View.GONE);
-//        getView().findViewById(R.id.textView8).setVisibility(View.GONE);
         getView().findViewById(R.id.editText7).setVisibility(View.GONE);
         getView().findViewById(R.id.textView13).setVisibility(View.GONE);
         getView().findViewById(R.id.editText8).setVisibility(View.GONE);
@@ -67,8 +65,6 @@ public class CourseInformationFragmentStudent extends Fragment {
         getView().findViewById(R.id.textView15).setVisibility(View.GONE);
         getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
         getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
-//        getView().findViewById(R.id.textView18).setVisibility(View.GONE);
-//        getView().findViewById(R.id.textView25).setVisibility(View.GONE);
         getView().findViewById(R.id.course_material).setVisibility(View.GONE);
         getView().findViewById(R.id.EventsList).setVisibility(View.GONE);
         getView().findViewById(R.id.CourseProjects).setVisibility(View.GONE);
@@ -131,24 +127,14 @@ public class CourseInformationFragmentStudent extends Fragment {
                 if(count%2==0){
                     getView().findViewById(R.id.textView11).setVisibility(View.GONE);
                     getView().findViewById(R.id.editText6).setVisibility(View.GONE);
-//                    getView().findViewById(R.id.textView9).setVisibility(View.GONE);
-//                    getView().findViewById(R.id.textView8).setVisibility(View.GONE);
                     getView().findViewById(R.id.textView12).setVisibility(View.GONE);
                     getView().findViewById(R.id.editText7).setVisibility(View.GONE);
                     getView().findViewById(R.id.textView13).setVisibility(View.GONE);
                     getView().findViewById(R.id.editText8).setVisibility(View.GONE);
                     getView().findViewById(R.id.textView14).setVisibility(View.GONE);
-//                    getView().findViewById(R.id.textView18).setVisibility(View.GONE);
-//                    getView().findViewById(R.id.textView25).setVisibility(View.GONE);
                     getView().findViewById(R.id.textView15).setVisibility(View.GONE);
                     getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
-//                    getView().findViewById(R.id.course_material).setVisibility(View.VISIBLE);
-//                    getView().findViewById(R.id.EventsList).setVisibility(View.VISIBLE);
-//                    getView().findViewById(R.id.button7).setVisibility(View.GONE);
-//                    getView().findViewById(R.id.button5).setVisibility(View.GONE);
-//                    getView().findViewById(R.id.button6).setVisibility(View.GONE);
-//                    getView().findViewById(R.id.button8).setVisibility(View.GONE);
                     count++;
 
                 }
@@ -174,9 +160,7 @@ public class CourseInformationFragmentStudent extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (getActivity() != null && getView() != null && getActivity().getIntent() != null){
-    //                Courses currentcourse = dataSnapshot.getValue(Courses.class);
-    //                if(currentcourse!=null)
-    //                {
+
                     textView.setText(CourseMainPageStudent.courseID);
                     fullname_tv.setText(dataSnapshot.child("fullname").getValue().toString());
                     description_tv.setText(dataSnapshot.child("description").getValue().toString());
@@ -187,20 +171,7 @@ public class CourseInformationFragmentStudent extends Fragment {
                     for (int i = 0; i < timeslots.length; i++) {
                         time_slots.append("      " + timeslots[i] + "\n");
                     }
-    //                    time_slots.setText(dataSnapshot.child("timeSlots").getValue().toString());
-    //                    events = currentcourse.getEvents();
-    //                    Collections.reverse(events);
-    //                    ListView listView1 = getView().findViewById(R.id.EventsList);
-    //                    final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
-    //////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-    //                    listView1.setAdapter(customAdapter1);
-    //
-    //                    materials = currentcourse.getCourseMaterial();
-    //                    Collections.reverse(materials);
-    //                    ListView coursematerials = getView().findViewById(R.id.course_material);
-    //                    final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
-    //////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-    //                    coursematerials.setAdapter(customAdapter);
+
                     }
                 }
 
@@ -216,33 +187,33 @@ public class CourseInformationFragmentStudent extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                materials = new ArrayList<CourseMaterial>();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    CourseMaterial material = messageSnapshot.getValue(CourseMaterial.class);
-                    materials.add(material);
-                    Log.v("Title", material.getTitle());
+                if (getActivity() != null && getView() != null && getActivity().getIntent() != null)
+                {
+                    materials = new ArrayList<CourseMaterial>();
+                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                        CourseMaterial material = messageSnapshot.getValue(CourseMaterial.class);
+                        materials.add(material);
+                        Log.v("Title", material.getTitle());
 
-                }
-                Collections.reverse(materials);
-
-                ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.course_material);
-                final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
-                listView.setAdapter(customAdapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // now we have  all the value that will be needed for
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        CourseMaterial item = customAdapter.getItem(position);
-                        downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
-                        // now send the key with the intent you are showing
                     }
-                });
+                    Collections.reverse(materials);
 
-//                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
+                    ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.course_material);
+                    final CustomAdapter customAdapter = new CustomAdapter(getActivity(),materials);
+                    listView.setAdapter(customAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                Log.v("Size", String.valueOf(materials.size()));
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+                            CourseMaterial item = customAdapter.getItem(position);
+                            downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
+                                }
+                    });
+                }
+
+
             }
 
             @Override
@@ -255,18 +226,21 @@ public class CourseInformationFragmentStudent extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                events = new ArrayList<Event>();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    Event event = messageSnapshot.getValue(Event.class);
-                    events.add(event);
-                    Log.v("Title", event.getTitle());
+                if(getActivity() != null && getView() != null && getActivity().getIntent() != null)
+                {
+                    events = new ArrayList<Event>();
+                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                        Event event = messageSnapshot.getValue(Event.class);
+                        events.add(event);
+                        Log.v("Title", event.getTitle());
+                    }
+                    Collections.reverse(events);
+                    Log.v("Size", String.valueOf(events.size()));
+                    ListView listView1 = getView().findViewById(R.id.EventsList);
+                    final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
+                    listView1.setAdapter(customAdapter1);
                 }
-                Collections.reverse(events);
-                Log.v("Size", String.valueOf(events.size()));
-                ListView listView1 = getView().findViewById(R.id.EventsList);
-                final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
-////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-                listView1.setAdapter(customAdapter1);
+
             }
 
             @Override
@@ -281,15 +255,6 @@ public class CourseInformationFragmentStudent extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.course_information_student, container, false);
-
-//        final TextView textView = getView().findViewById(R.id.textView4);
-//        final TextView fullname_tv = getView().findViewById(R.id.textView7);
-//        final TextView description_tv  = getView().findViewById(R.id.editText6);
-//        final TextView syllabus_tv = getView().findViewById(R.id.editText7);
-//        final TextView marks_tv = getView().findViewById(R.id.editText8);
-//        final TextView time_slots = getView().findViewById(R.id.textView15);
-
-
         return rootView;
     }
     class CustomAdapter1 extends ArrayAdapter<Event> {
@@ -360,7 +325,7 @@ public class CourseInformationFragmentStudent extends Fragment {
         request.setDestinationInExternalFilesDir(context, FileDestination, Filename);
         downloadManager.enqueue(request);
 
-//
+
     }
 
 }

@@ -82,7 +82,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
     Runnable runnable3 = new Runnable() {
         @Override
         public void run() {
-            rl.setVisibility(View.VISIBLE);
+            //rl.setVisibility(View.VISIBLE);
         }
     };
 
@@ -112,8 +112,8 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                 };
         provider.setScopes(scopes);
 
-        rl = findViewById(R.id.rl_loadingscrean);
-        rl.setVisibility(View.INVISIBLE);
+        //rl = findViewById(R.id.rl_loadingscrean);
+        //rl.setVisibility(View.INVISIBLE);
 
         try{
             if(preferences.getBoolean("logined",false) && preferences.getString("username",null)!=null)
@@ -228,7 +228,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                 if(user==null)
                 {
                     Toast.makeText(getApplicationContext(),"Username doesn't exist",Toast.LENGTH_LONG).show();
-                    rl.setVisibility(View.INVISIBLE);
+                    //rl.setVisibility(View.INVISIBLE);
                     return;
                 }
 
@@ -252,16 +252,16 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     }
                     else
                     {
-                        rl.setVisibility(View.INVISIBLE);
+                        //rl.setVisibility(View.INVISIBLE);
                         Toast.makeText(getApplicationContext(),"Wrong Password",Toast.LENGTH_LONG).show();
 
                     }
                 } catch (NoSuchAlgorithmException e) {
-                    rl.setVisibility(View.INVISIBLE);
+                    //rl.setVisibility(View.INVISIBLE);
 
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {
-                    rl.setVisibility(View.INVISIBLE);
+                    //rl.setVisibility(View.INVISIBLE);
 
                     e.printStackTrace();
                 }
@@ -271,7 +271,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
-                rl.setVisibility(View.INVISIBLE);
+                //rl.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment.",Toast.LENGTH_LONG).show();
 
 
@@ -407,7 +407,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("database error", databaseError.getMessage()); //Don't ignore errors!
-                rl.setVisibility(View.INVISIBLE);
+                //rl.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment.",Toast.LENGTH_LONG).show();
 
 
@@ -452,7 +452,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
                                     Log.d(TAG, "user LOGINED FAILED, PENDING  !!");
                                     Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment",Toast.LENGTH_LONG).show();
-                                    rl.setVisibility(View.INVISIBLE);
+                                    //rl.setVisibility(View.INVISIBLE);
 
                                     // Handle failure.
                                 }
@@ -496,7 +496,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
                                     Log.d(TAG, "user FAILED !! "+e.toString() );
                                     Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment.",Toast.LENGTH_LONG).show();
-                                    rl.setVisibility(View.INVISIBLE);
+                                    //rl.setVisibility(View.INVISIBLE);
 
                                     // Handle failure.
                                 }

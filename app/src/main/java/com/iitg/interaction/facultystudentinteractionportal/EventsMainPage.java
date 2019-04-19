@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -122,13 +123,30 @@ public class EventsMainPage extends Fragment {
                             String title = event.getTitle();
                             String time = event.getTimeOfEvent();
 
+
+                            Calendar cal = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+                            Date strDate = null;
+                            try {
+                                strDate = sdf.parse(ed);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            Date tod = null;
+                            try {
+                                tod = sdf.parse(formattedDate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+
                             //Toast.makeText(getApplicationContext(),event + " - " + time,Toast.LENGTH_SHORT).show();
                             if(event!=null){
                                 if(ed.equals(formattedDate)){
                                     //Toast.makeText(getApplicationContext(),"equal chal rha h",Toast.LENGTH_SHORT).show();
                                     nameAddresses.put(title, time);
                                     ObjectList1.add(event);
-                                }else{
+                                }else if(strDate.after(tod)){
                                     namedo.put(title, ed);
                                     ObjectList2.add(event);
                                 }
@@ -187,6 +205,7 @@ public class EventsMainPage extends Fragment {
                         upcoming.setAdapter(ad_upcoming);
 
 
+
                         today.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -203,11 +222,11 @@ public class EventsMainPage extends Fragment {
                                 TextView desc = dialogView.findViewById(R.id.DescriptionEvent);
                                 desc.setText(e.getDescription());
                                 TextView date = dialogView.findViewById(R.id.DateEvent);
-                                date.setText(e.getDateOfEvent());
+                                date.setText("Date: " +e.getDateOfEvent());
                                 TextView time = dialogView.findViewById(R.id.TimeEvent);
-                                time.setText(e.getTimeOfEvent());
+                                time.setText("Time: " + e.getTimeOfEvent());
                                 TextView venue = dialogView.findViewById(R.id.VenueEvent);
-                                venue.setText(e.getVenue());
+                                venue.setText("Venue: " + e.getVenue());
                                 TextView type = dialogView.findViewById(R.id.Type);
                                 type.setText(e.getType());
                                 //dialogView.findViewById(R.id.id7).setVisibility(View.GONE);
@@ -236,11 +255,11 @@ public class EventsMainPage extends Fragment {
                                 TextView desc = dialogView2.findViewById(R.id.DescriptionEvent);
                                 desc.setText(e.getDescription());
                                 TextView date = dialogView2.findViewById(R.id.DateEvent);
-                                date.setText(e.getDateOfEvent());
+                                date.setText("Date: " +e.getDateOfEvent());
                                 TextView time = dialogView2.findViewById(R.id.TimeEvent);
-                                time.setText(e.getTimeOfEvent());
+                                time.setText("Time: " + e.getTimeOfEvent());
                                 TextView venue = dialogView2.findViewById(R.id.VenueEvent);
-                                venue.setText(e.getVenue());
+                                venue.setText("Venue: " + e.getVenue());
                                 TextView type = dialogView2.findViewById(R.id.Type);
                                 type.setText(e.getType());
                                 //dialogView2.findViewById(R.id.id7).setVisibility(View.GONE);

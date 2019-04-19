@@ -142,13 +142,7 @@ public class CourseMainPageProf extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-//        Toolbar toolbar = getView().findViewById(R.id.my_toolbar);
-//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-        // filling the values in the content page
-
-//        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID"));
-        TextView textView = getView().findViewById(R.id.textView4);
+         TextView textView = getView().findViewById(R.id.textView4);
         textView.setText(getActivity().getIntent().getStringExtra("CourseID"));
         TextView textView1 = getView().findViewById(R.id.textView7);
         textView1.setText(getActivity().getIntent().getStringExtra("CourseTitle"));
@@ -160,20 +154,16 @@ public class CourseMainPageProf extends Fragment {
         textView4.setText(getActivity().getIntent().getStringExtra("CourseMarks"));
         TextView textView5 = getView().findViewById(R.id.textView15);
         String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
-//        Log.d(TAG,timeslots[0]+timeslots[1]);
         for(int i=0;i<timeslots.length;i++)
         {
             textView5.append("      "+timeslots[i]+'\n');
         }
 
-//        textView5.setText(getActivity().getIntent().getStringExtra("CourseTimeSlots"));
         TextView textView6 = getView().findViewById(R.id.textView8);
         textView6.setText(getActivity().getIntent().getStringExtra("CourseDateOfCreation"));
 
 
 
-        //getting events as an arraylist
-        // also returns zero size if events does not exist in database
         //------------------------------------------------------------------------------------
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -195,7 +185,6 @@ public class CourseMainPageProf extends Fragment {
                     ListView listView1 = getView().findViewById(R.id.EventsList);
 
                     final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
-////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
                     listView1.setAdapter(customAdapter1);
                     if(UserInfo.usertype.equals("Prof")){
 
@@ -256,9 +245,6 @@ public class CourseMainPageProf extends Fragment {
 
                 }
 
-//                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-
-//                Log.v("Size", String.valueOf(materials.size()));
             }
 
             @Override
@@ -295,21 +281,16 @@ public class CourseMainPageProf extends Fragment {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            // now we have  all the value that will be needed for
                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                             StrictMode.setThreadPolicy(policy);
                             CourseProject item = customAdapter.getItem(position);
                             assert item != null;
                             downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
-                            // now send the key with the intent you are showing
-                        }
+                                }
                     });
 
                 }
 
-//                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
-
-//                Log.v("Size", String.valueOf(materials.size()));
             }
 
             @Override
@@ -324,17 +305,6 @@ public class CourseMainPageProf extends Fragment {
         //------------------------------------------------------------------------------------
 
 
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-
-//        final TextView urlText = getView().findViewById(R.id.textView4);
-//        urlText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                new DownloadFileFromURL().execute(urlText.getText().toString());
-//                downloadFiles(getActivity(),"ABC.pdf",DIRECTORY_DOWNLOADS,urlText.getText().toString());
-//            }
-//        });
         getView().findViewById(R.id.textView11).setVisibility(View.GONE);
         getView().findViewById(R.id.editText6).setVisibility(View.GONE);
         getView().findViewById(R.id.textView12).setVisibility(View.GONE);
@@ -452,24 +422,6 @@ public class CourseMainPageProf extends Fragment {
                     getView().findViewById(R.id.textView11).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.editText6).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.textView9).setVisibility(View.VISIBLE);//    class CustomAdapter2 extends ArrayAdapter<CourseProject> {
-//
-//        public CustomAdapter2(Context context, ArrayList<CourseProject> threads) {
-//            super(context, 0, threads);
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent){
-//            convertView = getLayoutInflater().inflate(R.layout.course_list_project_prof,null);
-//            TextView TitleView = convertView.findViewById(R.id.textView19);
-//            TextView datecreationText = convertView.findViewById(R.id.textView20);
-//            TextView TypeText = convertView.findViewById(R.id.textView23);
-//
-//
-//        }
-//
-//
-//    }
-
                     getView().findViewById(R.id.textView8).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.textView12).setVisibility(View.VISIBLE);
                     getView().findViewById(R.id.editText7).setVisibility(View.VISIBLE);
@@ -491,9 +443,6 @@ public class CourseMainPageProf extends Fragment {
         getView().findViewById(R.id.editText7).setFocusable(false);
         getView().findViewById(R.id.editText6).setFocusable(false);
         getView().findViewById(R.id.textView25).setFocusable(false);
-//        getView().findViewById(R.id.editText8).setClickable(false);
-//        getView().findViewById(R.id.editText7).setClickable(false);
-//        getView().findViewById(R.id.editText6).setClickable(false);
 
         getView().findViewById(R.id.editText6).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -501,8 +450,6 @@ public class CourseMainPageProf extends Fragment {
                 ScrollView scrollView= getView().findViewById(R.id.scrollView2);
                 scrollView.requestDisallowInterceptTouchEvent(true);
                 getView().findViewById(R.id.editText6).setFocusable(false);
-//                getView().findViewById(R.id.editText6).setClickable(true);
-//                getView().findViewById(R.id.editText6).setEnabled(true);
                 getView().findViewById(R.id.editText6).setFocusableInTouchMode(true);
                 getView().findViewById(R.id.button5).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
@@ -512,7 +459,6 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.editText6);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.editText6).setFocusable(false);
-//                        getView().findViewById(R.id.editText6).setClickable(false);
                         getView().findViewById(R.id.button5).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Description has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -526,8 +472,6 @@ public class CourseMainPageProf extends Fragment {
             public boolean onLongClick(View v) {
                 getView().findViewById(R.id.editText7).setFocusable(true);
                 getView().findViewById(R.id.editText7).setFocusableInTouchMode(true);
-//                getView().findViewById(R.id.editText7).setClickable(true);
-//                getView().findViewById(R.id.editText7).setEnabled(true);
                 getView().findViewById(R.id.button6).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -536,7 +480,6 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.editText7);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.editText7).setFocusable(false);
-//                        getView().findViewById(R.id.editText7).setClickable(false);
                         getView().findViewById(R.id.button6).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Syllabus has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -550,9 +493,6 @@ public class CourseMainPageProf extends Fragment {
             public boolean onLongClick(View v) {
                 getView().findViewById(R.id.editText8).setFocusable(true);
                 getView().findViewById(R.id.editText8).setFocusableInTouchMode(true);
-//                getView().findViewById(R.id.editText8).setClickable(true);
-//                getView().findViewById(R.id.editText8).setEnabled(true);
-//                getView().findViewById(R.id.editText8).setFocusableInTouchMode(true);
                 getView().findViewById(R.id.button7).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -561,7 +501,6 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.editText8);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.editText8).setFocusable(false);
-//                        getView().findViewById(R.id.editText8).setClickable(false);
                         getView().findViewById(R.id.button7).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Marks Distribution has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -576,8 +515,6 @@ public class CourseMainPageProf extends Fragment {
                 ScrollView scrollView= getView().findViewById(R.id.scrollView2);
                 scrollView.requestDisallowInterceptTouchEvent(true);
                 getView().findViewById(R.id.textView25).setFocusable(false);
-//                getView().findViewById(R.id.editText6).setClickable(true);
-//                getView().findViewById(R.id.editText6).setEnabled(true);
                 getView().findViewById(R.id.textView25).setFocusableInTouchMode(true);
                 getView().findViewById(R.id.button8).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
@@ -587,7 +524,6 @@ public class CourseMainPageProf extends Fragment {
                         EditText editText = getView().findViewById(R.id.textView25);
                         databaseReference.setValue(editText.getText().toString());
                         getView().findViewById(R.id.textView25).setFocusable(false);
-//                        getView().findViewById(R.id.editText6).setClickable(false);
                         getView().findViewById(R.id.button8).setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"Course Key has been successfully updated.",Toast.LENGTH_SHORT).show();
                     }
@@ -601,11 +537,6 @@ public class CourseMainPageProf extends Fragment {
     }
 
 
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getActivity().getMenuInflater();
-//        inflater.inflate(R.menu.menu_course_main_page_prof, menu);
-//        return true;
-//    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_course_main_page_prof, menu);
@@ -653,11 +584,6 @@ public class CourseMainPageProf extends Fragment {
         title = dialogView.findViewById(R.id.titleofproject);
         date_of_event = dialogView.findViewById(R.id.Deadline);
 
-
-
-
-
-
         final Calendar myCalendar = Calendar.getInstance();
 
 
@@ -670,8 +596,6 @@ public class CourseMainPageProf extends Fragment {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//                myCalendar.set(Calendar.HOUR,hour);
-//                myCalendar.set(Calendar.MINUTE,minutes);
                 String myFormat = "dd/MM/yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 date_of_event.setText(sdf.format(myCalendar.getTime()));
@@ -688,7 +612,6 @@ public class CourseMainPageProf extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-//                new DatePickerDialog(CourseMainPageProf.this,myCalendar.get(Calendar.DAY_OF_WEEK));
             }
         });
 
@@ -720,12 +643,6 @@ public class CourseMainPageProf extends Fragment {
 
 
     }
-
-
-
-
-
-
 
 
     //-------------------------------------------------
@@ -760,8 +677,6 @@ public class CourseMainPageProf extends Fragment {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//                myCalendar.set(Calendar.HOUR,hour);
-//                myCalendar.set(Calendar.MINUTE,minutes);
                 String myFormat = "dd/MM/yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 date_of_event.setText(sdf.format(myCalendar.getTime()));
@@ -778,7 +693,6 @@ public class CourseMainPageProf extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-//                new DatePickerDialog(getActivity(),myCalendar.get(Calendar.DAY_OF_WEEK));
             }
         });
 
@@ -791,7 +705,6 @@ public class CourseMainPageProf extends Fragment {
             @Override
             public void onClick(View v) {
 
-//                Calendar mcurrentTime = Calendar.getInstance();
                 int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
                 int minute = myCalendar.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
@@ -801,7 +714,6 @@ public class CourseMainPageProf extends Fragment {
                         time_of_event.setText( selectedHour + ":" + selectedMinute);
                     }
                 }, hour, minute, true);//Yes 24 hour time
-//                mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
 
             }
@@ -835,7 +747,6 @@ public class CourseMainPageProf extends Fragment {
                 {
                     databaseReference = FirebaseDatabase.getInstance().getReference();
                     Event event = new Event(Calendar.getInstance().getTime(),DateEvent,Title,Description,TypeEvent,VenueEvent,TimeEvent);
-//                Toast.makeText(getActivity(),event.getTitle(),Toast.LENGTH_LONG).show();
                     String key=databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
                     databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").child(key).setValue(event);
                     b.dismiss();
@@ -858,8 +769,6 @@ public class CourseMainPageProf extends Fragment {
         LayoutInflater inflater = getLayoutInflater();
         dialogViewFile = inflater.inflate(R.layout.add_file_dialog_box, null);
         dialogBuilder.setView(dialogViewFile);
-//        getFile();
-
         dialogBuilder.setTitle("Doraemon");
         mate = dialogBuilder.create();
         mate.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -880,7 +789,6 @@ public class CourseMainPageProf extends Fragment {
                 filepath = "";
                 FileName.setText("");
                 getFile();
-//                b.dismiss();
 
             }
         });
@@ -890,28 +798,21 @@ public class CourseMainPageProf extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getActivity(), "First Select File", Toast.LENGTH_LONG).show();
-//                    uploadFile();
-//                    b.dismiss();
                 }
             });
 
         }
     }
 
-
     public void getFile2()
     {
         Intent intent = new Intent()
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT);
-//        intent.putExtra("Filename",);
-
         startActivityForResult(Intent.createChooser(intent, "Select a file"), 321);
 
 
     }
-
-
 
 
     public void getFile()
@@ -919,8 +820,6 @@ public class CourseMainPageProf extends Fragment {
         Intent intent = new Intent()
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT);
-//        intent.putExtra("Filename",);
-
         startActivityForResult(Intent.createChooser(intent, "Select a file"), 123);
 
 
@@ -931,7 +830,6 @@ public class CourseMainPageProf extends Fragment {
         if(requestCode == 123 && resultCode == RESULT_OK) {
             selectedfile = data.getData(); //The uri with the location of the file
             filepath = selectedfile.getPath().toString();
-           // Toast.makeText(this,filepath,Toast.LENGTH_LONG).show();
             if (filepath.equals("")){
                 flag =0;
             }
@@ -940,34 +838,11 @@ public class CourseMainPageProf extends Fragment {
 
             FileName.setText(filepath);
             buttonSelectFile.setEnabled(true);
-
-
-
-
-
             // notification for upload progress
             //---------------------------------------
-//            final Integer notificationID = 100;
-//
-//            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//            //Set notification information:
-//            final Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
-//            notificationBuilder.setOngoing(true)
-//                    .setContentTitle("Notification Content Title")
-//                    .setContentText("Notification Content Text")
-//                    .setSmallIcon(android.R.drawable.stat_sys_upload)
-//                    .setProgress(100, 0, false);
-//
-//            //Send the notification:
-//             notification = notificationBuilder.build();
-//            notificationManager.notify(notificationID, notification);
-            //-------------------------------------------------------------
             buttonAddClass.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
 
                     notificationManager = (NotificationManager)(getActivity().getSystemService(Context.NOTIFICATION_SERVICE));
 
@@ -991,12 +866,6 @@ public class CourseMainPageProf extends Fragment {
                     PROGRESS_CURRENT = 0;
                     builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
                     notificationManager.notify(0, builder.build());
-
-
-
-
-
-
 
                     notificationManager.notify(0, builder.build());
 
@@ -1083,12 +952,7 @@ public class CourseMainPageProf extends Fragment {
             buttonProjectAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
-
-
-
-                    notificationManager = (NotificationManager)(getActivity().getSystemService(Context.NOTIFICATION_SERVICE));
+                 notificationManager = (NotificationManager)(getActivity().getSystemService(Context.NOTIFICATION_SERVICE));
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         NotificationChannel channel = new NotificationChannel(
@@ -1099,8 +963,6 @@ public class CourseMainPageProf extends Fragment {
                         notificationManager.createNotificationChannel(channel);
                     };
 
-
-
                     builder = new NotificationCompat.Builder(getActivity(), "CHANNEL_ID");
                     builder.setContentTitle("Upload")
                             .setContentText("Upload in progress")
@@ -1110,29 +972,14 @@ public class CourseMainPageProf extends Fragment {
                     PROGRESS_CURRENT = 0;
                     builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
                     notificationManager.notify(0, builder.build());
-
-
-
-
-
-
-
                     notificationManager.notify(0, builder.build());
-
-
-
-
                     buttonProjectAdd.setEnabled(false);
 
                     final StorageReference storageRef = storage.getReference();
 
-                    // add course id in front of file path
                     mountainsRef = storageRef.child(selectedfile2.getLastPathSegment());
                     uploadTask = mountainsRef.putFile(selectedfile2);
 
-                    // Observe state change events such as progress, pause, and resume
-//                    final ProgressBar finalProgressBar = progressBar;
-//                    progressBar = findViewById(R.id.progressBar);
                     uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
@@ -1173,13 +1020,7 @@ public class CourseMainPageProf extends Fragment {
                             PROGRESS_CURRENT = 0;
                             PROGRESS_MAX = 100;
                             notificationManager.notify(0, builder.build());
-
-
-
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            // ...
                             Toast.makeText(getActivity(),"Project added successfully.",Toast.LENGTH_SHORT).show();
-
 
                             //------------------------
                             // getting download url for file
@@ -1190,13 +1031,7 @@ public class CourseMainPageProf extends Fragment {
                 }
             });
 
-
-
         }
-
-
-
-
     }
 
 //
@@ -1221,10 +1056,7 @@ public class CourseMainPageProf extends Fragment {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-//                    url[0] = downloadUri.toString();
-//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
-//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
-                        //----------------
+                      //----------------
                         // taking values from title and file url to be stored in firebase
                         if (TitleMaterial == "") {
                             Toast.makeText(getActivity(), "Please fill the title of class", Toast.LENGTH_SHORT).show();
@@ -1269,10 +1101,7 @@ public class CourseMainPageProf extends Fragment {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-//                    url[0] = downloadUri.toString();
-//                    Toast.makeText(CourseMainPageProf.this, "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
-//                    Log.v(TAG, "Download Url:" + downloadUri.toString());
-                        //----------------
+                          //----------------
                         // taking values from title and file url to be stored in firebase
                         if(title.getText().toString().equals("")||description.getText().toString().equals("")||date_of_event.getText().toString().equals("")){
                             Toast.makeText(getActivity(), "Please Fill All The Fields", Toast.LENGTH_SHORT).show();
@@ -1296,14 +1125,7 @@ public class CourseMainPageProf extends Fragment {
                 }
             });
 
-
-
-
-
         }
-
-
-
     }
 
 
@@ -1316,7 +1138,6 @@ public class CourseMainPageProf extends Fragment {
         request.setDestinationInExternalFilesDir(context, FileDestination, Filename);
         downloadManager.enqueue(request);
 
-//
     }
 
     class CustomAdapter extends ArrayAdapter<CourseMaterial> {
@@ -1499,14 +1320,7 @@ public class CourseMainPageProf extends Fragment {
 
     }
 
-
-
-
-
 }
-
-
-
 
 
 //TODO 8. see all the back buttons
