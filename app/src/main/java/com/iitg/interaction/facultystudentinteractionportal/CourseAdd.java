@@ -65,7 +65,7 @@ public class CourseAdd extends AppCompatActivity {
                     Toast.makeText(CourseAdd.this, "Enter a valid course key", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                databaseReference.child("Courses").orderByKey().equalTo(course_id).addValueEventListener(new ValueEventListener() {
+                databaseReference.child("Courses").orderByKey().equalTo(course_id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists())
@@ -86,6 +86,7 @@ public class CourseAdd extends AppCompatActivity {
 
 
                             databaseReference.child("Courses").child(course_id).setValue("");
+
                             Log.d(TAG,course_id);
                             Intent intent = new Intent(CourseAdd.this, AddCourseContent.class);
                             intent.putExtra("CourseID",course_id);

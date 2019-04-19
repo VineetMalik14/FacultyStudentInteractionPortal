@@ -1,5 +1,6 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -69,9 +70,10 @@ public class AddCourseContent extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         courseid = getIntent().getStringExtra("CourseID");
-        UserInfo.courses.add(courseid);
+
 
         final DatabaseReference databaseReference_users_add_course = FirebaseDatabase.getInstance().getReference();
+        UserInfo.courses.add(courseid);
         databaseReference_users_add_course.child("users").child(UserInfo.username).child("courses").setValue(UserInfo.courses);
 
 
@@ -596,11 +598,20 @@ public class AddCourseContent extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        AlertDialog diaBox = AskOption();
-//        diaBox.show();
-//    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        DatabaseReference delete1 = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference delete2 = FirebaseDatabase.getInstance().getReference();
+        delete1.child("users").child(UserInfo.username).child("courses").child(String.valueOf((UserInfo.courses.size()-1))).removeValue();
+        delete2.child("Courses").child(courseid).removeValue();
+        UserInfo.courses.remove(UserInfo.courses.size()-1);
+
+
+
+
+    }
 //
 //    private AlertDialog AskOption()
 //    {
