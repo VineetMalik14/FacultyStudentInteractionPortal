@@ -59,7 +59,8 @@ public class TimeTable extends Fragment implements DatePickerDialog.OnDateSetLis
     TextView t;
     ListView r;
     ArrayList<String> al = new ArrayList<String>();
-
+    ArrayList<String> al_time = new ArrayList<String>();
+    ArrayList<String> al_title = new ArrayList<String>();
 
     int day, month, year;
     int day_week;
@@ -123,6 +124,8 @@ public class TimeTable extends Fragment implements DatePickerDialog.OnDateSetLis
         t.setText(ddd);
         r = (ListView) getView().findViewById(R.id.result);
         al.clear();
+        al_time.clear();
+        al_title.clear();
 
         final ArrayAdapter<String>  ad = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, al);
         r.setAdapter(ad);
@@ -199,13 +202,44 @@ public class TimeTable extends Fragment implements DatePickerDialog.OnDateSetLis
                             for(j = 0; j< dur; j++){
                                 int temp = begin + j;
                                 String ans = "" + temp + " " + xxx;
-                                al.add(ans);
+                                al_time.add(temp + "");
+                                al_title.add(xxx);
 
-                                ad.notifyDataSetChanged();
+                                //al.add(ans);
+
+                                //ad.notifyDataSetChanged();
 
                             }
-                            Collections.sort(al);
-                            //ad.notifyDataSetChanged();
+                            int k  =0;
+                            for(j = 0 ; j < al_time.size(); j++){
+                                for(k = 0; k< al_time.size()-1; k++){
+                                    if(Integer.parseInt(al_time.get(k)) > Integer.parseInt(al_time.get(k+1))){
+                                        String temp_time = al_time.get(k);
+                                        al_time.set(k, al_time.get(k+1));
+                                        al_time.set(k+1,temp_time);
+
+                                        String temp_title = al_title.get(k);
+                                        al_title.set(k, al_title.get(k+1));
+                                        al_title.set(k+1,temp_title);
+
+
+                                    }
+                                }
+                            }
+                            al.clear();
+                            for(k = 0; k<al_title.size(); k++){
+                                int time = Integer.parseInt(al_time.get(k));
+                                String ans;
+                                if(time > 12){
+                                    time = time - 12;
+                                    ans = time + ".00" + "pm";
+                                }else{
+                                    ans = time + ".00" + "am";
+                                }
+                                al.add(ans + " - " + al_title.get(k));
+                            }
+                            //Collections.sort(al);
+                            ad.notifyDataSetChanged();
 
                         }
                     }
