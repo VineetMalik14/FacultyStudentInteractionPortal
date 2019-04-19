@@ -82,6 +82,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void deleteclick(View v) {
+        if(v.getId() == R.id.delete){
+            Intent i = new Intent(MainActivity.this , Delete.class );
+            startActivity(i);
+        }
+    }
+
     public void EventsClick(View v) {
         if(v.getId() == R.id.events){
             Intent i = new Intent(MainActivity.this , Events.class );

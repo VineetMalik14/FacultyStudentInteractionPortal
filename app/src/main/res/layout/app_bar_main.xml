@@ -58,4 +58,13 @@
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="right|center" />
 
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="deleteclick"
+        android:text="delete"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="top|center" />
+
 </android.support.design.widget.CoordinatorLayout>
