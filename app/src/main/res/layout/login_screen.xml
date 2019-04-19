@@ -93,8 +93,9 @@
         android:layout_marginStart="-1dp"
         android:layout_marginBottom="19dp"
         android:background="@drawable/buttonstyle"
-        android:text="Login"
+        android:elevation="1dp"
 
+        android:text="Login"
         android:textColor="@android:color/white" />
 
     <Button
@@ -104,9 +105,9 @@
         android:layout_above="@+id/btn_login"
         android:layout_alignEnd="@+id/btn_login"
         android:layout_marginEnd="2dp"
-
         android:layout_marginBottom="19dp"
         android:background="@drawable/buttonstyle"
+        android:elevation="1dp"
         android:text="Sign Up"
         android:textColor="@android:color/white" />
 
@@ -126,5 +127,47 @@
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName" />
+
+    <RelativeLayout
+        android:id="@+id/rl_loadingscrean"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mycolor"
+        android:elevation="1000dp"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/pBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="170dp"
+            android:layout_marginTop="266dp"
+            android:layout_marginEnd="164dp"
+            android:layout_marginBottom="388dp"
+            android:foregroundGravity="center_horizontal"></ProgressBar>
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pBar"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="-360dp"
+            android:layout_marginEnd="0dp"
+            android:text="Signing In ..."
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

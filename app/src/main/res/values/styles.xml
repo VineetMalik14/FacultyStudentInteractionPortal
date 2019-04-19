@@ -31,5 +31,9 @@
         <!--<item name="colorControlHighlight">@color/BackgroundtWhiteColor</item>-->
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@drawable/splash</item>
+    </style>
+
 
 </resources>

@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -61,6 +62,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
     EditText etusername;
     EditText etpassword;
     FirebaseAuth firebaseAuth;
+    RelativeLayout rl;
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -77,6 +79,13 @@ public class LoginActivity<scopes> extends AppCompatActivity {
         }
     };
 
+    Runnable runnable3 = new Runnable() {
+        @Override
+        public void run() {
+            rl.setVisibility(View.VISIBLE);
+        }
+    };
+
 
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -86,6 +95,8 @@ public class LoginActivity<scopes> extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_screen);
+
         preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         List<String> scopes =
@@ -101,10 +112,10 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                 };
         provider.setScopes(scopes);
 
-
+        rl = findViewById(R.id.rl_loadingscrean);
+        rl.setVisibility(View.INVISIBLE);
 
         try{
-            if(false)
             if(preferences.getBoolean("logined",false) && preferences.getString("username",null)!=null)
             {
 
@@ -125,6 +136,10 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                         }
 
                         UserInfo.fillUserInfo(user.username,user.fullname,user.usertype,user.rollnumber,user.email,user.occupation,user.department,user.year , user.courses);
+                        Intent intent = new Intent(LoginActivity.this,home.class);
+                        startActivity(intent);
+
+                        LoginActivity.this.finish();
                         Log.d("debug","Already logined, FILLED USER INFO" );
 
                     }
@@ -135,9 +150,8 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     }
                 });
 
-                Intent intent = new Intent(LoginActivity.this,home.class);
-                startActivity(intent);
-                this.finish();
+                handler.postDelayed(runnable3,1000);
+
 
 
             }
@@ -149,7 +163,6 @@ public class LoginActivity<scopes> extends AppCompatActivity {
 
 
 
-        setContentView(R.layout.login_screen);
         btn_login = findViewById(R.id.btn_login);
         btn_signup = findViewById(R.id.btn_signup);
         btn_customlogin = findViewById(R.id.btn_logincustom);
@@ -215,6 +228,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                 if(user==null)
                 {
                     Toast.makeText(getApplicationContext(),"Username doesn't exist",Toast.LENGTH_LONG).show();
+                    rl.setVisibility(View.INVISIBLE);
                     return;
                 }
 
@@ -238,11 +252,17 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                     }
                     else
                     {
+                        rl.setVisibility(View.INVISIBLE);
                         Toast.makeText(getApplicationContext(),"Wrong Password",Toast.LENGTH_LONG).show();
+
                     }
                 } catch (NoSuchAlgorithmException e) {
+                    rl.setVisibility(View.INVISIBLE);
+
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {
+                    rl.setVisibility(View.INVISIBLE);
+
                     e.printStackTrace();
                 }
                 System.out.println(user);
@@ -251,14 +271,22 @@ public class LoginActivity<scopes> extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
+                rl.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment.",Toast.LENGTH_LONG).show();
+
+
             }
         });
+
+        handler.postDelayed(runnable3,1000);
+
     }
 
 
 
     void getvaluesfromoutlook(final FirebaseUser loginuser, final AuthResult authResult)
     {
+        handler.postDelayed(runnable3,1000);
 
         Log.d("checkinside","I AM IN THE GET VALUES FUNCTION !!");
 
@@ -379,6 +407,10 @@ public class LoginActivity<scopes> extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("database error", databaseError.getMessage()); //Don't ignore errors!
+                rl.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment.",Toast.LENGTH_LONG).show();
+
+
             }
         };
         dataref.addListenerForSingleValueEvent(eventListener);
@@ -401,7 +433,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                             new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    Toast.makeText(getApplicationContext(),"Login success it was pending!!",Toast.LENGTH_LONG).show();
+                                   // Toast.makeText(getApplicationContext(),"Login success it was pending!!",Toast.LENGTH_LONG).show();
 
                                     FirebaseUser loginuser;
                                     loginuser =authResult.getUser();
@@ -419,7 +451,8 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.d(TAG, "user LOGINED FAILED, PENDING  !!");
-                                    Toast.makeText(getApplicationContext(),"Login Failed, it was pending!!",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment",Toast.LENGTH_LONG).show();
+                                    rl.setVisibility(View.INVISIBLE);
 
                                     // Handle failure.
                                 }
@@ -449,7 +482,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                                     //------------------------------------------------------
                                    // authResult.getAdditionalUserInfo().getProfile();
 
-                                    Toast.makeText(getApplicationContext(),"Login success!!"+ UserInfo.fullname+UserInfo.email,Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getApplicationContext(),"Login success!!"+ UserInfo.fullname+UserInfo.email,Toast.LENGTH_LONG).show();
 
                                     Log.d(TAG, "user LOGINED  !!");
 
@@ -462,7 +495,8 @@ public class LoginActivity<scopes> extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.d(TAG, "user FAILED !! "+e.toString() );
-                                    Toast.makeText(getApplicationContext(),"Login Failed!!"+e.toString(),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),"Login Failed, Can't connect at the moment.",Toast.LENGTH_LONG).show();
+                                    rl.setVisibility(View.INVISIBLE);
 
                                     // Handle failure.
                                 }

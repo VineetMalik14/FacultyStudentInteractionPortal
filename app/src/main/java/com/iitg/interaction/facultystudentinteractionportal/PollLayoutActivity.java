@@ -41,7 +41,7 @@ public class PollLayoutActivity extends AppCompatActivity {
     ListView lv;
     Polls newpoll;
     public int alreadypolledindex = -1;
-    private PollListAdaptor pollListAdaptor;
+    PollListAdaptor pollListAdaptor;
     TextView question;
     String currentcourseid;
     int index;
@@ -96,7 +96,7 @@ public class PollLayoutActivity extends AppCompatActivity {
 
 
         final Intent intent = getIntent();
-        index = intent.getIntExtra("index", -1);
+        //index = intent.getIntExtra("index", -1);
 
 
         question.setText(clickedpoll.question);
@@ -108,7 +108,7 @@ public class PollLayoutActivity extends AppCompatActivity {
 //        optionlist.add(new Options("This is option five"));
 
 
-        pollListAdaptor = new PollListAdaptor(PollLayoutActivity.this, R.layout.layout_polloptions, optionlist);
+        pollListAdaptor = new PollListAdaptor(PollLayoutActivity.this, R.layout.layout_polloptions, clickedpoll.options);
 
         if(clickedpoll.users!=null && clickedpoll.users.contains(UserInfo.username))
         {
@@ -159,6 +159,9 @@ public class PollLayoutActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Successfully Polled for " + clickedpoll.options.get(position).optiontext, Toast.LENGTH_LONG).show();
                                 editchoicebtn.setVisibility(View.VISIBLE);
                                 alreadypolledindex = position;
+                                startActivity(intent);
+                                finish();
+
                             }
                         }
                         else
@@ -197,6 +200,9 @@ public class PollLayoutActivity extends AppCompatActivity {
                         dataref.child(currentcourseid).child("Polls").child(clickedpoll.uniqueid).setValue(clickedpoll);
                         Toast.makeText(getApplicationContext(),"Your choice is removed, You can select a new option.",Toast.LENGTH_LONG).show();
                         pollListAdaptor.notifyDataSetChanged();
+                        startActivity(intent);
+                        finish();
+
                     }
                     else
                     {
@@ -257,7 +263,7 @@ public class PollLayoutActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 clickedpoll = dataSnapshot.getValue(Polls.class);
-                //pollListAdaptor.notifyDataSetChanged();
+                pollListAdaptor.notifyDataSetChanged();
 
                 if(!clickedpoll.isactive)
                 {
@@ -290,9 +296,24 @@ public class PollLayoutActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 //Here you can update your data from internet or from local SQLite data
+                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(currentcourseid).child("Polls").child(clickedpoll.uniqueid);
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        clickedpoll= dataSnapshot.getValue(Polls.class);
+                        pollListAdaptor.notifyDataSetChanged();
 
-                pollListAdaptor.notifyDataSetChanged();
-                pullToRefresh.setRefreshing(false);
+                        pullToRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
             }
         });
 

@@ -115,8 +115,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
-            android:text="Forward" />
+            android:background="@color/mycolor"
+            android:text="Forward"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btn_replymsg"
@@ -125,8 +126,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
-            android:text="reply" />
+            android:background="@color/mycolor"
+            android:text="reply"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </LinearLayout>

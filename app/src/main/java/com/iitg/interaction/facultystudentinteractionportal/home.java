@@ -97,6 +97,8 @@ public class home extends AppCompatActivity {
                                 builder = new NotificationCompat.Builder(getApplicationContext(), "CHANNEL_ID");
                                 builder.setContentTitle(message.child("sender").getValue().toString())
                                         .setContentText(message.child("subject").getValue().toString())
+                                        .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText(message.child("body").getValue(String.class)))
                                         .setSmallIcon(R.drawable.ic_menu_send)
                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                         .setAutoCancel(true);

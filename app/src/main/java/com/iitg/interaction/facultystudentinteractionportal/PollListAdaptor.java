@@ -21,6 +21,8 @@ public class PollListAdaptor extends ArrayAdapter<Options> {
     private Context mContext;
     private int mResource;
 
+
+
     public PollListAdaptor(Context context, int resource, List<Options> objects) {
         super(context, resource, objects);
         this.mContext = context;
@@ -43,6 +45,15 @@ public class PollListAdaptor extends ArrayAdapter<Options> {
         optiontv.setText(optiontext);
         progressbarpv.setProgress((int)votepercent);
         percentvotetv.setText(String.format("%.1f", votepercent)+"%");
+
+        if(getItem(position).userslist!=null&&getItem(position).userslist.contains(UserInfo.username))
+        {
+            rl.setBackgroundColor(0x10007FFF);
+        }
+        else
+        {
+            rl.setBackgroundColor(Color.WHITE);
+        }
 
 //        convertView.setOnClickListener(new View.OnClickListener() {
 //            @Override
