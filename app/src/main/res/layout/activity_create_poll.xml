@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CreatePollActivity">
+    tools:context=".CreatePollActivity"
+    android:layout_gravity="center">
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="148dp"
-        android:layout_height="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"

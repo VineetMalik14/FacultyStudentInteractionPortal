@@ -72,13 +72,13 @@
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="start"
             android:layout_marginTop="95dp"
             android:fitsSystemWindows="true"
             android:focusable="true"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer" >
+            app:menu="@menu/activity_main_drawer">
 
         </android.support.design.widget.NavigationView>
 

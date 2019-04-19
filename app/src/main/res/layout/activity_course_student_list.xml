@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".CourseStudentList">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical" >-->
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
             <TextView
                 android:id="@+id/textView26"
@@ -30,30 +30,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-                <ListView
-                    android:id="@+id/lv_courselist"
-                    android:layout_width="match_parent"
-                    android:layout_height="505dp"
-                    android:layout_marginTop="150dp"
-                    android:layout_marginEnd="8dp"
-                    android:nestedScrollingEnabled="true"
-                    android:scrollbars="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView26" />
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_add_course"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/fab_margin"
-                android:layout_marginBottom="60dp"
-                app:srcCompat="@android:drawable/ic_input_add" />
-            </FrameLayout>
+    <ListView
+        android:id="@+id/lv_courselist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="60dp"
+        android:nestedScrollingEnabled="true"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
-        </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lv_courselist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lv_courselist"
+        app:layout_constraintVertical_bias="0.66"
+        app:srcCompat="@android:drawable/ic_input_add" />
+            <!--</FrameLayout>-->
 
-    </ScrollView>
+        <!--</LinearLayout>-->
+
+    <!--</ScrollView>-->
 
 </android.support.constraint.ConstraintLayout>

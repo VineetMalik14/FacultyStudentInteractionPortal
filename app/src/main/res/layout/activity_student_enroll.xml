@@ -12,9 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,16 +27,23 @@
         android:layout_width="wrap_content"
         android:layout_height="37dp"
         android:layout_marginStart="140dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="28dp"
         android:background="#3C3C46"
         android:text="Enroll Me"
+        android:textAlignment="center"
         android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.998" />
 
     <TextView
         android:id="@+id/descripton"
-        android:layout_width="395dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="90dp"
@@ -47,7 +58,7 @@
 
     <TextView
         android:id="@+id/syllabus"
-        android:layout_width="395dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -62,7 +73,7 @@
 
     <TextView
         android:id="@+id/timeslots"
-        android:layout_width="395dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
@@ -80,31 +91,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
         android:text="Course Description"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/descripton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.036"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="142dp"
+        android:layout_width="wrap_content"
         android:layout_height="37dp"
         android:layout_marginStart="112dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintHorizontal_bias="0.261"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="107dp"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
@@ -116,7 +130,7 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="107dp"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="36dp"
@@ -128,7 +142,7 @@
 
     <TextView
         android:id="@+id/prof"
-        android:layout_width="376dp"
+        android:layout_width="0dp"
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
@@ -142,7 +156,7 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="86dp"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="40dp"

@@ -111,14 +111,14 @@ public class CourseMainPageProf extends Fragment {
     AlertDialog b;
     int PROGRESS_CURRENT;
     NotificationCompat.Builder builder;
-
+    List<String> project_key;
     int PROGRESS_MAX = 100;
     NotificationManager notificationManager;
     NotificationChannel channel;
     ListView listView_material;
 
     public ArrayList<CourseProject> projects = new ArrayList<CourseProject>();
-
+    List<String> Event_key ;
 
     TextView FileNameProject;
     EditText title;
@@ -181,18 +181,27 @@ public class CourseMainPageProf extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(getView()!=null && getActivity()!=null)
                 {
+                    Event_key = new ArrayList<String>();
                     events = new ArrayList<Event>();
                     for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
                         Event event = messageSnapshot.getValue(Event.class);
                         events.add(event);
+                        Event_key.add(messageSnapshot.getKey());
                         Log.v("Title", event.getTitle());
                     }
                     Collections.reverse(events);
+                    Collections.reverse(Event_key);
                     Log.v("Size", String.valueOf(events.size()));
                     ListView listView1 = getView().findViewById(R.id.EventsList);
+
                     final CustomAdapter1 customAdapter1 = new CustomAdapter1(getActivity(),events);
 ////                    final ThreadAdapter adapter = new ThreadAdapter(DiscussionThreads.this, threads);
                     listView1.setAdapter(customAdapter1);
+                    if(UserInfo.usertype.equals("Prof")){
+
+                        registerForContextMenu(listView1);
+
+                    }
                 }
 
             }
@@ -259,37 +268,30 @@ public class CourseMainPageProf extends Fragment {
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("CourseProject");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(getActivity()!=null && getView()!=null)
                 {
+                    project_key = new ArrayList<String>();
                     projects = new ArrayList<CourseProject>();
                     for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
                         CourseProject project = messageSnapshot.getValue(CourseProject.class);
                         projects.add(project);
+                        project_key.add(messageSnapshot.getKey());
 
                     }
                     Collections.reverse(projects);
+                    Collections.reverse(project_key);
                     ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.CourseProjects);
                     final CustomAdapter2 customAdapter = new CustomAdapter2(getActivity(),projects);
                     listView.setAdapter(customAdapter);
+                    if(UserInfo.usertype.equals("Prof")){
+
+                        registerForContextMenu(listView);
+
+                    }
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -967,7 +969,6 @@ public class CourseMainPageProf extends Fragment {
 
 
 
-                   // notificationManager = NotificationManagerCompat.from(CourseMainPageProf.this);
                     notificationManager = (NotificationManager)(getActivity().getSystemService(Context.NOTIFICATION_SERVICE));
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -999,14 +1000,6 @@ public class CourseMainPageProf extends Fragment {
 
                     notificationManager.notify(0, builder.build());
 
-
-
-
-
-
-
-
-
                     buttonAddClass.setEnabled(false);
 
                     final StorageReference storageRef = storage.getReference();
@@ -1015,9 +1008,6 @@ public class CourseMainPageProf extends Fragment {
                     mountainsRef = storageRef.child(selectedfile.getLastPathSegment());
                     uploadTask = mountainsRef.putFile(selectedfile);
 
-                    // Observe state change events such as progress, pause, and resume
-//                    final ProgressBar finalProgressBar = progressBar;
-//                    progressBar = getView().findViewById(R.id.progressBar);
                     uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
@@ -1025,14 +1015,6 @@ public class CourseMainPageProf extends Fragment {
                             PROGRESS_CURRENT = (int)progress;
                             builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
                             notificationManager.notify(0, builder.build());
-//                            progressBar.setProgress((int) progress);
-//                            Toast.makeText(getActivity(),"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
-                            //Update notification information:
-//                            notificationBuilder.setProgress(100, (int) progress, false);
-//
-//                            //Send the notification:
-//                            notification = notificationBuilder.build();
-//                            notificationManager.notify(notificationID, notification);
 
 
                             System.out.println("Upload is " + progress + "% done");
@@ -1061,6 +1043,8 @@ public class CourseMainPageProf extends Fragment {
                             // ...
                             builder.setContentText("Upload complete")
                                     .setProgress(0,0,false);
+                            PROGRESS_CURRENT = 0;
+                            PROGRESS_MAX = 100;
                             notificationManager.notify(0, builder.build());
 //                            Toast.makeText(getContext(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(getActivity(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
@@ -1095,25 +1079,49 @@ public class CourseMainPageProf extends Fragment {
             buttonSelectFileProject.setEnabled(true);
             // notification for upload progress
             //---------------------------------------
-//            final Integer notificationID = 100;
-//
-//            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//            //Set notification information:
-//            final Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
-//            notificationBuilder.setOngoing(true)
-//                    .setContentTitle("Notification Content Title")
-//                    .setContentText("Notification Content Text")
-//                    .setSmallIcon(android.R.drawable.stat_sys_upload)
-//                    .setProgress(100, 0, false);
-//
-//            //Send the notification:
-//             notification = notificationBuilder.build();
-//            notificationManager.notify(notificationID, notification);
-            //-------------------------------------------------------------
+          //-------------------------------------------------------------
             buttonProjectAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+
+
+
+                    notificationManager = (NotificationManager)(getActivity().getSystemService(Context.NOTIFICATION_SERVICE));
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        NotificationChannel channel = new NotificationChannel(
+                                "CHANNEL_ID",
+                                "My App",
+                                NotificationManager.IMPORTANCE_DEFAULT
+                        );
+                        notificationManager.createNotificationChannel(channel);
+                    };
+
+
+
+                    builder = new NotificationCompat.Builder(getActivity(), "CHANNEL_ID");
+                    builder.setContentTitle("Upload")
+                            .setContentText("Upload in progress")
+                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setPriority(NotificationCompat.PRIORITY_MAX);
+
+                    PROGRESS_CURRENT = 0;
+                    builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
+                    notificationManager.notify(0, builder.build());
+
+
+
+
+
+
+
+                    notificationManager.notify(0, builder.build());
+
+
+
+
                     buttonProjectAdd.setEnabled(false);
 
                     final StorageReference storageRef = storage.getReference();
@@ -1129,17 +1137,15 @@ public class CourseMainPageProf extends Fragment {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//                            progressBar.setProgress((int) progress);
-//                            Toast.makeText(CourseMainPageProf.this,"Upload is : "+ progress + "% done",Toast.LENGTH_LONG).show();
-                            //Update notification information:
-//                            notificationBuilder.setProgress(100, (int) progress, false);
-//
-//                            //Send the notification:
-//                            notification = notificationBuilder.build();
-//                            notificationManager.notify(notificationID, notification);
+                            PROGRESS_CURRENT = (int)progress;
+                            builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
+                            notificationManager.notify(0, builder.build());
 
 
                             System.out.println("Upload is " + progress + "% done");
+
+
+
                         }
                     }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -1160,6 +1166,15 @@ public class CourseMainPageProf extends Fragment {
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                            builder.setContentText("Upload complete")
+                                    .setProgress(0,0,false);
+                            PROGRESS_CURRENT = 0;
+                            PROGRESS_MAX = 100;
+                            notificationManager.notify(0, builder.build());
+
+
 
                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                             // ...
@@ -1184,53 +1199,7 @@ public class CourseMainPageProf extends Fragment {
 
     }
 
-//    public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask) {
-////        final String[] url = new String[1];
-//        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//            @Override
-//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                if (!task.isSuccessful()) {
-//                    throw task.getException();
-//                }
 //
-//                // Continue with the task to get the download URL
-//                return mountainsRef.getDownloadUrl();
-//            }
-//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Uri> task) {
-//                if (task.isSuccessful()) {
-//                    Uri downloadUri = task.getResult();
-////                    url[0] = downloadUri.toString();
-////                    Toast.makeText(getActivity(), "Download Url:" + downloadUri.toString(), Toast.LENGTH_LONG).show();
-////                    Log.v(TAG, "Download Url:" + downloadUri.toString());
-//                    //----------------
-//                    // taking values from title and file url to be stored in firebase
-//                    if (TitleMaterial == "") {
-//                        Toast.makeText(getActivity(), "Please fill the title of class", Toast.LENGTH_SHORT).show();
-//                    } else {
-//
-//                        EditText ClassTitle = dialogViewFile.findViewById(R.id.editTextName);
-//                        TextView FileName = dialogViewFile.findViewById(R.id.FileName);
-//                        databaseReference = FirebaseDatabase.getInstance().getReference();
-//                        CourseMaterial courseMaterial = new CourseMaterial(ClassTitle.getText().toString()
-//                                , downloadUri.toString(), FileName.getText().toString(), Calendar.getInstance().getTime());
-//                        String key = databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Events").push().getKey();
-//                        databaseReference.child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("Course Material").child(key).setValue(courseMaterial);
-//                        mate.dismiss();
-//
-//                    }
-//
-//                } else {
-//                    Toast.makeText(getActivity(), "File could not be successfully uploaded", Toast.LENGTH_SHORT).show();
-//                    // Handle failures
-//                    // ...
-//                }
-//            }
-//        });
-//
-//
-//    }
 
     public void getDownloadUrl(final StorageReference mountainsRef,UploadTask uploadTask, int code) {
 //        final String[] url = new String[1];
@@ -1440,46 +1409,97 @@ public class CourseMainPageProf extends Fragment {
 
     }
 
-//    // deleting course materials
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//        if (v.getId()==R.id.course_material) {
-//            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-//            //menu.setHeaderTitle(Countries[info.position]);
-//            String[] menuItems = {"Delete Material"};
-//            for (int i = 0; i<menuItems.length; i++) {
-//                menu.add(Menu.NONE, i, i, menuItems[i]);
-//
-//            }
-//        }
-//
-//
-//    }
+    // deleting course materials
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId()==R.id.course_material) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-//        int menuItemIndex = item.getItemId();
-//        String threadid = material_keys.get(info.position);
-//        Log.d(TAG,threadid);
-//        Log.d(TAG,CourseMainPageStudent.courseID);
-//        final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
-////        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
-//        // getting url from database
-//
-//
-//        if (menuItemIndex == 0){ // This is to delete the thread
-//            Log.d(TAG,threadid);
-//            databaseReference2.removeValue();
-//            return true;
-//        }
-//
-//
-//        return true;
-//
-//
-//    }
+            String[] menuItems = {"Delete Material"};
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(1, i, i, menuItems[i]);
+
+            }
+        }
+        if(v.getId()==R.id.EventsList)
+        {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+            String[] menuItems = {"Delete Event"};
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(2, i, i, menuItems[i]);
+
+
+            }
+        }
+        if(v.getId()==R.id.CourseProjects)
+        {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+            String[] menuItems = {"Delete Project"};
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(3, i, i, menuItems[i]);
+
+
+            }
+        }
+
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        if(item.getGroupId() == 1)
+        {
+            int menuItemIndex = item.getItemId();
+            String threadid = material_keys.get(info.position);
+            Log.d(TAG,threadid);
+            Log.d(TAG,CourseMainPageStudent.courseID);
+            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
+
+            if (menuItemIndex == 0){
+                Log.d(TAG,threadid);
+                databaseReference2.removeValue();
+                return true;
+            }
+        }
+        if(item.getGroupId() == 2)
+        {
+            int menuItemIndex = item.getItemId();
+            String threadid = Event_key.get(info.position);
+            Log.d(TAG,threadid);
+            Log.d(TAG,CourseMainPageStudent.courseID);
+            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Events").child(threadid);
+
+            if (menuItemIndex == 0){
+                Log.d(TAG,threadid);
+                databaseReference2.removeValue();
+                return true;
+            }
+        }
+        if(item.getGroupId() == 3)
+        {
+            int menuItemIndex = item.getItemId();
+            String threadid = project_key.get(info.position);
+            Log.d(TAG,threadid);
+            Log.d(TAG,CourseMainPageStudent.courseID);
+            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("CourseProject").child(threadid);
+
+            if (menuItemIndex == 0){
+                Log.d(TAG,threadid);
+                databaseReference2.removeValue();
+                return true;
+            }
+        }
+
+        return true;
+
+
+    }
+
+
 
 
 
@@ -1490,14 +1510,8 @@ public class CourseMainPageProf extends Fragment {
 
 
 //TODO 8. see all the back buttons
-//TODO 10. not able to add new courses in professors(user) list
-//TODO 11. make the prof fill the contents of the course
-//TODO 17. prof has to add the content
-//TODO 18. FAQs
-//TODO 19. timetable merge
 //TODO 20. make all buttons single click
 //TODO 21. what if net is not working
-//TODO 22. MainPageEvent function not showing correct information on item click
 
 
 // TODO bugs: modified code in enroll student as it was not passing corect intent values (1.5hrs) code changed in searchallcourses and courseenrollactivity
