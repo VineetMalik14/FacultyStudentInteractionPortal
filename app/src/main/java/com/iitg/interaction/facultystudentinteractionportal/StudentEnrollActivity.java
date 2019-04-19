@@ -149,58 +149,31 @@ public class StudentEnrollActivity extends AppCompatActivity implements EnrollCo
             @Override
             public void onClick(View v) {
 
-                EnrollCourseStudent ed = new EnrollCourseStudent();
-                ed.show(getSupportFragmentManager(), "Enroll Dialog");
-
-
-
-//                DatabaseReference in = db.getReference().child("users").child(currentuser).child("courses");
-//                in.addChildEventListener(new ChildEventListener() {
-//                    @Override
-//                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                        if(dataSnapshot.getValue(String.class).contains(name.getText().toString())){
-//                            check = 1;
-//                            if(check == 0){
-//
-//                                EnrollCourseStudent ed = new EnrollCourseStudent();
-//                                ed.show(getSupportFragmentManager(), "Enroll Dialog");
-//
-//                            }else{
-//
-////                                Toast.makeText(getApplicationContext(),"You are already enrolled in this course.",Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
+                if(UserInfo.usertype.equals("Stud"))
+                {
+                    EnrollCourseStudent ed = new EnrollCourseStudent();
+                    ed.show(getSupportFragmentManager(), "Enroll Dialog");
+                }
+                else
+                {
+                    Toast.makeText(StudentEnrollActivity.this,"You are not allowed to enroll in this course",Toast.LENGTH_LONG).show();
+                }
 
             }
         });
     }
 
     public void openDialog(){
+        if(UserInfo.usertype.equals("Stud"))
+        {
+            EnrollCourseStudent ed = new EnrollCourseStudent();
+            ed.show(getSupportFragmentManager(), "Enroll Dialog");
+        }
+        else
+        {
+            Toast.makeText(StudentEnrollActivity.this,"You are not allowed to enroll in this course",Toast.LENGTH_LONG).show();
+        }
 
-        EnrollCourseStudent ed = new EnrollCourseStudent();
-        ed.show(getSupportFragmentManager(), "Enroll Dialog");
 
     }
 

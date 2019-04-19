@@ -104,11 +104,13 @@ public class CourseAdd extends AppCompatActivity {
                     }
                 });
 
+
             }
         });
 
 //        String key=databaseReference.push().getKey();
 //        databaseReference.child("Courses").child(key).setValue("courses");
     }
+
 
 }

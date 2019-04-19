@@ -2,6 +2,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -58,6 +60,7 @@ public class AddCourseContent extends AppCompatActivity {
     String lastindex;
     public Midsemester midsemester;
     public Endsemester endsemester;
+    public String courseid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class AddCourseContent extends AppCompatActivity {
         setContentView(R.layout.activity_add_course_content);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final String courseid = getIntent().getStringExtra("CourseID");
+        courseid = getIntent().getStringExtra("CourseID");
         UserInfo.courses.add(courseid);
 
         final DatabaseReference databaseReference_users_add_course = FirebaseDatabase.getInstance().getReference();
@@ -505,6 +508,7 @@ public class AddCourseContent extends AppCompatActivity {
                             endsemester = new Endsemester(date,duration,time,description,venue);
 //                            String key=databaseReference.child("Courses").child(courseid).child("MidSemester").push().getKey();
 //                            databaseReference.child("Courses").child(courseid).child("MidSemester").setValue(midsemester);
+//                            databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue("");
                             endsem_btn.setHint("End Semester added");
                             b.dismiss();
                         }
@@ -536,23 +540,32 @@ public class AddCourseContent extends AppCompatActivity {
                 {
 //                    Toast.makeText(AddCourseContent.this,InDatabaseSlotsText,Toast.LENGTH_LONG).show();
 //                    Toast.makeText(AddCourseContent.this,midsemester.Description,Toast.LENGTH_LONG).show();
-                    Log.d("fgf",midsemester.Description);
-                    databaseReference = FirebaseDatabase.getInstance().getReference();
-                    Courses courses = new Courses(CourseIDTextView.getText().toString(),KeyTextView.getText().toString(),
+                    final Courses courses = new Courses(CourseIDTextView.getText().toString(),KeyTextView.getText().toString(),
                             DescriptionTextView.getText().toString(), Calendar.getInstance().getTime(),
                             CourseNameTextView.getText().toString(),MarksTextView.getText().toString()
                             ,UserInfo.username,SyllabusTextView.getText().toString(),InDatabaseSlotsText,midsemester,endsemester);
+                    Log.d("fgf",midsemester.Description);
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+//                    databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            if(task.isSuccessful())
+//                            {
+                                databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue(courses).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful())
+                                        {
+//                                            databaseReference_users_add_course.child("users").child(UserInfo.username).child("courses").setValue(UserInfo.courses);
+                                            databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).child("MidSemester").setValue(midsemester);
+                                            databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).child("EndSemester").setValue(endsemester);
+                                        }
+                                    }
+                                });
+//                            }
+//                        }
+//                    });
 
-                    databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue(courses).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
-                                databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).child("MidSemester").setValue(midsemester);
-                                databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).child("EndSemester").setValue(endsemester);
-                            }
-                        }
-                    });
 
 
                     // adding all the information in putExtra to show in course content page of prof where events and materials can also be added
@@ -582,5 +595,57 @@ public class AddCourseContent extends AppCompatActivity {
 
 
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        AlertDialog diaBox = AskOption();
+//        diaBox.show();
+//    }
+//
+//    private AlertDialog AskOption()
+//    {
+//        AlertDialog myQuittingDialogBox =new AlertDialog.Builder(this)
+//                .setTitle("Exit")
+//                .setMessage("Are you sure you want to exit?")
+////                .setIcon(R.drawable.delete)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int whichButton) {
+//                        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+//                        courseid = CourseIDTextView.getText().toString();
+//
+//                        final ArrayList<String> courses = new ArrayList<String>();
+//                        DatabaseReference databaseReference2 = databaseReference.child("users").child(UserInfo.username).child("courses");
+//                        databaseReference2.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+//                                        String course = messageSnapshot.getValue().toString();
+//                                        courses.add(course);
+////                                        Log.v("Title", course.getTitle());
+//                                    }
+//                                DatabaseReference databaseReferencecourse = databaseReference.child("Courses").child(courseid);
+//                                databaseReferencecourse.removeValue();
+//                                courses.remove(courses.size()-1);
+//                                databaseReference.child("users").child(UserInfo.username).child("courses").setValue(courses);
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//
+//
+//                    }
+//                })
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .create();
+//        return myQuittingDialogBox;
+//
+//    }
 
 }

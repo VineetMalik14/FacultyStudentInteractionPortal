@@ -72,6 +72,7 @@
             android:layout_height="38dp"
             android:layout_marginTop="16dp"
             android:hint="full name"
+            android:inputType="textMultiLine"
             android:scrollbars="vertical"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
@@ -207,7 +208,7 @@
             android:scrollbars="horizontal|vertical"
             android:singleLine="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.823"
+            app:layout_constraintHorizontal_bias="0.588"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 

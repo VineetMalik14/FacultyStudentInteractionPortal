@@ -695,6 +695,7 @@ public class CourseMainPageProf extends Fragment {
         buttonSelectFileProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonSelectFileProject.setEnabled(false);
                 filepath2 = "";
                 flag2 = 1;
                 FileNameProject.setText("");
@@ -872,6 +873,7 @@ public class CourseMainPageProf extends Fragment {
         buttonSelectFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonSelectFile.setEnabled(false);
                 flag=1;
                 filepath = "";
                 FileName.setText("");
@@ -935,7 +937,7 @@ public class CourseMainPageProf extends Fragment {
             Toast.makeText(getActivity(),filepath,Toast.LENGTH_LONG).show();
 
             FileName.setText(filepath);
-
+            buttonSelectFile.setEnabled(true);
 
 
 
@@ -1060,7 +1062,7 @@ public class CourseMainPageProf extends Fragment {
                             builder.setContentText("Upload complete")
                                     .setProgress(0,0,false);
                             notificationManager.notify(0, builder.build());
-                            Toast.makeText(getContext(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(getActivity(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
 
 
@@ -1090,7 +1092,7 @@ public class CourseMainPageProf extends Fragment {
             Toast.makeText(getActivity(),filepath2,Toast.LENGTH_LONG).show();
 
             FileNameProject.setText(filepath2);
-
+            buttonSelectFileProject.setEnabled(true);
             // notification for upload progress
             //---------------------------------------
 //            final Integer notificationID = 100;
@@ -1152,7 +1154,7 @@ public class CourseMainPageProf extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             buttonProjectAdd.setEnabled(true);
-                            Toast.makeText(getActivity(),"File could not be uploaded",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Project could not be added",Toast.LENGTH_SHORT).show();
                             // Handle unsuccessful uploads
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -1161,7 +1163,7 @@ public class CourseMainPageProf extends Fragment {
 
                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                             // ...
-                            Toast.makeText(getActivity(),"File uploaded successfully.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Project added successfully.",Toast.LENGTH_SHORT).show();
 
 
                             //------------------------
@@ -1487,18 +1489,15 @@ public class CourseMainPageProf extends Fragment {
 
 
 
-//TODO 6. parse the filenames
-//TODO 7. create polls which are visible only to students
 //TODO 8. see all the back buttons
-//TODO 9. convert course add content to send to course main page using fragment
 //TODO 10. not able to add new courses in professors(user) list
 //TODO 11. make the prof fill the contents of the course
-//TODO 14. disable login button after clicking once
-//TODO 15. UI of profile page
 //TODO 17. prof has to add the content
 //TODO 18. FAQs
 //TODO 19. timetable merge
 //TODO 20. make all buttons single click
+//TODO 21. what if net is not working
+//TODO 22. MainPageEvent function not showing correct information on item click
 
 
 // TODO bugs: modified code in enroll student as it was not passing corect intent values (1.5hrs) code changed in searchallcourses and courseenrollactivity

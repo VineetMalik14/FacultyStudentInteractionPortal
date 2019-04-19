@@ -319,8 +319,8 @@ public class home extends AppCompatActivity {
                     return eventsMainPage;
 
                 case 2:
-                    eventsMainPage = new EventsMainPage();
-                    return eventsMainPage;
+                    TimeTable timeTable= new TimeTable();
+                    return timeTable;
 
             }
             return PlaceholderFragment.newInstance(position + 1);
