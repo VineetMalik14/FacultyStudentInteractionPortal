@@ -1326,6 +1326,7 @@ public class CourseMainPageProf extends Fragment {
 //TODO 8. see all the back buttons
 //TODO 20. make all buttons single click
 //TODO 21. what if net is not working
+//TODO 22. do userinfo.username inside oncreate in amans files
 
 
 // TODO bugs: modified code in enroll student as it was not passing corect intent values (1.5hrs) code changed in searchallcourses and courseenrollactivity

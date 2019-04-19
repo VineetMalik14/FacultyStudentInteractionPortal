@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -96,6 +97,7 @@ public class LoginActivity<scopes> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         preferences = getSharedPreferences("settings",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

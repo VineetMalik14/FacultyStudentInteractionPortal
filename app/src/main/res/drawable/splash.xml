@@ -3,11 +3,17 @@
 
     <item
         android:drawable="@color/mycolor"/>
+    <!--<item>-->
+        <!--<bitmap android:src="@mipmap/sampleppic1">-->
 
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/sampleppic1"/>
-    </item>
+        <!--</bitmap>-->
+    <!--</item>-->
+
+    <!--<item>-->
+        <!--&lt;!&ndash;<bitmap&ndash;&gt;-->
+            <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@mipmap/sampleppic1"&ndash;&gt;-->
+             <!--&lt;!&ndash;/>&ndash;&gt;-->
+    <!--</item>-->
 
 </layer-list>
