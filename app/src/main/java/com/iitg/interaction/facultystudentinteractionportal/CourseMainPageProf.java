@@ -1267,56 +1267,62 @@ public class CourseMainPageProf extends Fragment {
         }
 
 
+
+
+
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        if(item.getGroupId() == 1)
-        {
-            int menuItemIndex = item.getItemId();
-            String threadid = material_keys.get(info.position);
-            Log.d(TAG,threadid);
-            Log.d(TAG,CourseMainPageStudent.courseID);
-            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
-
-            if (menuItemIndex == 0){
+        if (getUserVisibleHint()) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+            if(item.getGroupId() == 1)
+            {
+                int menuItemIndex = item.getItemId();
+                String threadid = material_keys.get(info.position);
                 Log.d(TAG,threadid);
-                databaseReference2.removeValue();
-                return true;
-            }
-        }
-        if(item.getGroupId() == 2)
-        {
-            int menuItemIndex = item.getItemId();
-            String threadid = Event_key.get(info.position);
-            Log.d(TAG,threadid);
-            Log.d(TAG,CourseMainPageStudent.courseID);
-            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Events").child(threadid);
+                Log.d(TAG,CourseMainPageStudent.courseID);
+                final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
 
-            if (menuItemIndex == 0){
+                if (menuItemIndex == 0){
+                    Log.d(TAG,threadid);
+                    databaseReference2.removeValue();
+                    return true;
+                }
+            }
+            if(item.getGroupId() == 2)
+            {
+                int menuItemIndex = item.getItemId();
+                String threadid = Event_key.get(info.position);
                 Log.d(TAG,threadid);
-                databaseReference2.removeValue();
-                return true;
-            }
-        }
-        if(item.getGroupId() == 3)
-        {
-            int menuItemIndex = item.getItemId();
-            String threadid = project_key.get(info.position);
-            Log.d(TAG,threadid);
-            Log.d(TAG,CourseMainPageStudent.courseID);
-            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("CourseProject").child(threadid);
+                Log.d(TAG,CourseMainPageStudent.courseID);
+                final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Events").child(threadid);
 
-            if (menuItemIndex == 0){
+                if (menuItemIndex == 0){
+                    Log.d(TAG,threadid);
+                    databaseReference2.removeValue();
+                    return true;
+                }
+            }
+            if(item.getGroupId() == 3)
+            {
+                int menuItemIndex = item.getItemId();
+                String threadid = project_key.get(info.position);
                 Log.d(TAG,threadid);
-                databaseReference2.removeValue();
-                return true;
+                Log.d(TAG,CourseMainPageStudent.courseID);
+                final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("CourseProject").child(threadid);
+
+                if (menuItemIndex == 0){
+                    Log.d(TAG,threadid);
+                    databaseReference2.removeValue();
+                    return true;
+                }
             }
+
+            return true;
         }
-
-        return true;
-
+        else
+            return false;
 
     }
 
