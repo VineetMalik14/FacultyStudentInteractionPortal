@@ -66,15 +66,15 @@ public class ProfileActivity extends AppCompatActivity {
 
 
             fullname.setText(UserInfo.fullname);
-            username.setText("username: "+UserInfo.username);
-            email.setText("Email: "+UserInfo.email);
-            occupation.setText("Occupation: "+UserInfo.occupation);
-            department.setText("Department: "+UserInfo.department);
+            username.setText("Username: " + UserInfo.username);
+            email.setText(UserInfo.email);
+            occupation.setText(UserInfo.occupation);
+            department.setText(UserInfo.department);
 
             if(UserInfo.usertype.equals("Stud"))
             {
-                rollnumber.setText("Roll Number: "+UserInfo.rollnumber);
-                year.setText("Year: "+UserInfo.year);
+                rollnumber.setText(UserInfo.rollnumber);
+                year.setText(UserInfo.year);
             }
             else
             {

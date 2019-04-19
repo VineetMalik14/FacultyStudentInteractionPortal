@@ -164,6 +164,8 @@ public class home extends AppCompatActivity {
                     startActivity(intent);
 
                 } else if (id == R.id.nav_outlook) {
+                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.outlook");
+                    startActivity(intent);
 
                 }
 
