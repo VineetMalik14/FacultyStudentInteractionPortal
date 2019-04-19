@@ -3,6 +3,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -74,7 +75,7 @@ public class home extends AppCompatActivity {
 
                     if (getApplicationContext() != null) {
                         // now we have to change show notifications whenever the number of messages is changed
-                        int i = 0;
+                        int i = 1;
 
                         for (DataSnapshot message : dataSnapshot.getChildren()) {
 
@@ -91,14 +92,15 @@ public class home extends AppCompatActivity {
                                     );
                                     notificationManager.createNotificationChannel(channel);
                                 }
-
-
+//
 
                                 builder = new NotificationCompat.Builder(getApplicationContext(), "CHANNEL_ID");
                                 builder.setContentTitle(message.child("sender").getValue().toString())
                                         .setContentText(message.child("subject").getValue().toString())
                                         .setSmallIcon(R.drawable.ic_menu_send)
-                                        .setPriority(NotificationCompat.PRIORITY_MAX);
+                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                        .setAutoCancel(true);
+
 
 
                                 notificationManager.notify(i, builder.build());
@@ -315,8 +317,8 @@ public class home extends AppCompatActivity {
                     return eventsMainPage;
 
                 case 1:
-                    eventsMainPage = new EventsMainPage();
-                    return eventsMainPage;
+                    ToDo toDo = new ToDo();
+                    return toDo;
 
                 case 2:
                     TimeTable timeTable= new TimeTable();

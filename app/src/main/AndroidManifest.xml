@@ -13,11 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TimeTable"></activity>
+        <activity android:name=".ToDo"></activity>
+        <activity android:name=".TimeTable" />
         <activity
             android:name=".ExamTimetable"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity> <!-- <activity android:name=".EventsMainPage" /> -->
+            android:screenOrientation="portrait" /> <!-- <activity android:name=".EventsMainPage" /> -->
         <activity
             android:name=".home"
             android:configChanges="orientation"
@@ -62,11 +63,11 @@
         <activity
             android:name=".DiscussionThreads"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TestActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddCourseContent"
             android:configChanges="orientation"
@@ -78,7 +79,7 @@
             android:configChanges="orientation"
             android:label="@string/title_activity_course_add"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ComposeMessage"
             android:configChanges="orientation"
