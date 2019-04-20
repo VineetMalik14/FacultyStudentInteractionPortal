@@ -111,6 +111,9 @@ public class pieChart extends AppCompatActivity {
                     Total.setText(blah);
                     setupPieChart();
                 }
+
+                next = findViewById(R.id.next);
+                prev = findViewById(R.id.prev);
                 if (index >= list.size()-1 )
                 {
                     next.setEnabled(false);
@@ -121,8 +124,6 @@ public class pieChart extends AppCompatActivity {
                     prev.setEnabled(false);
 
                 }
-                next = findViewById(R.id.next);
-                prev = findViewById(R.id.prev);
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -135,6 +136,10 @@ public class pieChart extends AppCompatActivity {
                         }else
                         {
                             index++;
+                            if (index >0)
+                            {
+                                prev.setEnabled(true);
+                            }
                             if (index >=0 && index < list.size()) {
                                 //Toast.makeText(getApplicationContext(), "setup pie chart", Toast.LENGTH_SHORT).show();
                                 TextView caption = findViewById(R.id.caption);
@@ -160,6 +165,7 @@ public class pieChart extends AppCompatActivity {
                         {
                             index--;
                             if (index>=0 && index<list.size()) {
+                                next.setEnabled(true);
                                 //Toast.makeText(getApplicationContext(), "setup pie chart", Toast.LENGTH_SHORT).show();
                                 TextView caption = findViewById(R.id.caption);
                                 caption.setText(quesname.get(index));

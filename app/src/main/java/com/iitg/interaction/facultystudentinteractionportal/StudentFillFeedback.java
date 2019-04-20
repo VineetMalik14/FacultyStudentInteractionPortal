@@ -318,6 +318,10 @@ public class StudentFillFeedback extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RadioButton button1;
+                if (i <list.size())
+                {
+                    next.setText("Next");
+                }
                 button1 = findViewById(R.id.option1);
                 button1.setVisibility(View.INVISIBLE);
                 button1 = findViewById(R.id.option2);
@@ -329,6 +333,10 @@ public class StudentFillFeedback extends AppCompatActivity {
                 button1 = findViewById(R.id.option5);
                 button1.setVisibility(View.INVISIBLE);
                 i--;
+                if (i <list.size())
+                {
+                    next.setText("Next");
+                }
                 if (i<=0)
                 {
                     prev.setEnabled(false);
@@ -576,7 +584,12 @@ public class StudentFillFeedback extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //concat = "";
-                if (next.getText().equals("Submit") || i == list.size()) {
+                if (i <list.size())
+                {
+                    next.setText("Next");
+                }
+                //if (next.getText().equals(\\\"Submit") || i == list.size()) {
+                    if ( i == list.size()-1 || i == list.size()) {
                     RadioGroup Group;
                     Group = findViewById(R.id.radiogroup);
                     Group.setVisibility(View.INVISIBLE);
@@ -630,6 +643,15 @@ public class StudentFillFeedback extends AppCompatActivity {
                 button1 = findViewById(R.id.option5);
                 button1.setVisibility(View.INVISIBLE);
                 i++;
+                if (i <list.size())
+                {
+                    next.setText("Next");
+                }
+                if(i>0)
+                {
+                    //Toast.makeText(getApplicationContext(),"enable",Toast.LENGTH_LONG).show();
+                    prev.setEnabled(true);
+                }
                 if (i == list.size() - 1) {
                     next.setText("Submit");
                 } else {
