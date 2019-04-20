@@ -19,26 +19,25 @@
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="116dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
             android:text="Date of Creation"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/hiddenbtn" />
 
         <TextView
             android:id="@+id/textView8"
-            android:layout_width="259dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:hint="date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/hiddenbtn" />
 
         <!--<android.support.v7.widget.Toolbar-->
             <!--android:id="@+id/my_toolbar"-->
@@ -58,14 +57,14 @@
             android:id="@+id/textView4"
             android:layout_width="120dp"
             android:layout_height="34dp"
-            android:layout_marginStart="144dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:hint="Course id"
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/my_toolbar" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView7"
@@ -76,38 +75,39 @@
             android:inputType="textMultiLine"
             android:scrollbars="vertical"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView4"
             app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="155dp"
             android:layout_height="35dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
             android:text="Description"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView9" />
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         <EditText
             android:id="@+id/editText6"
-            android:layout_width="381dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:background="#0C000000"
 
+            android:background="#0C000000"
             android:clickable="false"
             android:ems="10"
             android:hint="description"
             android:inputType="textMultiLine|textPersonName"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
+            android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -116,7 +116,7 @@
             android:id="@+id/textView12"
             android:layout_width="164dp"
             android:layout_height="31dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:text="Syllabus"
             android:textSize="18sp"
@@ -126,7 +126,7 @@
 
         <EditText
             android:id="@+id/editText7"
-            android:layout_width="380dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
@@ -146,7 +146,7 @@
             android:id="@+id/textView13"
             android:layout_width="158dp"
             android:layout_height="29dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:hint="marks"
             android:text="Marks Distribution"
@@ -157,7 +157,7 @@
 
         <EditText
             android:id="@+id/editText8"
-            android:layout_width="376dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
@@ -186,20 +186,17 @@
             android:id="@+id/textView14"
             android:layout_width="175dp"
             android:layout_height="36dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="216dp"
             android:text="Time Slots"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText8" />
 
         <TextView
             android:id="@+id/textView15"
-            android:layout_width="378dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -216,44 +213,46 @@
 
         <Button
             android:id="@+id/textView16"
-            android:layout_width="375dp"
-            android:layout_height="38dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Materials"
             android:textColor="#fff"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView7"
+
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
 
         <Button
             android:id="@+id/hiddenbtn"
             android:layout_width="0dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Show Additional Information"
             android:textColor="#fff"
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintEnd_toEndOf="@+id/textView7"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <ListView
             android:id="@+id/course_material"
             android:layout_width="371dp"
-            android:layout_height="316dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="400dp"
+            android:layout_marginStart="25dp"
             android:layout_marginEnd="20dp"
+            android:maxHeight="800dp"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/textView17"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -261,26 +260,29 @@
 
         <Button
             android:id="@+id/textView17"
-            android:layout_width="375dp"
-            android:layout_height="38dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Events"
             android:textColor="#fff"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView7"
             app:layout_constraintHorizontal_bias="0.533"
-            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+
             app:layout_constraintTop_toBottomOf="@+id/course_material" />
 
         <ListView
             android:id="@+id/EventsList"
             android:layout_width="375dp"
             android:layout_height="400dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="25dp"
             android:layout_marginEnd="8dp"
+            android:maxHeight="400dp"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -292,12 +294,13 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Update"
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.801"
             app:layout_constraintStart_toEndOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -308,11 +311,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Update"
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.447"
+            app:layout_constraintHorizontal_bias="0.78"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/editText6" />
 
@@ -323,11 +326,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Update"
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.472"
+            app:layout_constraintHorizontal_bias="0.79"
             app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
@@ -335,28 +338,26 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="216dp"
             android:text="Enroll Key"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.175"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <EditText
             android:id="@+id/textView25"
-            android:layout_width="98dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="216dp"
+            android:layout_marginEnd="8dp"
             android:background="#0C000000"
             android:inputType="text"
             android:text="key"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
         <Button
@@ -366,34 +367,36 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Update"
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.673"
+            app:layout_constraintHorizontal_bias="0.868"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <Button
             android:id="@+id/button4"
-            android:layout_width="375dp"
-            android:layout_height="38dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:background="#3C3C46"
+            android:background="@drawable/button2"
             android:text="Course Projects"
             android:textColor="#fff"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView7"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+
             app:layout_constraintTop_toBottomOf="@+id/EventsList" />
 
         <ListView
             android:id="@+id/CourseProjects"
             android:layout_width="375dp"
             android:layout_height="400dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="25dp"
             android:layout_marginEnd="8dp"
+            android:maxHeight="400dp"
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
