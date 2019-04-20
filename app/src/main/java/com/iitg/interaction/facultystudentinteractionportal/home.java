@@ -268,8 +268,14 @@ public class home extends AppCompatActivity {
                     startActivity(intent);
 
                 } else if (id == R.id.nav_outlook) {
-                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.outlook");
-                    startActivity(intent);
+                    try {
+                        Intent intent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.outlook");
+                        startActivity(intent);
+                    }
+                    catch (Exception e){
+                        Toast.makeText(home.this, "You dont have outlook installed in your system", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
