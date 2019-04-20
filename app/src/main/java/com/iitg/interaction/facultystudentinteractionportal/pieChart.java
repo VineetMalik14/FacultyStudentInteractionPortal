@@ -54,7 +54,7 @@ public class pieChart extends AppCompatActivity {
                     // Toast.makeText(getApplicationContext(), "getting or not", Toast.LENGTH_LONG).show();
                     member p = dataSnapshot1.getValue(member.class);
                     list.add(p);
-                    Toast.makeText(getApplicationContext(), Integer.toString(list.size()), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), Integer.toString(list.size()), Toast.LENGTH_SHORT).show();
 
                 }
 //                concat = Integer.toString(list.size());

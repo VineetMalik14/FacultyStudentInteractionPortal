@@ -24,7 +24,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Toast.makeText(context,"2000",Toast.LENGTH_LONG).show();
+      //  Toast.makeText(context,"2000",Toast.LENGTH_LONG).show();
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_does2, viewGroup, false));
     }
 
@@ -32,7 +32,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int i) {
         //if (mytodos.get(i).getQuesName())
         String temp = mytodos.get(i).getQuesName();
-        Toast.makeText(context,"1000",Toast.LENGTH_LONG).show();
+       // Toast.makeText(context,"1000",Toast.LENGTH_LONG).show();
 
         viewHolder.question.setText(mytodos.get(i).getQuesName());
         viewHolder.option1.setText(mytodos.get(i).getOp0Name());
