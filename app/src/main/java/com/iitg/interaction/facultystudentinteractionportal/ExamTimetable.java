@@ -37,6 +37,8 @@ public class ExamTimetable extends AppCompatActivity {
 
     String temp1, temp2, temp3, val, Cname;
 
+    int count;
+
     private ArrayList<String> mValArrayList1, mValArrayList2;
 
     private RadioGroup mRadio;
@@ -72,6 +74,23 @@ public class ExamTimetable extends AppCompatActivity {
         mCourseID_ArrayList = new ArrayList<>();
         myArraydapter_Courses = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, mCourseID_ArrayList);
         mlistView_Courses.setAdapter(myArraydapter_Courses);
+
+
+        count = 0;
+        mRef.child("users").child(userName).child("courses").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    count++;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         mRadio = (RadioGroup) findViewById(R.id.radioGroup_Type);
         mRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -125,47 +144,50 @@ public class ExamTimetable extends AppCompatActivity {
 
                                     mCourseID_ArrayList.clear();
 
-                                    for (int i = 0; i < mValArrayList2.size(); i++) {
+                                    if(mValArrayList2.size() == count) {
 
-                                        temp3 = mValArrayList2.get(i);
+                                        for (int i = 0; i < mValArrayList2.size(); i++) {
 
-                                        String[] StrArr = temp3.split("&");
-                                        Cname = StrArr[StrArr.length - 1];
+                                            temp3 = mValArrayList2.get(i);
 
-                                        mRef.child("Courses").child(Cname).addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
+                                            String[] StrArr = temp3.split("&");
+                                            Cname = StrArr[StrArr.length - 1];
 
-                                                String res;
+                                            mRef.child("Courses").child(Cname).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
 
-                                                res = "\n";
-                                                res += dataSnapshot2.getKey().toString();
-                                                res += "\n";
-                                                res += "Date: ";
-                                                res += dataSnapshot2.child(examType).child("ExamDate").getValue().toString();
-                                                res += "\n";
-                                                res += "Time: ";
-                                                res += dataSnapshot2.child(examType).child("StartTime").getValue().toString();
-                                                res += " | Duration: ";
-                                                res += dataSnapshot2.child(examType).child("Duration").getValue().toString();
-                                                res += "\n";
-                                                res += "Venue: "+dataSnapshot2.child(examType).child("Venue").getValue().toString();
-                                                res += "\n";
-                                                res += dataSnapshot2.child(examType).child("Description").getValue().toString();
+                                                    String res;
 
-                                                if(mCourseID_ArrayList.indexOf(res) == -1) {
+                                                    res = "\n";
+                                                    res += dataSnapshot2.getKey().toString();
+                                                    res += "\n";
+                                                    res += "Date: ";
+                                                    res += dataSnapshot2.child(examType).child("ExamDate").getValue().toString();
+                                                    res += "\n";
+                                                    res += "Time: ";
+                                                    res += dataSnapshot2.child(examType).child("StartTime").getValue().toString();
+                                                    res += " | Duration: ";
+                                                    res += dataSnapshot2.child(examType).child("Duration").getValue().toString();
+                                                    res += "\n";
+                                                    res += "Venue: " + dataSnapshot2.child(examType).child("Venue").getValue().toString();
+                                                    res += "\n";
+                                                    res += dataSnapshot2.child(examType).child("Description").getValue().toString();
 
-                                                    mCourseID_ArrayList.add(res);
-                                                    myArraydapter_Courses.notifyDataSetChanged();
+                                                    if (mCourseID_ArrayList.indexOf(res) == -1) {
+
+                                                        mCourseID_ArrayList.add(res);
+                                                        myArraydapter_Courses.notifyDataSetChanged();
+                                                    }
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                            }
-                                        });
+                                                }
+                                            });
 
+                                        }
                                     }
                                 }
 
