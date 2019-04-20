@@ -154,9 +154,24 @@ public class CourseMainPageProf extends Fragment {
         textView4.setText(getActivity().getIntent().getStringExtra("CourseMarks"));
         TextView textView5 = getView().findViewById(R.id.textView15);
         String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
+        textView5.append("Day   Time    Duration\n");
         for(int i=0;i<timeslots.length;i++)
         {
-            textView5.append("      "+timeslots[i]+'\n');
+//            long count=0;
+            for(int j = 0; j < timeslots[i].length(); j++){
+                if (timeslots[i].charAt(j) == '-')
+                {
+                    textView5.append("  ");
+
+                }
+                else
+                {
+                    textView5.append(String.valueOf(timeslots[i].charAt(j)));
+                }
+            }
+
+
+            textView5.append("\n");
         }
 
         TextView textView6 = getView().findViewById(R.id.textView8);

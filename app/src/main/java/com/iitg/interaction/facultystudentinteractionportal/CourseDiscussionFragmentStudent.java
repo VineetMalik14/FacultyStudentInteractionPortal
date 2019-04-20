@@ -57,9 +57,9 @@ public class CourseDiscussionFragmentStudent extends Fragment {
         super.onCreate(savedInstanceState);
         username = UserInfo.username;
         usertype = UserInfo.usertype;
-//        course = CourseMainPageStudent.courseID;
-        course = "CS101";
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child("CS101").child("threads");
+       course = CourseMainPageStudent.courseID;
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(course).child("threads");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
