@@ -13,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewQuestion"></activity>
+        <activity
+            android:name=".AboutPageActivity"
+            android:label="@string/title_activity_about_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ViewQuestion" />
         <activity android:name=".StudentFillFeedback" />
         <activity android:name=".ProfFeedbackMenu" />
         <activity android:name=".pieChart" />

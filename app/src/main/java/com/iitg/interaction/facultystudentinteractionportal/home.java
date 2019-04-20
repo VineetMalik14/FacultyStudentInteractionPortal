@@ -255,6 +255,11 @@ public class home extends AppCompatActivity {
                     Intent intent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.outlook");
                     startActivity(intent);
                 }
+                else if (id== R.id.nav_about)
+                {
+                    Intent intent = new Intent(home.this,AboutPageActivity.class);
+                    startActivity(intent);
+                }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
