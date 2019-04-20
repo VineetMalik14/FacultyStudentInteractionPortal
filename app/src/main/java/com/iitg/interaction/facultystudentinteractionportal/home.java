@@ -28,6 +28,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -81,7 +82,9 @@ public class home extends AppCompatActivity {
 
                         for (DataSnapshot message : dataSnapshot.getChildren()) {
 
-                            if (message.child("read").getValue().toString().equals("false")) {
+                            if (message.child("read").getValue(boolean.class) == false) {
+
+
                                 i++;
                                 Toast.makeText(getApplicationContext(),"You got a new message",Toast.LENGTH_LONG).show();
                                 // Create a notification
