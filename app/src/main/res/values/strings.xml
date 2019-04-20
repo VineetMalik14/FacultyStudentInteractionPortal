@@ -55,4 +55,5 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="title_activity_course_search_tabbed">CourseSearchTabbed</string>
     <string name="title_activity_home">home</string>
+    <string name="title_activity_about_page">AboutPageActivity</string>
 </resources>

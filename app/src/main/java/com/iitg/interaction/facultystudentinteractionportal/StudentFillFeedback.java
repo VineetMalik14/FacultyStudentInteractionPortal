@@ -303,17 +303,17 @@ public class StudentFillFeedback extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(),Integer.toString(selected.get(i)),Toast.LENGTH_SHORT).show();
         //Integer.toString(selectedradio.get(i)),
         prev = findViewById(R.id.prev);
-//        if (i==0)
-//        {
-//            prev.setEnabled(false;
-////        }
-//        if (i <= 0){
-//            prev.setEnabled(false);
-//        }
-//        if (i>= list.size()-1)
-//        {
-//            next.setEnabled(false);
-//        }
+        if (i==0)
+        {
+            prev.setEnabled(false);
+        }
+        if (i <= 0){
+            prev.setEnabled(false);
+        }
+        if (i>= list.size()-1)
+        {
+            next.setEnabled(false);
+        }
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

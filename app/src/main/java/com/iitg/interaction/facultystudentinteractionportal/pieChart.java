@@ -116,11 +116,11 @@ public class pieChart extends AppCompatActivity {
                     next.setEnabled(false);
 
                 }
-//                if (index <= 0)
-//                {
-//                    prev.setEnabled(false);
-//
-//                }
+                if (index <= 0)
+                {
+                    prev.setEnabled(false);
+
+                }
                 next = findViewById(R.id.next);
                 prev = findViewById(R.id.prev);
                 next.setOnClickListener(new View.OnClickListener() {
