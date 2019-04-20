@@ -13,8 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Delete"></activity>
-        <!-- <activity android:name=".SplashActivity"> -->
+        <activity android:name=".ViewQuestion"></activity>
+        <activity android:name=".StudentFillFeedback" />
+        <activity android:name=".ProfFeedbackMenu" />
+        <activity android:name=".pieChart" />
+        <activity android:name=".CreateFeedBackForm" />
+        <activity android:name=".AddQuestion" />
+        <activity android:name=".Delete" /> <!-- <activity android:name=".SplashActivity"> -->
         <!--  -->
         <!-- </activity> -->
         <!-- <activity android:name=".ToDo"> -->
@@ -24,14 +29,13 @@
         <activity
             android:name=".ExamTimetable"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".home"/>
-
-         <activity android:name=".faqactivity"
-             android:configChanges="orientation"
-             android:screenOrientation="portrait"
-             android:parentActivityName=".home"
-             />
+            android:parentActivityName=".home"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".faqactivity"
+            android:configChanges="orientation"
+            android:parentActivityName=".home"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".home"
             android:configChanges="orientation"
@@ -47,16 +51,15 @@
             android:name=".CourseSearchTabbed"
             android:configChanges="orientation"
             android:label="@string/title_activity_course_search_tabbed"
-            android:screenOrientation="portrait"
             android:parentActivityName=".home"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CourseMainPageStudent"
             android:configChanges="orientation"
             android:label="@string/title_activity_course_main_page_student"
-            android:screenOrientation="portrait"
             android:parentActivityName=".CourseSearchTabbed"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity android:name=".CourseStudentList" > -->
         <!-- </activity> -->
         <activity
@@ -67,7 +70,6 @@
             android:name=".PollLayoutActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-
             android:theme="@style/AppTheme" />
         <activity
             android:name=".messageboxActivity"
@@ -119,12 +121,14 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.VIEW" /> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".LoginActivity"

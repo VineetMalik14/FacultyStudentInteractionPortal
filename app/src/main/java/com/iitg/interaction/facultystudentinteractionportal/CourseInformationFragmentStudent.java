@@ -2,6 +2,7 @@ package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,10 +49,63 @@ public class CourseInformationFragmentStudent extends Fragment {
     public int count1=0;
     public int count2=0;
     public int count3=0;
-
+    String Float;
+    DatabaseReference ref;
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Button feedback = getView().findViewById(R.id.feedback);
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ref = FirebaseDatabase.getInstance().getReference().child("Feedback").child(CourseMainPageStudent.courseID);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Float = dataSnapshot.child("float").getValue(String.class);
+                        if (Float == null) {
+                            Toast.makeText(getContext(), "Feedback Form for this course does not exist", Toast.LENGTH_LONG).show();
 
+                        } else if (Float.equals("1")) {
+                            //ref.child("Submitted").child(UserInfo.username).setValue(UserInfo.username);
+                            ref.child("Submitted").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    int flag = 0;
+                                    for (DataSnapshot data: dataSnapshot.getChildren())
+                                    {
+                                        if (data.getKey().toString().equals(UserInfo.username)){
+                                            Toast.makeText(getContext(), "You have already submitted the feedback form for this course", Toast.LENGTH_LONG).show();
+                                            flag = 1;
+                                            break;
+                                        }
+                                    }
+                                    if (flag == 0)
+                                    {
+                                        Intent a = new Intent(getContext(),StudentFillFeedback.class);
+                                        startActivity(a);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        } else {
+                            Toast.makeText(getContext(), "Feedback Form for this course does not exist", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
         final TextView textView = getView().findViewById(R.id.textView4);
         final TextView fullname_tv = getView().findViewById(R.id.textView7);
         final TextView description_tv  = getView().findViewById(R.id.editText6);
