@@ -259,7 +259,7 @@ public class SearchAllCourses extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 /**/
-
+//                al = new ArrayList<String>();
                 for(DataSnapshot data : dataSnapshot.getChildren())
                 {
                     String dat =data.getKey();

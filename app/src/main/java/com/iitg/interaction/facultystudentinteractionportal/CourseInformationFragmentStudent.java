@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -40,6 +41,8 @@ public class CourseInformationFragmentStudent extends Fragment {
     DatabaseReference databaseReference;
     public ArrayList<Event> events;
     public ArrayList<CourseMaterial> materials;
+    List<String> project_key;
+    public ArrayList<CourseProject> projects = new ArrayList<CourseProject>();
     public int count=0;
     public int count1=0;
     public int count2=0;
@@ -72,6 +75,41 @@ public class CourseInformationFragmentStudent extends Fragment {
         count1++;
         count2++;
         count3++;
+        Button button = getView().findViewById(R.id.hiddenbtn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count%2==0){
+                    getView().findViewById(R.id.textView11).setVisibility(View.GONE);
+                    getView().findViewById(R.id.editText6).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView12).setVisibility(View.GONE);
+                    getView().findViewById(R.id.editText7).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView13).setVisibility(View.GONE);
+                    getView().findViewById(R.id.editText8).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView14).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView15).setVisibility(View.GONE);
+                    getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
+                    count++;
+
+                }
+                else {
+                    getView().findViewById(R.id.textView11).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.editText6).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.textView9).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.textView8).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView12).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.editText7).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView13).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.textView18).setVisibility(View.VISIBLE);
+//                    getView().findViewById(R.id.textView25).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.editText8).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView14).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.textView15).setVisibility(View.VISIBLE);
+                    count++;
+                }
+            }
+        });
         Button button1 = getView().findViewById(R.id.textView16);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,41 +158,7 @@ public class CourseInformationFragmentStudent extends Fragment {
                 }
             }
         });
-        Button button = getView().findViewById(R.id.hiddenbtn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(count%2==0){
-                    getView().findViewById(R.id.textView11).setVisibility(View.GONE);
-                    getView().findViewById(R.id.editText6).setVisibility(View.GONE);
-                    getView().findViewById(R.id.textView12).setVisibility(View.GONE);
-                    getView().findViewById(R.id.editText7).setVisibility(View.GONE);
-                    getView().findViewById(R.id.textView13).setVisibility(View.GONE);
-                    getView().findViewById(R.id.editText8).setVisibility(View.GONE);
-                    getView().findViewById(R.id.textView14).setVisibility(View.GONE);
-                    getView().findViewById(R.id.textView15).setVisibility(View.GONE);
-                    getView().findViewById(R.id.textView16).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.textView17).setVisibility(View.VISIBLE);
-                    count++;
 
-                }
-                else {
-                    getView().findViewById(R.id.textView11).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.editText6).setVisibility(View.VISIBLE);
-//                    getView().findViewById(R.id.textView9).setVisibility(View.VISIBLE);
-//                    getView().findViewById(R.id.textView8).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.textView12).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.editText7).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.textView13).setVisibility(View.VISIBLE);
-//                    getView().findViewById(R.id.textView18).setVisibility(View.VISIBLE);
-//                    getView().findViewById(R.id.textView25).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.editText8).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.textView14).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.textView15).setVisibility(View.VISIBLE);
-                    count++;
-                }
-            }
-        });
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Courses").child(CourseMainPageStudent.courseID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -167,6 +171,7 @@ public class CourseInformationFragmentStudent extends Fragment {
                     syllabus_tv.setText(dataSnapshot.child("syllabus").getValue().toString());
                     marks_tv.setText(dataSnapshot.child("marksDistribution").getValue().toString());
                     String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
+                    time_slots.append("Day   Time    Duration\n");
                     Log.d(TAG, timeslots[0] + timeslots[1]);
                     for(int i=0;i<timeslots.length;i++)
                     {
@@ -265,6 +270,54 @@ public class CourseInformationFragmentStudent extends Fragment {
         });
 
 
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(getActivity().getIntent().getStringExtra("CourseID")).child("CourseProject");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(getActivity()!=null && getView()!=null)
+                {
+                    project_key = new ArrayList<String>();
+                    projects = new ArrayList<CourseProject>();
+                    for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                        CourseProject project = messageSnapshot.getValue(CourseProject.class);
+                        projects.add(project);
+                        project_key.add(messageSnapshot.getKey());
+
+                    }
+                    Collections.reverse(projects);
+                    Collections.reverse(project_key);
+                    ListView listView = Objects.requireNonNull(getView()).findViewById(R.id.CourseProjects);
+                    final CourseInformationFragmentStudent.CustomAdapter2 customAdapter = new CustomAdapter2(getActivity(),projects);
+                    listView.setAdapter(customAdapter);
+                    if(UserInfo.usertype.equals("Prof")){
+
+                        registerForContextMenu(listView);
+
+                    }
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+                            CourseProject item = customAdapter.getItem(position);
+                            assert item != null;
+                            downloadFiles(getActivity(),item.getFileName(),DIRECTORY_DOWNLOADS,item.getURL());
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -330,6 +383,43 @@ public class CourseInformationFragmentStudent extends Fragment {
             return convertView;
         }
     }
+
+
+    class CustomAdapter2 extends ArrayAdapter<CourseProject> {
+
+        public CustomAdapter2(Context context, ArrayList<CourseProject> threads) {
+            super(context, 0, threads);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            convertView = getLayoutInflater().inflate(R.layout.course_list_project_prof,null);
+            TextView titleview = convertView.findViewById(R.id.textView19);
+            TextView urldesription = convertView.findViewById(R.id.textView20);
+            TextView duedate = convertView.findViewById(R.id.textView23);
+            TextView description = convertView.findViewById(R.id.textView24);
+
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.course_list_project_prof, parent, false);
+            }
+
+            titleview.setText(projects.get(position).getTitle());
+            urldesription.setText(projects.get(position).getFileName());
+            duedate.setText( "Deadline: " +projects.get(position).getDeadline());
+            description.setText("Description: "+ projects.get(position).getDeadline());
+            return convertView;
+
+        }
+
+
+    }
+
+
+
+
+
+
 
     public void downloadFiles(Context context, String Filename,String FileDestination, String url)
     {

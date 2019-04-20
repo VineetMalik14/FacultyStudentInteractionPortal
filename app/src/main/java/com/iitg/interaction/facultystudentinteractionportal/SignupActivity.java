@@ -36,7 +36,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText email;
     EditText rollnumber;
     Spinner department;
-    EditText occupation;
+    Spinner occupation;
     EditText year;
     EditText password,pass2;
     String usertype;
@@ -58,46 +58,82 @@ public class SignupActivity extends AppCompatActivity {
         year = findViewById(R.id.et_year);
         password = findViewById(R.id.et_password);
         pass2 = findViewById(R.id.et_password2);
-        occupation = findViewById(R.id.et_occupation);
+        occupation = findViewById(R.id.spn_occupation);
         department = findViewById(R.id.spn_department);
         signupbtn = findViewById(R.id.btn_signup);
+        String occupationtext;
         Integer roll=null;
+
+        List<String> list = new ArrayList<String>();
+        list.add("BTech");
+        list.add("MTech");
+        list.add("PHD");
+        list.add("MSc");
+        list.add("Professor");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        occupation.setAdapter(dataAdapter);
+
 
         if(outlookuser) // SIGNUP VIA OUTLOOK
         {
             if(UserInfo.occupation!=null && !UserInfo.occupation.isEmpty())
             {
-                occupation.setText(UserInfo.occupation);
+               // occupation.setText(UserInfo.occupation);
                 occupation.setEnabled(false);
 
                 if(UserInfo.occupation.toLowerCase().contains("professor")) {
                     //UserInfo.usertype="Prof";
                     usertype="Prof";
+                    occupation.setSelection(4);
+                    UserInfo.occupation="Professor";
+
                 }
+
                 else
                 {
+
                     //UserInfo.usertype="Stud";
                     usertype="Stud";
+
+                    if(UserInfo.occupation.toLowerCase().contains("btech"))
+                    {
+                        occupation.setSelection(0);
+                    }
+                    else if(UserInfo.occupation.toLowerCase().contains("mtech"))
+                    {
+                        occupation.setSelection(1);
+                    }
+                    else if(UserInfo.occupation.toLowerCase().contains("phd"))
+                    {
+                        occupation.setSelection(2);
+                    }
+                    else if(UserInfo.occupation.toLowerCase().contains("msc"))
+                    {
+                        occupation.setSelection(3);
+                    }
+
                 }
             }
             if(UserInfo.rollnumber!=null && !UserInfo.rollnumber.isEmpty()) // IF LAST NAME OF OUTLOOK PROFILE CONTAINS ROLL NUMBER.
             {
                 rollnumber.setText(UserInfo.rollnumber);
                 rollnumber.setEnabled(false);
-                if(occupation.getText().toString().toLowerCase().equals("btech"))
+                if(UserInfo.occupation.toLowerCase().equals("btech"))
                 {
                     String tmp =  UserInfo.rollnumber.substring(0,2);
                     String yr= "20"+(Integer.valueOf(tmp)+4);
                     year.setText(yr);
                     year.setEnabled(false);
                 }
-                else if(occupation.getText().toString().toLowerCase().equals("mtech")||occupation.getText().toString().toLowerCase().equals("msc"))
+                else if(UserInfo.occupation.toLowerCase().equals("mtech")||UserInfo.occupation.toLowerCase().equals("msc"))
                 {
                     String tmp =  UserInfo.rollnumber.substring(0,2);
                     String yr= "20"+(Integer.valueOf(tmp)+2);
                     year.setText(yr);
                 }
-                else if(occupation.getText().toString().toLowerCase().equals("phd"))
+                else if(UserInfo.occupation.toLowerCase().equals("phd"))
                 {
                     String tmp =  UserInfo.rollnumber.substring(0,2);
                     String yr= "20"+(Integer.valueOf(tmp)+4);
@@ -114,6 +150,7 @@ public class SignupActivity extends AppCompatActivity {
             }
             else   // LAST NAME (IN OUTLOOK PROFILE) DOES NOT CONTAIN ROLL NUMBER
             {
+                rollnumber.setEnabled(true);
                 rollnumber.setText("0");
                 rollnumber.setVisibility(View.VISIBLE);
             }
@@ -123,16 +160,6 @@ public class SignupActivity extends AppCompatActivity {
             email.setEnabled(false);
         }
 
-    /*    List<String> list = new ArrayList<String>();
-        list.add("BTech");
-        list.add("MTech");
-        list.add("PHD");
-        list.add("Professor");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        occupation.setAdapter(dataAdapter);
-        */
 
 
 
@@ -217,9 +244,9 @@ public class SignupActivity extends AppCompatActivity {
     void signupfunction() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         final NewUser newUser;
         final String username;
-
-       // String occup = occupation.getSelectedItem().toString();
-
+//
+        String occup = occupation.getSelectedItem().toString();
+//
 
         if(name.getText().toString().isEmpty()||email.getText().toString().isEmpty()||rollnumber.getText().toString().isEmpty()||year.getText().toString().isEmpty()||department.getSelectedItem().toString().isEmpty()||password.getText().toString().isEmpty())
         {
@@ -232,8 +259,8 @@ public class SignupActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Only IITG members, use IITG email",Toast.LENGTH_LONG).show();
             return;
         }
-
-    /*    if(occup.equals("Professor"))
+////
+        if(occup.equals("Professor"))
         {
             usertype="Prof";
         }
@@ -241,7 +268,7 @@ public class SignupActivity extends AppCompatActivity {
         {
             usertype="Stud";
         }
-*/
+
 
         username= email.getText().toString().replace("@iitg.ac.in","");
 
@@ -251,7 +278,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        newUser = new NewUser(username,name.getText().toString(),usertype,rollnumber.getText().toString(),email.getText().toString(),occupation.getText().toString(),department.getSelectedItem().toString(),year.getText().toString(),Sha1Custom.SHA1(password.getText().toString()));
+        newUser = new NewUser(username,name.getText().toString(),usertype,rollnumber.getText().toString(),email.getText().toString(),occupation.getSelectedItem().toString(),department.getSelectedItem().toString(),year.getText().toString(),Sha1Custom.SHA1(password.getText().toString()));
         final ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -265,7 +292,7 @@ public class SignupActivity extends AppCompatActivity {
                     {
                         UserInfo.fillUserInfo(newUser.username,newUser.fullname,newUser.usertype,newUser.rollnumber,newUser.email,newUser.occupation,newUser.department,newUser.year,newUser.courses);
 
-                        intent= new Intent(SignupActivity.this,MainActivity.class);
+                        intent= new Intent(SignupActivity.this,home.class);
                         outlookuser=false;
                     }
                     else

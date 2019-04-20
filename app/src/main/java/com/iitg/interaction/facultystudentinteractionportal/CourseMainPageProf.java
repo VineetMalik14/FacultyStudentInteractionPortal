@@ -152,6 +152,9 @@ public class CourseMainPageProf extends Fragment {
         textView3.setText(getActivity().getIntent().getStringExtra("CourseSyllabus"));
         EditText textView4 = getView().findViewById(R.id.editText8);
         textView4.setText(getActivity().getIntent().getStringExtra("CourseMarks"));
+        EditText textViewKey = getView().findViewById(R.id.textView25);
+        textViewKey.setText(getActivity().getIntent().getStringExtra("CourseKey"));
+
         TextView textView5 = getView().findViewById(R.id.textView15);
         String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
         textView5.append("Day   Time    Duration\n");

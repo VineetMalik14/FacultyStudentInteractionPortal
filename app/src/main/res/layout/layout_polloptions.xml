@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/tv_option"
         android:layout_width="346dp"
-        android:layout_height="34dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="9dp"
