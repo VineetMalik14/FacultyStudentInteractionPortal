@@ -12,23 +12,25 @@
         android:id="@+id/choose"
         android:layout_width="119dp"
         android:layout_height="54dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="120dp"
-
-        android:background="@drawable/button2"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="8dp"
+        android:background="#3C3C46"
         android:text="Pick Date"
         android:textColor="#fff"
+        app:layout_constraintEnd_toStartOf="@+id/text_date"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/choose"
-        app:layout_constraintTop_toBottomOf="@+id/choose" />
+        android:layout_width="105dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="104dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/result"

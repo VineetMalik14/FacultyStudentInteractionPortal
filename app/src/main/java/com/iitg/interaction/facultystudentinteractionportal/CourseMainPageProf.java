@@ -142,6 +142,15 @@ public class CourseMainPageProf extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Button feedback = getView().findViewById(R.id.feedback);
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(getActivity(),ProfFeedbackMenu.class);
+                startActivity(a);
+            }
+        });
+
          TextView textView = getView().findViewById(R.id.textView4);
         textView.setText(getActivity().getIntent().getStringExtra("CourseID"));
         TextView textView1 = getView().findViewById(R.id.textView7);
@@ -154,24 +163,9 @@ public class CourseMainPageProf extends Fragment {
         textView4.setText(getActivity().getIntent().getStringExtra("CourseMarks"));
         TextView textView5 = getView().findViewById(R.id.textView15);
         String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
-        textView5.append("Day   Time    Duration\n");
         for(int i=0;i<timeslots.length;i++)
         {
-//            long count=0;
-            for(int j = 0; j < timeslots[i].length(); j++){
-                if (timeslots[i].charAt(j) == '-')
-                {
-                    textView5.append("  ");
-
-                }
-                else
-                {
-                    textView5.append(String.valueOf(timeslots[i].charAt(j)));
-                }
-            }
-
-
-            textView5.append("\n");
+            textView5.append("      "+timeslots[i]+'\n');
         }
 
         TextView textView6 = getView().findViewById(R.id.textView8);
@@ -1282,62 +1276,56 @@ public class CourseMainPageProf extends Fragment {
         }
 
 
-
-
-
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (getUserVisibleHint()) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-            if(item.getGroupId() == 1)
-            {
-                int menuItemIndex = item.getItemId();
-                String threadid = material_keys.get(info.position);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        if(item.getGroupId() == 1)
+        {
+            int menuItemIndex = item.getItemId();
+            String threadid = material_keys.get(info.position);
+            Log.d(TAG,threadid);
+            Log.d(TAG,CourseMainPageStudent.courseID);
+            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
+
+            if (menuItemIndex == 0){
                 Log.d(TAG,threadid);
-                Log.d(TAG,CourseMainPageStudent.courseID);
-                final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Course Material").child(threadid);
-
-                if (menuItemIndex == 0){
-                    Log.d(TAG,threadid);
-                    databaseReference2.removeValue();
-                    return true;
-                }
+                databaseReference2.removeValue();
+                return true;
             }
-            if(item.getGroupId() == 2)
-            {
-                int menuItemIndex = item.getItemId();
-                String threadid = Event_key.get(info.position);
-                Log.d(TAG,threadid);
-                Log.d(TAG,CourseMainPageStudent.courseID);
-                final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Events").child(threadid);
-
-                if (menuItemIndex == 0){
-                    Log.d(TAG,threadid);
-                    databaseReference2.removeValue();
-                    return true;
-                }
-            }
-            if(item.getGroupId() == 3)
-            {
-                int menuItemIndex = item.getItemId();
-                String threadid = project_key.get(info.position);
-                Log.d(TAG,threadid);
-                Log.d(TAG,CourseMainPageStudent.courseID);
-                final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("CourseProject").child(threadid);
-
-                if (menuItemIndex == 0){
-                    Log.d(TAG,threadid);
-                    databaseReference2.removeValue();
-                    return true;
-                }
-            }
-
-            return true;
         }
-        else
-            return false;
+        if(item.getGroupId() == 2)
+        {
+            int menuItemIndex = item.getItemId();
+            String threadid = Event_key.get(info.position);
+            Log.d(TAG,threadid);
+            Log.d(TAG,CourseMainPageStudent.courseID);
+            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("Events").child(threadid);
+
+            if (menuItemIndex == 0){
+                Log.d(TAG,threadid);
+                databaseReference2.removeValue();
+                return true;
+            }
+        }
+        if(item.getGroupId() == 3)
+        {
+            int menuItemIndex = item.getItemId();
+            String threadid = project_key.get(info.position);
+            Log.d(TAG,threadid);
+            Log.d(TAG,CourseMainPageStudent.courseID);
+            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(CourseMainPageStudent.courseID).child("CourseProject").child(threadid);
+
+            if (menuItemIndex == 0){
+                Log.d(TAG,threadid);
+                databaseReference2.removeValue();
+                return true;
+            }
+        }
+
+        return true;
+
 
     }
 

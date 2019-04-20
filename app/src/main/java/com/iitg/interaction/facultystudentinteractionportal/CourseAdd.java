@@ -85,7 +85,7 @@ public class CourseAdd extends AppCompatActivity {
                             // String key = databaseReference.child("Courses").push().getKey();
 
 
-//                            databaseReference.child("Courses").child(course_id).setValue("");
+                            databaseReference.child("Courses").child(course_id).setValue("");
 
                             Log.d(TAG,course_id);
                             Intent intent = new Intent(CourseAdd.this, AddCourseContent.class);

@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Delete">
+    tools:context=".lastIntent">
 
-    <ListView
-        android:id="@+id/courses"
-        android:layout_width="395dp"
-        android:layout_height="376dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="116dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you for your valuable feedback"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="152dp" />
 </android.support.constraint.ConstraintLayout>

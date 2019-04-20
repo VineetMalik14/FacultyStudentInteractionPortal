@@ -33,7 +33,7 @@ public class SearchAllCourses extends Fragment {
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     public  static String name = "com.iitg.interaction.facultystudentinteractionportal.name";
     ArrayList<String> al = new ArrayList<String>();
-    String currentuser = UserInfo.username;
+    String currentuser = "barney";
     String item;
 
     ListView r;

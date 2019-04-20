@@ -45,8 +45,8 @@ public class DiscussionThreads extends AppCompatActivity {
     String course = "CS101";
     List<String> ids;
     List<Thread> threads;
-    String username = UserInfo.username;
-    String usertype = UserInfo.usertype;
+    String username = "Annanaya";
+    String usertype = "Student";
     ThreadAdapter adapter;
 
     @Override

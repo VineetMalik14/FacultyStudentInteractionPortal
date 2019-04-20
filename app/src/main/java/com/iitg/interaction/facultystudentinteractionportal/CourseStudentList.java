@@ -63,7 +63,6 @@ public class CourseStudentList extends Fragment {
                     {
                         if(UserInfo.courses!=null &&UserInfo.courses.contains(course.getKey()))
                         {
-
                             Courseinfo newcourseinfo = new Courseinfo(course.child("courseID").getValue().toString(),course.child("fullname").getValue().toString(),course.child("professor").getValue().toString());
                             courseinfos.add(newcourseinfo);
                         }

@@ -121,7 +121,7 @@ public class TimeTable extends Fragment implements DatePickerDialog.OnDateSetLis
         dayOfWeek = simpledateformat.format(date);
         sub_day = dayOfWeek.substring(0,3);
         String ddd = c + "-" + b + "-" + a ;
-        t.setText("Date: " +ddd);
+        t.setText(ddd);
         r = (ListView) getView().findViewById(R.id.result);
         al.clear();
         al_time.clear();

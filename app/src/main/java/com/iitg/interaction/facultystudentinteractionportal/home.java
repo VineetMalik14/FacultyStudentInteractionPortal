@@ -28,7 +28,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,9 +81,7 @@ public class home extends AppCompatActivity {
 
                         for (DataSnapshot message : dataSnapshot.getChildren()) {
 
-                            if (message.child("read").getValue(boolean.class) == false) {
-
-
+                            if (message.child("read").getValue().toString().equals("false")) {
                                 i++;
                                 Toast.makeText(getApplicationContext(),"You got a new message",Toast.LENGTH_LONG).show();
                                 // Create a notification
@@ -228,8 +225,7 @@ public class home extends AppCompatActivity {
 
                 } else if (id == R.id.nav_FAQ) {
 
-                    Intent intent = new Intent(home.this,faqactivity.class);
-                    startActivity(intent);
+
 
                 }
 
@@ -281,17 +277,8 @@ public class home extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        item.setVisible(false);
-        if (id == R.id.action_settings && UserInfo.usertype.equals("Prof")) {
-            //Toast.makeText(this,"seytklsdjf",Toast.LENGTH_LONG).show();
-            Intent i = new Intent(home.this , Delete.class );
-            startActivity(i);
-            item.setVisible(true);
+        if (id == R.id.action_settings) {
             return true;
-        }
-        else {
-            Toast.makeText(this,"You are not eligible to delete any course",Toast.LENGTH_LONG).show();
-
         }
 
         return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);

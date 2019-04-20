@@ -84,7 +84,7 @@ public class PollsActivity extends Fragment  {
                     Collections.reverse(polls);
                     for(Polls p : polls)
                     {
-                        Log.d("debug"," Datachange of another one ");
+                        Log.d("debug","doosre wala datachange");
                         questionlist.add(p.question);
                     }
 

@@ -9,7 +9,6 @@
     android:layout_alignParentTop="true"
 
     android:orientation="vertical"
-    android:paddingLeft="15dp"
     android:scrollbars="vertical">
 
     <TextView

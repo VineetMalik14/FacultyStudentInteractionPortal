@@ -9,12 +9,11 @@
     <ListView
         android:id="@+id/todo"
         android:layout_width="match_parent"
-        android:layout_height="706dp"
-        android:layout_marginTop="100dp"
+        android:layout_height="535dp"
+        android:layout_marginBottom="8dp"
         android:paddingLeft="5sp"
-        android:scrollbars="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="8dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addtodo"
@@ -23,7 +22,6 @@
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="68dp"
         android:clickable="true"
-        app:backgroundTint="#3c3c46"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />

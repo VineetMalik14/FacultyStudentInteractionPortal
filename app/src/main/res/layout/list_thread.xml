@@ -6,9 +6,10 @@
 
     <TextView
         android:id="@+id/message_user"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
         android:layout_below="@+id/message_text"
+        android:layout_alignParentStart="true"
         android:layout_marginStart="134dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="17dp"
@@ -33,17 +34,15 @@
     <TextView
         android:id="@+id/message_text"
         android:layout_width="319dp"
-        android:layout_height="wrap_content"
+        android:layout_height="81dp"
         android:layout_below="@+id/message_title"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="21dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="71dp"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@font/palanquin_medium"
         android:lineSpacingExtra="0.2sp"
-        android:maxLines="2"
-        android:text="UERJKQHEWFHIUQEUFYQUWYUIHAgsdfgsdfgdfgdsfgdffvbegefvdSUDIHF"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="18sp" />
 
@@ -52,28 +51,17 @@
         android:id="@+id/message_title"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="75dp"
-        android:layout_toEndOf="@+id/imageView"
-        android:fontFamily="sans-serif-medium"
-        android:maxLines="1"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="93dp"
+        android:fontFamily="@font/palanquin_semibold"
         android:textAlignment="viewStart"
         android:textSize="18sp"
         android:textStyle="bold"
         android:typeface="normal" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="20dp"
-        app:srcCompat="@android:drawable/presence_online" />
     <!--<Button-->
     <!--android:layout_width="100dp"-->
     <!--android:layout_height="50dp"-->
