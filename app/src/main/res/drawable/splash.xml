@@ -4,7 +4,7 @@
     <item
         android:drawable="@color/mycolor"/>
     <!--<item>-->
-        <!--<bitmap android:src="@mipmap/sampleppic1">-->
+        <!--<bitmap android:src="@mipmap/ic_launcher">-->
 
         <!--</bitmap>-->
     <!--</item>-->
