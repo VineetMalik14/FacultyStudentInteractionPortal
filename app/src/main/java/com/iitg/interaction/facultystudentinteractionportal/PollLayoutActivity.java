@@ -58,8 +58,8 @@ public class PollLayoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layoutpoll);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        setTitle("Polls");
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Polls");
 
         currentcourseid = CourseMainPageStudent.courseID;
         lv = findViewById(R.id.lv_optionlist);
