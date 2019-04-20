@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,8 +57,9 @@ public class CourseDiscussionFragmentStudent extends Fragment {
         super.onCreate(savedInstanceState);
         username = UserInfo.username;
         usertype = UserInfo.usertype;
-        course = CourseMainPageStudent.courseID;
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child(course).child("threads");
+//        course = CourseMainPageStudent.courseID;
+        course = "CS101";
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Courses").child("CS101").child("threads");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -161,7 +163,7 @@ public class CourseDiscussionFragmentStudent extends Fragment {
 
                         Date c = Calendar.getInstance().getTime();
 
-                       // ArrayList<Replies> repliesArrayList = new ArrayList<Replies>();
+                        // ArrayList<Replies> repliesArrayList = new ArrayList<Replies>();
                         if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
                             Toast.makeText(getActivity(), "Please enter correct Title and Content", Toast.LENGTH_SHORT).show();
                         } else {
@@ -197,13 +199,13 @@ public class CourseDiscussionFragmentStudent extends Fragment {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+       super.onCreateContextMenu(menu, v, menuInfo);
         if (v.getId()==R.id.lv_thread) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
             //menu.setHeaderTitle(Countries[info.position]);
             String[] menuItems = {"Delete Thread", "Close Thread"};
             for (int i = 0; i<menuItems.length; i++) {
-                menu.add(Menu.NONE, i, i, menuItems[i]);
+                menu.add(100, i, i, menuItems[i]);
 
             }
         }
@@ -214,26 +216,33 @@ public class CourseDiscussionFragmentStudent extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         //return super.onContextItemSelected(item);
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        int menuItemIndex = item.getItemId();
-        String threadid = ids.get(info.position);
-        databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(course).child("threads").child(threadid);
+//        if (getUserVisibleHint()) {
+            if (item.getGroupId() == 100) {
 
-        if (menuItemIndex == 0){ // This is to delete the thread
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                long menuItemIndex = item.getItemId();
+                String threadid = ids.get(info.position);
+                databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Courses").child(course).child("threads").child(threadid);
 
-            databaseReference2.removeValue();
-            // succesfull
+                if (menuItemIndex == 0) { // This is to delete the thread
+                    Log.d("Context menu", "Not reaching here");
+                    databaseReference2.removeValue();
+                    // succesfull
+                    return true;
+                }
+                if (menuItemIndex == 1) {      // this is to make the thread closed
+
+                    databaseReference2.child("ThreadClosed").setValue(true);
+                    return true;
+                }
+
+                return true;
+            }
+
             return true;
-        }
-        if (menuItemIndex == 1){      // this is to make the thread closed
-
-            databaseReference2.child("ThreadClosed").setValue(true);
-            return true;
-        }
-
-        return true;
-
-
+//        }
+//        else
+//            return false;
     }
 
     public class ThreadAdapter extends ArrayAdapter<Thread> {

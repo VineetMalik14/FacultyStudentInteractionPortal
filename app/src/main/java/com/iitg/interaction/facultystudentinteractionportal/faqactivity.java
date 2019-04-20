@@ -1,6 +1,7 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,8 @@ public class faqactivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faqactivity);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("FAQ");
         faq1=findViewById(R.id.faq1);
         faq2=findViewById(R.id.faq2);
         faq3=findViewById(R.id.faq3);
@@ -34,26 +37,40 @@ public class faqactivity extends AppCompatActivity {
          c3=0;
          if(UserInfo.usertype.equals("Prof"))
          {
-             faq1.setText("How To Add New Course");
-             ans1.setText("login->navbar->cources->Addbutton(at bottom right corner)->filldetails");
+             faq1.setText("Q. How To Add New Course?");
+             ans1.setText("login->navbar->cources->Addbutton(at bottom right corner)->filldetails" +
+                     "\n   (Your have provide minimum details of course)   ");
          }
 
           else
          {
-             faq1.setText("How To Enroll In new course");
+             faq1.setText("Q. How To Enroll In new course?");
              ans1.setText("login->navbar->cources->other cources->search cource->Go->Enter enroll Key provided by prof");
          }
 
         if(UserInfo.usertype.equals("Prof"))
         {
-            faq2.setText("How To Add Materials/Events to your course");
+            faq2.setText("Q. How To Add Materials/Events to your course?");
             ans2.setText("login->navbar->cources->Addbutton(at bottom right corner)->filldetails");
         }
 
         else
         {
-            faq2.setText("How To download course material");
+            faq2.setText("Q. How To download course material?");
             ans2.setText("login->navbar->cources->other cources->search cource->Go->Enter enroll Key provided by prof");
+        }
+
+
+        if(UserInfo.usertype.equals("Prof"))
+        {
+            faq3.setText("Q. How To post query in course?");
+            ans3.setText("login->navbar->cources->mycourses->discusion forum->click add bottom right corner ");
+        }
+
+        else
+        {
+            faq3.setText("Q. How To post query in course");
+            ans3.setText("login->navbar->cources->mycourses->discusion forum->click add bottom right corner ");
         }
 
         faq1.setOnClickListener(new View.OnClickListener() {

@@ -225,7 +225,8 @@ public class home extends AppCompatActivity {
 
                 } else if (id == R.id.nav_FAQ) {
 
-
+                    Intent intent = new Intent(home.this,faqactivity.class);
+                    startActivity(intent);
 
                 }
 
@@ -277,8 +278,17 @@ public class home extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        item.setVisible(false);
+        if (id == R.id.action_settings && UserInfo.usertype.equals("Prof")) {
+            //Toast.makeText(this,"seytklsdjf",Toast.LENGTH_LONG).show();
+            Intent i = new Intent(home.this , Delete.class );
+            startActivity(i);
+            item.setVisible(true);
             return true;
+        }
+        else {
+            Toast.makeText(this,"You are not eligible to delete any course",Toast.LENGTH_LONG).show();
+
         }
 
         return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
