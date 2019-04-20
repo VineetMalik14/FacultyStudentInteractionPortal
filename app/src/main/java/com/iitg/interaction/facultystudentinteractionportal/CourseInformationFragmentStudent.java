@@ -168,8 +168,23 @@ public class CourseInformationFragmentStudent extends Fragment {
                     marks_tv.setText(dataSnapshot.child("marksDistribution").getValue().toString());
                     String[] timeslots = getActivity().getIntent().getStringExtra("CourseTimeSlots").split(",");
                     Log.d(TAG, timeslots[0] + timeslots[1]);
-                    for (int i = 0; i < timeslots.length; i++) {
-                        time_slots.append("      " + timeslots[i] + "\n");
+                    for(int i=0;i<timeslots.length;i++)
+                    {
+//            long count=0;
+                        for(int j = 0; j < timeslots[i].length(); j++){
+                            if (timeslots[i].charAt(j) == '-')
+                            {
+                                time_slots.append("  ");
+
+                            }
+                            else
+                            {
+                                time_slots.append(String.valueOf(timeslots[i].charAt(j)));
+                            }
+                        }
+
+
+                        time_slots.append("\n");
                     }
 
                     }
