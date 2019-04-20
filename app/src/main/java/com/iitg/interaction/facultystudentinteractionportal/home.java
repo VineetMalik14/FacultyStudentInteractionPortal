@@ -55,6 +55,12 @@ public class home extends AppCompatActivity {
     NotificationManager notificationManager;
     NotificationChannel channel;
     NotificationCompat.Builder builder;
+    ValueEventListener listener;
+    private ViewPager mViewPager;
+    DatabaseReference notification = FirebaseDatabase.getInstance().getReference();
+
+
+
 
 
 
@@ -72,9 +78,13 @@ public class home extends AppCompatActivity {
         @Override
         public void run() {
 
-            notification.child("users").child(UserInfo.username).child("messages").addValueEventListener(new ValueEventListener() {
+
+            listener = notification.child("users").child(UserInfo.username).child("messages").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    Log.d("debug"," listener notifin  " + UserInfo.username);
+
 
                     if (getApplicationContext() != null) {
                         // now we have to change show notifications whenever the number of messages is changed
@@ -82,7 +92,7 @@ public class home extends AppCompatActivity {
 
                         for (DataSnapshot message : dataSnapshot.getChildren()) {
 
-                            if (message.child("read").getValue(boolean.class) == false) {
+                            if (!message.child("read").getValue(boolean.class) && message.child("receiver").getValue().toString().equals(UserInfo.username)) {
 
 
                                 i++;
@@ -99,6 +109,10 @@ public class home extends AppCompatActivity {
                                     notificationManager.createNotificationChannel(channel);
                                 }
 //
+
+
+                                Log.d("debug"," listener notifin  subject " + message.child("subject").getValue().toString());
+
 
                                 builder = new NotificationCompat.Builder(getApplicationContext(), "CHANNEL_ID");
                                 builder.setContentTitle(message.child("sender").getValue().toString())
@@ -133,11 +147,6 @@ public class home extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
-    DatabaseReference notification = FirebaseDatabase.getInstance().getReference();
-
-
-
 
 
 
@@ -241,6 +250,13 @@ public class home extends AppCompatActivity {
                     editor.putBoolean("logined",false);
                     editor.apply();
                     UserInfo.logout();
+                    // remove the listner
+                    if (notification != null && listener != null) {
+                        notification.removeEventListener(listener);
+                    }
+
+
+
                     Intent intent = new Intent(home.this,LoginActivity.class);
                     startActivity(intent);
 
