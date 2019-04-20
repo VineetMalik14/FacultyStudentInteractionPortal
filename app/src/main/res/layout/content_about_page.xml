@@ -32,6 +32,7 @@
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="35dp"
                         android:fontFamily="sans-serif-black"
                         android:text="FSIP"
                         android:textSize="30sp"
@@ -51,10 +52,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
                         android:paddingTop="2dp"
-                        android:text="TextView"
+                        android:text=" student facultuy interaction portal is an app where faculty and students can interact"
                         android:textAlignment="viewStart"
-                        android:textSize="18sp"
-                        tools:text=" student facultuy interaction portal is an app where faculty and students can interact" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -92,7 +92,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/parvinder" />
+                            app:srcCompat="@drawable/parvinder" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -104,8 +104,7 @@
                                 android:id="@+id/textView24"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="TextView"
-                                tools:text="Parvinder singh" />
+                                android:text="Parvindar Singh" />
 
                             <TextView
                                 android:id="@+id/textView25"
@@ -129,7 +128,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/ananya" />
+                            app:srcCompat="@drawable/ananya" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -165,7 +164,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/arpit" />
+                            app:srcCompat="@drawable/arpit" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -177,8 +176,7 @@
                                 android:id="@+id/textView18"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="TextView"
-                                tools:text="Arpit gupta" />
+                                android:text="Arpit gupta" />
 
                             <TextView
                                 android:id="@+id/textView19"
@@ -202,7 +200,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/deepak" />
+                            app:srcCompat="@drawable/deepak" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -214,8 +212,7 @@
                                 android:id="@+id/textView14"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="TextView"
-                                tools:text="Deepak gami" />
+                                android:text="Deepak gami" />
 
                             <TextView
                                 android:id="@+id/textView15"
@@ -239,7 +236,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/aman" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -251,8 +248,7 @@
                                 android:id="@+id/textView16"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="TextView"
-                                tools:text="Nayanjyoti deury" />
+                                android:text="Nayanjyoti deury" />
 
                             <TextView
                                 android:id="@+id/textView17"
@@ -276,7 +272,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/rashi" />
+                            app:srcCompat="@drawable/rashi" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -312,7 +308,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/devaishi" />
+                            app:srcCompat="@drawable/devaishi" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -324,8 +320,7 @@
                                 android:id="@+id/textView20"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="TextView"
-                                tools:text="Devaishi tiwari" />
+                                android:text="Devaishi tiwari" />
 
                             <TextView
                                 android:id="@+id/textView21"
@@ -349,7 +344,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/aman" />
+                            app:srcCompat="@drawable/aman" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -385,7 +380,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/vineet" />
+                            app:srcCompat="@drawable/vineet" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -421,7 +416,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/rakesh" />
+                            app:srcCompat="@drawable/rakesh" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -459,7 +454,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/rhythum" />
+                            app:srcCompat="@drawable/rhythum" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -495,7 +490,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/shriraam" />
+                            app:srcCompat="@drawable/shriraam" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -531,7 +526,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            tools:srcCompat="@drawable/rohith" />
+                            app:srcCompat="@drawable/rohith" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
