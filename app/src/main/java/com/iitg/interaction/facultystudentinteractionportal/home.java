@@ -55,8 +55,7 @@ public class home extends AppCompatActivity {
     NotificationManager notificationManager;
     NotificationChannel channel;
     NotificationCompat.Builder builder;
-
-
+    ValueEventListener listener;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -72,7 +71,7 @@ public class home extends AppCompatActivity {
         @Override
         public void run() {
 
-            notification.child("users").child(UserInfo.username).child("messages").addValueEventListener(new ValueEventListener() {
+            listener = notification.child("users").child(UserInfo.username).child("messages").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -82,7 +81,7 @@ public class home extends AppCompatActivity {
 
                         for (DataSnapshot message : dataSnapshot.getChildren()) {
 
-                            if (message.child("read").getValue(boolean.class) == false) {
+                            if (message.child("read").getValue(boolean.class) == false && message.child("receiver").getValue().toString().equals(UserInfo.username)) {
 
 
                                 i++;
@@ -237,7 +236,9 @@ public class home extends AppCompatActivity {
 
                     SharedPreferences preferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-
+                    if(notification!=null && listener!=null){
+                        notification.removeEventListener(listener);
+                    }
                     editor.putBoolean("logined",false);
                     editor.apply();
                     UserInfo.logout();
@@ -252,8 +253,13 @@ public class home extends AppCompatActivity {
                     startActivity(intent);
 
                 } else if (id == R.id.nav_outlook) {
-                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.outlook");
-                    startActivity(intent);
+                    try{
+                        Intent intent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.outlook");
+                        startActivity(intent);
+                    }catch (Exception e){
+                        Toast.makeText(home.this,"You dont have outlook installed in your phone",Toast.LENGTH_SHORT);
+                    }
+
                 }
                 else if (id== R.id.nav_about)
                 {

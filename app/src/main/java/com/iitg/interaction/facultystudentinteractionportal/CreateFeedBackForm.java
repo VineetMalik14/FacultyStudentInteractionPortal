@@ -181,9 +181,16 @@ public class CreateFeedBackForm extends AppCompatActivity {
                         //reff.push().setValue(Temp);
                         reff.child(key).setValue(Temp);
                         //Toast.makeText(getApplicationContext(),key,Toast.LENGTH_LONG).show();
+
+
+
                     }
 
                 }
+
+                Intent intent =new Intent(CreateFeedBackForm.this,ViewQuestion.class);
+                startActivity(intent);
+                finish();
             }
         });
         Button button2;

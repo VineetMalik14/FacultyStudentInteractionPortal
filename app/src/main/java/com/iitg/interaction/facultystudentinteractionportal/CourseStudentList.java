@@ -137,6 +137,7 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
         final String[] CourseSyllabus = new String[1];
         final String[] CourseMarks = new String[1];
         final String[] CourseTimeSlots = new String[1];
+        final String[] CourseKey = new String[1];
 //        final String[] CourseDateOfCreation = new String[1];
 
         final String courseid = getItem(position).courseid;
@@ -167,6 +168,7 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
                         CourseSyllabus[0] = dataSnapshot.child("syllabus").getValue().toString();
                         CourseMarks[0] = dataSnapshot.child("marksDistribution").getValue().toString();
                         CourseTimeSlots[0] = dataSnapshot.child("timeSlots").getValue().toString();
+                        CourseKey[0]=dataSnapshot.child("courseKey").getValue().toString();
 //                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date CourseDateOfCreation =dataSnapshot.child("dateOfCreation").getValue(Date.class);
 //                        formatter.format(CourseDateOfCreation);
@@ -175,6 +177,7 @@ class CourseInfoAdaptor extends ArrayAdapter<Courseinfo> {
                         intent.putExtra("CourseDescription",CourseDescription[0]);
                         intent.putExtra("CourseSyllabus",CourseSyllabus[0]);
                         intent.putExtra("CourseMarks",CourseMarks[0]);
+                        intent.putExtra("CourseKey",CourseKey[0]);
                         intent.putExtra("CourseTimeSlots",CourseTimeSlots[0]);
                         intent.putExtra("CourseDateOfCreation",CourseDateOfCreation.toString());
                         Log.d("ds","   edjk" + CourseDateOfCreation);

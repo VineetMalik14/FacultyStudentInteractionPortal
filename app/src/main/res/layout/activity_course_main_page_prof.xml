@@ -355,7 +355,7 @@
             android:layout_marginEnd="8dp"
             android:background="#0C000000"
             android:inputType="textMultiLine"
-            android:text="key"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />

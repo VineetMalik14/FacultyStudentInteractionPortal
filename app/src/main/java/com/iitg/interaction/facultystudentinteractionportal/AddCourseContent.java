@@ -401,7 +401,7 @@ public class AddCourseContent extends AppCompatActivity {
                              midsemester = new Midsemester(date,duration,time,description,venue);
 //                            String key=databaseReference.child("Courses").child(courseid).child("MidSemester").push().getKey();
 //                            databaseReference.child("Courses").child(courseid).child("MidSemester").setValue(midsemester);
-                            midSem_btn.setHint("Mid Semester added");
+                            midSem_btn.setText("Mid Semester added");
                             b.dismiss();
                         }
                     }
@@ -511,7 +511,7 @@ public class AddCourseContent extends AppCompatActivity {
 //                            String key=databaseReference.child("Courses").child(courseid).child("MidSemester").push().getKey();
 //                            databaseReference.child("Courses").child(courseid).child("MidSemester").setValue(midsemester);
 //                            databaseReference.child("Courses").child(CourseIDTextView.getText().toString()).setValue("");
-                            endsem_btn.setHint("End Semester added");
+                            endsem_btn.setText("End Semester added");
                             b.dismiss();
                         }
                     }
@@ -534,7 +534,7 @@ public class AddCourseContent extends AppCompatActivity {
                 EditText textView3 = findViewById(R.id.editText4);
                 EditText textView4 = findViewById(R.id.editText5);
                 TextView textView5 = findViewById(R.id.textView5);
-                if(textView.getText().toString().equals("") || textView1.getText().toString().equals("") || textView2.getText().toString().equals("") || textView3.getText().toString().equals("") || textView4.getText().toString().equals("") || textView5.getText().toString().equals(""))
+                if(textView.getText().toString().equals("") || textView1.getText().toString().equals("") || textView2.getText().toString().equals("") || textView3.getText().toString().equals("") || textView4.getText().toString().equals("") || textView5.getText().toString().equals("")|| midSem_btn.getText().toString().equals("") || endsem_btn.getText().toString().equals(""))
                 {
                     Toast.makeText(AddCourseContent.this, "None of the fields should be empty.", Toast.LENGTH_LONG).show();
                 }

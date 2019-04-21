@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutPageActivity" >
+    android:paddingTop="15dp"
+    tools:context=".AboutPageActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -438,7 +439,6 @@
                         </LinearLayout>
 
                     </LinearLayout>
-
 
 
                     <LinearLayout

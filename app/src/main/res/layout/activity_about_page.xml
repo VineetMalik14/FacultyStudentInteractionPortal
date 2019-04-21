@@ -20,6 +20,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_about_page" />
+    <include
+        layout="@layout/content_about_page"
+        android:layout_marginTop="20dp" />
 
 </android.support.design.widget.CoordinatorLayout>
