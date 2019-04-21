@@ -206,7 +206,7 @@ public class ToDo extends Fragment {
                     EditText todo = dialogView2.findViewById(R.id.Todo);
 
 
-                    if (todo.getText().toString().isEmpty()){
+                    if (todo.getText().toString() == ""){
                         Toast.makeText(getActivity(), "Enter a valid todo value to enter", Toast.LENGTH_SHORT).show();
                     }else{
                         databaseReference3.setValue(todo.getText().toString());

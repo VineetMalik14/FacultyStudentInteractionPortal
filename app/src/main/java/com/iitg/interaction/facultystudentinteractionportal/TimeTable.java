@@ -1,12 +1,10 @@
 package com.iitg.interaction.facultystudentinteractionportal;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
-//import android.icu.text.SimpleDateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
-import java.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -113,7 +111,6 @@ public class TimeTable extends Fragment implements DatePickerDialog.OnDateSetLis
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.N)
-//    @TargetApi(Build.VERSION_CODES.N)
     @Override
     public void onDateSet(DatePicker datepicker, int a, int b, int c) {
 

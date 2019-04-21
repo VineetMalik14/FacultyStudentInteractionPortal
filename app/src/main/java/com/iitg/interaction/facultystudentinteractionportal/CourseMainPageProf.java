@@ -142,6 +142,15 @@ public class CourseMainPageProf extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        Button feedback = getView().findViewById(R.id.feedback);
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(getActivity(),ProfFeedbackMenu.class);
+                startActivity(a);
+            }
+        });
          TextView textView = getView().findViewById(R.id.textView4);
         textView.setText(getActivity().getIntent().getStringExtra("CourseID"));
         TextView textView1 = getView().findViewById(R.id.textView7);
